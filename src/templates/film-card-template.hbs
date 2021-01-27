@@ -1,0 +1,9 @@
+{{#each this}}
+<li class="main-page-item">
+    <img src="{{poster_path}}" alt="Обложка фильма">
+    <h2 class="main-page-item-title">{{title}}</h2>
+    <p class="main-page-item-title-description">{{}}|{{release_date}}.slice(0,5)
+    </p>
+    <span>{{vote_average}}</span>
+</li>
+{{/each}}
