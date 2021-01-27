@@ -1,7 +1,7 @@
 import refs from './refs.js'
 import decGenres from './decodingJenres.js'
 
-const startingUrl = 'https://www.themoviedb.org/t/p/w600_and_h900_bestv2'
+const startingUrl = 'https://image.tmdb.org/t/p/original'
 const pageNumber = 2
 const query = 'p'
 const API = `https://api.themoviedb.org/3/search/movie?api_key=ffddee44025dd24685ea61d637d56d24&language=en-US&query=${query}&page=${pageNumber}&include_adult=false`
@@ -26,8 +26,7 @@ const makeNewObjectFilms = function (data) {
     } else {
       item.genre_ids = curentGenres.join(', ');
       if (item.release_date) item.release_date = item.release_date.slice(0, 4);
-      }
-
+    }
       addMarkup(item)
   });
  
@@ -35,7 +34,7 @@ const makeNewObjectFilms = function (data) {
 
 function addMarkup(item) {
     return refs.ulListMovie.insertAdjacentHTML('beforeend', `
-        <li class="movie-card">
+        <li class="movie-card" data-id="${item.id}">
         <img src="${startingUrl}${item.poster_path}" alt="${item.original_title}" width="150px"/>
         <h3>${item.original_title}</h3> 
         <p class="js-genre" >${item.genre_ids} | ${item.release_date}  ${item.vote_average}</p>
