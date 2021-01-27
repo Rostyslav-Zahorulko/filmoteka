@@ -1,36 +1,36 @@
 
-<div class="details-modal">
-    <div class="cardItem__image">
-        <img class="image" src="https://image.tmdb.org/t/p/w500{{poster_path}}" alt="{{title}}" />
-    </div>
-    <div class="cardItem__wrapper">
-        <h2 class="cardItem__name">{{title}}</h2>
-        <p class="cadrItem__vote cardItem_text">
-            Vote / Votes<span class="cardItem__vote_average">{{vote_average}}</span>/<span
-                class="cardItem__vote_count">{{vote_count}}</span>
+<div class="modal">
+    
+        <img class="modal-image" src="https://image.tmdb.org/t/p/w500{{poster_path}}" alt="{{title}}" />
+
+    <div class="modal-info">
+        <h2 class="modal-info-title">{{title}}</h2>
+        <p class="cadr-item-vote card-text">
+            Vote / Votes<span class="card-item-vote-average">{{vote_average}}</span>/<span
+                class="card-item-vote-count">{{vote_count}}</span>
         </p>
-        <p class="cardItem__popularity cardItem_text">
-            Popularity<span class="cardItem___data">{{popularity}}</span>
+        <p class="card-item-popularity card-text">
+            Popularity<span class="card-item-data">{{popularity}}</span>
         </p>
-        <p class="cardItem-Title cardItem_text">
-            Original Title<span class="cardItem__title_data">{{original_title}}</span>
+        <p class="card-item-title card-text">
+            Original Title<span class="card-item-title-data">{{original_title}}</span>
         </p>
         <div class="genres">
-            <p class="cardItem__genre cardItem_text">
+            <p class="card-item-genre card-text">
                 Genre
             </p>
-            <p class="cardItem__genreList">{{#each genres}}
-                <span class="cardItem__genre_data">{{this.name}}</span>
+            <p class="genre-list">{{#each genres}}
+                <span class="genre-list-data">{{this.name}}</span>
                 {{/each}}
             </p>
         </div>
-        <h3 class="cardItem__about">About</h3>
-        <p class="cardItem__description">
+        <h3 class="card-about">About</h3>
+        <p class="card-description">
             {{overview}}
         </p>
-        <div class="cardItem__listButton">         
-            <button type="button" class="storage__btn" id="js-WatchedButton">Watched</button>       
-            <button type="button" class="storage__btn" id="js-QueueButton">Queue</button>  
+        <div class="list-Button">         
+            <button type="button" class="storage-btn" id="js-WatchedButton">Watched</button>       
+            <button type="button" class="storage-btn" id="js-QueueButton">Queue</button>  
         </div>
     </div>
 </div>
