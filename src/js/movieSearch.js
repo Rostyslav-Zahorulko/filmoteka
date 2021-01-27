@@ -1,7 +1,5 @@
 import refs from './refs.js'
 import decGenres from './decodingJenres.js'
-console.log(decGenres);
-console.log('sds');
 
 const startingUrl = 'https://www.themoviedb.org/t/p/w600_and_h900_bestv2'
 const pageNumber = 2
@@ -30,11 +28,7 @@ const makeNewObjectFilms = function (data) {
       if (item.release_date) item.release_date = item.release_date.slice(0, 4);
       }
 
-      console.log(item);
       addMarkup(item)
-    //   return item;
-    //   console.log(newGenres);
-    //   newGenres.forEach(el => console.log(el))
   });
  
 };
@@ -44,7 +38,7 @@ function addMarkup(item) {
         <li class="movie-card">
         <img src="${startingUrl}${item.poster_path}" alt="${item.original_title}" width="150px"/>
         <h3>${item.original_title}</h3> 
-        <p class="js-genre" >${item.genre_ids}| ${item.release_date}  ${item.vote_average}</p>
+        <p class="js-genre" >${item.genre_ids} | ${item.release_date}  ${item.vote_average}</p>
         </li>
       `) 
 }
