@@ -1,0 +1,207 @@
+.link {
+  text-decoration: none;
+  font-style: normal;
+}
+.header {
+  background-color: rgb(00, 00, 00);
+}
+.current {
+  color: #ff6b08;
+  &::after {
+    left: 0;
+    bottom: 0;
+
+    display: block;
+    background-color: #ff6b08;
+    content: '';
+    width: 100%;
+    height: 3px;
+  }
+}
+
+.header-container {
+  height: 230px;
+  padding-top: 46px;
+  padding-left: 20px;
+  padding-right: 20px;
+  margin-bottom: 20px;
+
+  @media screen and(min-width:768px) {
+    padding-top: 41px;
+    padding-left: 71px;
+    padding-right: 76px;
+  }
+}
+
+// home-header background
+
+.home-header {
+  background-image: linear-gradient(
+      to right,
+      rgba(00, 00, 00, 0.56),
+      rgba(00, 00, 00, 0.56)
+    ),
+    url(../images/header-home/home-header-background-320.jpg);
+  background-size: cover;
+  background-repeat: no-repeat;
+
+  @media screen and (min-device-pixel-ratio: 2),
+    screen and (min-resolution: 192dpi),
+    screen and (min-resolution: 2dppx) {
+    background-image: linear-gradient(
+        to right,
+        rgba(00, 00, 00, 0.56),
+        rgba(00, 00, 00, 0.56)
+      ),
+      url(../images/header-home/home-header-background-320-2x.jpg);
+  }
+
+  @media screen and (min-width: 768px) {
+    background-image: linear-gradient(
+        to right,
+        rgba(00, 00, 00, 0.56),
+        rgba(00, 00, 00, 0.56)
+      ),
+      url(../images/header-home/home-header-background-768.jpg);
+
+    @media screen and (min-device-pixel-ratio: 2),
+      screen and (min-resolution: 192dpi),
+      screen and (min-resolution: 2dppx) {
+      background-image: linear-gradient(
+          to right,
+          rgba(00, 00, 00, 0.56),
+          rgba(00, 00, 00, 0.56)
+        ),
+        url(../images/header-home/home-header-background-768-2x.jpg);
+    }
+  }
+
+  @media screen and (min-width: 1024px) {
+    background-image: linear-gradient(
+        to right,
+        rgba(00, 00, 00, 0.56),
+        rgba(00, 00, 00, 0.56)
+      ),
+      url(../images/header-home/home-header-background-1024.jpg);
+
+    @media screen and (min-device-pixel-ratio: 2),
+      screen and (min-resolution: 192dpi),
+      screen and (min-resolution: 2dppx) {
+      background-image: linear-gradient(
+          to right,
+          rgba(00, 00, 00, 0.56),
+          rgba(00, 00, 00, 0.56)
+        ),
+        url(../images/header-home/home-header-background-1024-2x.jpg);
+    }
+  }
+}
+
+// logo
+
+.header-logo {
+  display: flex;
+  align-items: center;
+  margin-right: 104px;
+}
+
+.header-logo-img {
+  margin-right: 10px;
+}
+
+.header-logo-txt {
+  display: none;
+  @media screen and (min-width: 768px) {
+    display: flex;
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 30px;
+    line-height: 1.167;
+    color: #ffffff;
+  }
+}
+
+.header-logo-txt:first-letter {
+  text-transform: uppercase;
+}
+
+// navigation
+
+.header-navigation-list {
+  display: flex;
+}
+
+.header-nav-container {
+  display: flex;
+  margin-bottom: 43px;
+  justify-content: space-between;
+}
+
+.header-navigation-list-item:not(:last-child) {
+  margin-right: 39px;
+}
+
+.navigation-list-item-link {
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 1.167;
+  color: #ffffff;
+}
+
+.header-search-form {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 0.5px solid #ffffff;
+  margin-bottom: 22px;
+
+  @media screen and (min-width: 768px) {
+    width: 336px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
+
+.header-search-form-input {
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 1.167;
+  color: #ffffff;
+  background: none;
+  border: none;
+  outline: none;
+}
+
+.header-search-warning {
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 1.167;
+  color: #ff001b;
+
+  @media screen and (min-width: 768px) {
+    display: flex;
+    justify-content: center;
+  }
+}
+
+.header-search-form-input::placeholder {
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 1.167;
+  color: #ffffff;
+}
+
+.header-search-form-btn {
+  background: none;
+  border: none;
+  outline: none;
+}

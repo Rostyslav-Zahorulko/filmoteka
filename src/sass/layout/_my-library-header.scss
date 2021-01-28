@@ -1,0 +1,103 @@
+.my-library-header {
+  background-image: linear-gradient(
+      to right,
+      rgba(00, 00, 00, 0.56),
+      rgba(00, 00, 00, 0.56)
+    ),
+    url(../images/header-library/library-header-background-320.jpg);
+  background-size: cover;
+  background-repeat: no-repeat;
+
+  @media screen and (min-device-pixel-ratio: 2),
+    screen and (min-resolution: 192dpi),
+    screen and (min-resolution: 2dppx) {
+    background-image: linear-gradient(
+        to right,
+        rgba(00, 00, 00, 0.56),
+        rgba(00, 00, 00, 0.56)
+      ),
+      url(../images/header-library/library-header-background-320-2x.jpg);
+  }
+
+  @media screen and (min-width: 768px) {
+    background-image: linear-gradient(
+        to right,
+        rgba(00, 00, 00, 0.56),
+        rgba(00, 00, 00, 0.56)
+      ),
+      url(../images/header-library/library-header-background-768.jpg);
+
+    @media screen and (min-device-pixel-ratio: 2),
+      screen and (min-resolution: 192dpi),
+      screen and (min-resolution: 2dppx) {
+      background-image: linear-gradient(
+          to right,
+          rgba(00, 00, 00, 0.56),
+          rgba(00, 00, 00, 0.56)
+        ),
+        url(../images/header-library/library-header-background-768-2x.jpg);
+    }
+  }
+
+  @media screen and (min-width: 1024px) {
+    background-image: linear-gradient(
+        to right,
+        rgba(00, 00, 00, 0.56),
+        rgba(00, 00, 00, 0.56)
+      ),
+      url(../images/header-library/library-header-background-1024.jpg);
+
+    @media screen and (min-device-pixel-ratio: 2),
+      screen and (min-resolution: 192dpi),
+      screen and (min-resolution: 2dppx) {
+      background-image: linear-gradient(
+          to right,
+          rgba(00, 00, 00, 0.56),
+          rgba(00, 00, 00, 0.56)
+        ),
+        url(../images/header-library/library-header-background-1024-2x.jpg);
+    }
+  }
+}
+
+.header-button-list {
+  display: flex;
+  justify-content: space-between;
+  padding-top: 6px;
+
+  @media screen and(min-width:768px) {
+    justify-content: center;
+  }
+}
+
+.header-button-item:not(:last-child) {
+  @media screen and(min-width:768px) {
+    margin-right: 15px;
+  }
+}
+
+.header-button {
+  width: 129px;
+  height: 44px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  text-transform: uppercase;
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 1.334;
+  color: #ffff;
+
+  background: none;
+  border: 1px solid #ffff;
+  border-radius: 5px;
+}
+
+.is-active-btn {
+  background: #ff6b01;
+  border: 1px solid #ff6b01;
+  filter: drop-shadow(0px 8px 43px rgba(255, 107, 1, 0.6));
+}
