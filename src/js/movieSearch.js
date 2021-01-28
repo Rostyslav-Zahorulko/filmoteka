@@ -1,8 +1,17 @@
 import refs from './refs.js'
 import decGenres from './decodingJenres.js'
 
+export default function searchFilm(){
+  const headerSearchForm = document.querySelector('.header-search-form')
+  console.log(headerSearchForm);
+  headerSearchForm.addEventListener('submit', (e) => {
+   e.preventDefault()
+  })
+
+}
+
 const startingUrl = 'https://image.tmdb.org/t/p/original'
-const pageNumber = 2
+const pageNumber = 1
 const query = 'p'
 const API = `https://api.themoviedb.org/3/search/movie?api_key=ffddee44025dd24685ea61d637d56d24&language=en-US&query=${query}&page=${pageNumber}&include_adult=false`
 fetch(API)
@@ -41,3 +50,4 @@ function addMarkup(item) {
         </li>
       `) 
 }
+
