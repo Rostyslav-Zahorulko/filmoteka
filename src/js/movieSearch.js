@@ -10,7 +10,9 @@ export default function searchFilm(){
     e.preventDefault()
     fetchApiSearch(e.target[0].value)
     console.log('Вывожу фильмы по запросу', e.target[0].value);
-    
+    const filmsGalleryId = document.querySelector('#films-gallery');
+    filmsGalleryId.innerHTML = ''
+
   })
 
 }
