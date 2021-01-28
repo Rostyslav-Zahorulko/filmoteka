@@ -1,9 +1,23 @@
 import refs from './refs.js'
 import decGenres from './decodingJenres.js'
 
-const startingUrl = 'https://image.tmdb.org/t/p/original'
-const pageNumber = 2
-const query = 'p'
+
+
+export default function searchFilm(){
+  const headerSearchForm = document.querySelector('.header-search-form')
+  console.log(headerSearchForm);
+  headerSearchForm.addEventListener('submit', (e) => {
+    e.preventDefault()
+    fetchApiSearch(e.target[0].value)
+    console.log('Вывожу фильмы по запросу', e.target[0].value);
+  })
+
+}
+
+function fetchApiSearch(imputValue) {
+// const startingUrl = 'https://image.tmdb.org/t/p/original'
+const pageNumber = 1
+const query = imputValue
 const API = `https://api.themoviedb.org/3/search/movie?api_key=ffddee44025dd24685ea61d637d56d24&language=en-US&query=${query}&page=${pageNumber}&include_adult=false`
 fetch(API)
 .then(res => res.json())
@@ -31,13 +45,16 @@ const makeNewObjectFilms = function (data) {
   });
  
 };
+}
+
 
 function addMarkup(item) {
     return refs.ulListMovie.insertAdjacentHTML('beforeend', `
-        <li class="movie-card" data-id="${item.id}">
-        <img src="${startingUrl}${item.poster_path}" alt="${item.original_title}" width="150px"/>
-        <h3>${item.original_title}</h3> 
-        <p class="js-genre" >${item.genre_ids} | ${item.release_date}  ${item.vote_average}</p>
+        <li class="films-gallery-item" data-id="${item.id}">
+        <img class="films-gallery-item-image" src="https://image.tmdb.org/t/p/original${item.poster_path}" alt="${item.original_title}" width="150px"/>
+        <p class="films-gallery-item-title films-gallery-item-description">${item.original_title}</p> 
+        <p class="films-gallery-item-info films-gallery-item-description">${item.genre_ids} | ${item.release_date}  ${item.vote_average}</p>
         </li>
       `) 
 }
+
