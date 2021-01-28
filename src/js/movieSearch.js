@@ -1,16 +1,21 @@
 import refs from './refs.js'
 import decGenres from './decodingJenres.js'
 
+let query =''
+
 export default function searchFilm(){
   const headerSearchForm = document.querySelector('.header-search-form')
   console.log(headerSearchForm);
   headerSearchForm.addEventListener('submit', (e) => {
-   e.preventDefault()
+    e.preventDefault()
+    query = e.target[0].value
+    fetchApiSearch()
   })
 
 }
 
-const startingUrl = 'https://image.tmdb.org/t/p/original'
+function fetchApiSearch() {
+// const startingUrl = 'https://image.tmdb.org/t/p/original'
 const pageNumber = 1
 const query = 'p'
 const API = `https://api.themoviedb.org/3/search/movie?api_key=ffddee44025dd24685ea61d637d56d24&language=en-US&query=${query}&page=${pageNumber}&include_adult=false`
@@ -40,11 +45,13 @@ const makeNewObjectFilms = function (data) {
   });
  
 };
+}
+
 
 function addMarkup(item) {
     return refs.ulListMovie.insertAdjacentHTML('beforeend', `
         <li class="movie-card" data-id="${item.id}">
-        <img src="${startingUrl}${item.poster_path}" alt="${item.original_title}" width="150px"/>
+        <img src="https://image.tmdb.org/t/p/original${item.poster_path}" alt="${item.original_title}" width="150px"/>
         <h3>${item.original_title}</h3> 
         <p class="js-genre" >${item.genre_ids} | ${item.release_date}  ${item.vote_average}</p>
         </li>
