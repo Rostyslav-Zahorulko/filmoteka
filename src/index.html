@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <title>Filmoteka</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
     <link
       href="https://fonts.googleapis.com/css2?family=Raleway:wght@700&family=Roboto:wght@400;500;700&display=swap"
       rel="stylesheet"
@@ -14,10 +15,43 @@
     
 
     <header class="header">
-      <div class="container header-container-js"></div>
+      
+      <div class="container header-container-js">
+        <div class=" header home-header header-container">
+          <div class="header-nav-container">
+            <a href="" class="header-logo logo link header-logo-js">
+              <svg class="header-logo-img" width="24" height="24">
+                <use class="qwer" href="./images/sprite.svg#icon-film"></use>
+              </svg>
+              <span class="header-logo-txt">Filmoteka</span></a>
+        
+            <nav class="header-navigation">
+              <ul class="header-navigation-list">
+                <li class="header-navigation-list-item"><a href=""
+                    class="navigation-list-item-link link navigation-list-item-link-home current">HOME</a></li>
+                <li class="header-navigation-list-item"><a href=""
+                    class="navigation-list-item-link link navigation-list-item-link-my-library">MY LIBRARY</a>
+                </li>
+        
+              </ul>
+            </nav>
+          </div>
+        
+        
+          <form action="" class="header-search-form" id="search-form">
+            <input type="text" name="query" class="header-search-form-input" placeholder="Поиск фильмов">
+            <button class="header-search-form-btn" type="submit"><svg class="header-form-btn-img" width="12" height="12">
+                <use href="./images/sprite.svg#icon-search"></use>
+              </svg></button>
+          </form>
+        
+          <p class="header-search-warning">Search result not successful. Enter the correct movie name and</p>
+        </div>
+      </div>
     </header>
 
     <main>
+      
       <div class="container"><ul class="films-gallery"></ul></div>
     </main>
 
@@ -35,5 +69,6 @@
         </div>
       </div>
     </footer>
+    
   </body>
 </html>

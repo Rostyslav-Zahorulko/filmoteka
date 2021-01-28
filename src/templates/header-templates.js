@@ -1,12 +1,13 @@
 
+
 const headertTemplates = {
 
    homeHeader: `<div class=" header home-header header-container">
   <div class="header-nav-container">
     <a href="" class="header-logo logo link header-logo-js">
-    <svg class="header-logo-img" width="24px" height="24px">
-      <use class="qwer" href="./images/sprite.svg#icon-film"></use>
-    </svg>
+   <svg class="header-logo-img" width="24" height="24">
+        <use class="qwer" href="./images/sprite.svg#icon-film"></use>
+      </svg>
     <span class="header-logo-txt">Filmoteka</span></a>
   
 <nav class="header-navigation">
@@ -16,8 +17,6 @@ const headertTemplates = {
     <li class="header-navigation-list-item"><a href=""
         class="navigation-list-item-link link navigation-list-item-link-my-library">MY LIBRARY</a>
     </li>
-
-    
 
   </ul>
 </nav></div>
