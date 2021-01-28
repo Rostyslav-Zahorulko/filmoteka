@@ -1,10 +1,11 @@
 import headerTemplates from './components/headers-tpl';
-
+import searchFilm from './movieSearch.js'
 const refs = {
   filmsGallery: document.querySelector('.films-gallery'),
   header: document.querySelector('.header-container-js'),
   logo: document.querySelector('.header-logo-js'),
   homeLink: document.querySelector('.navigation-list-item-link-home'),
+ 
 };
 
 const path = 'https://api.themoviedb.org/3';
@@ -44,6 +45,7 @@ function updateFilmsGalleryMarkup(films, genres) {
   </li>
   `;
     refs.filmsGallery.insertAdjacentHTML('beforeend', markup);
+   
   });
 }
 
@@ -57,3 +59,10 @@ function homePageRendering(headerTemplates) {
 }
 
 homePageRendering(headerTemplates.homeHeader);
+
+searchFilm()
+ 
+
+
+
+
