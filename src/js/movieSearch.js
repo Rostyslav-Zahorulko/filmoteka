@@ -10,6 +10,9 @@ export default function searchFilm(){
     e.preventDefault()
     fetchApiSearch(e.target[0].value)
     console.log('Вывожу фильмы по запросу', e.target[0].value);
+    const filmsGalleryId = document.querySelector('#films-gallery');
+    filmsGalleryId.innerHTML = ''
+
   })
 
 }
@@ -53,8 +56,23 @@ function addMarkup(item) {
         <li class="films-gallery-item" data-id="${item.id}">
         <img class="films-gallery-item-image" src="https://image.tmdb.org/t/p/original${item.poster_path}" alt="${item.original_title}" width="150px"/>
         <p class="films-gallery-item-title films-gallery-item-description">${item.original_title}</p> 
-        <p class="films-gallery-item-info films-gallery-item-description">${item.genre_ids} | ${item.release_date}  ${item.vote_average}</p>
+        <p class="films-gallery-item-info films-gallery-item-description">${item.genre_ids} | ${item.release_date}</p>
         </li>
       `) 
 }
 
+// const markupProductInCart =cart.item.reduce(
+//   (acc, el) => acc + 
+//                    ` <div class="cart-item">
+//                     <img src="${el.img.url}" alt="${el.name}">
+//                     <div>
+//                         <h4>${el.name}</h4>
+//                         <h5>${el.price}</h5>
+//                         <span class="remove-item" data-id="${el.id}">Remove</span>
+//                     </div>
+//                     <div>
+//                         <i class="fas fa-chevron-up" data-id="${el.id}"></i>
+//                         <p class="item-amount">${el.quantity}</p>
+//                         <i class="fas fa-chevron-down" data-id="${el.id}"></i>
+//                     </div></div>`, ''
+//   )

@@ -1,7 +1,7 @@
 import headerTemplates from './components/headers-tpl';
 import searchFilm from './movieSearch.js'
 const refs = {
-  filmsGallery: document.querySelector('.films-gallery'),
+  filmsGalleryId: document.querySelector('#films-gallery'),
   header: document.querySelector('.header-container-js'),
   logo: document.querySelector('.header-logo-js'),
   homeLink: document.querySelector('.navigation-list-item-link-home'),
@@ -44,7 +44,7 @@ function updateFilmsGalleryMarkup(films, genres) {
       .join(', ')} | ${release_date.split('-')[0]}</p>    
   </li>
   `;
-    refs.filmsGallery.insertAdjacentHTML('beforeend', markup);
+    refs.filmsGalleryId.insertAdjacentHTML('beforeend', markup);
    
   });
 }
@@ -60,6 +60,7 @@ function homePageRendering(headerTemplates) {
 
 homePageRendering(headerTemplates.homeHeader);
 
+// Функция поиска и рендера фильма
 searchFilm()
  
 
