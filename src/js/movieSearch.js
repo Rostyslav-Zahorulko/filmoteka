@@ -50,7 +50,7 @@ const makeNewObjectFilms = function (data) {
 
 function addMarkup(item) {
     return refs.ulListMovie.insertAdjacentHTML('beforeend', `
-        <li class="movie-card" data-id="${item.id}">
+        <li class="films-gallery-item" data-id="${item.id}">
         <img class="films-gallery-item-image" src="https://image.tmdb.org/t/p/original${item.poster_path}" alt="${item.original_title}" width="150px"/>
         <p class="films-gallery-item-title films-gallery-item-description">${item.original_title}</p> 
         <p class="films-gallery-item-info films-gallery-item-description">${item.genre_ids} | ${item.release_date}  ${item.vote_average}</p>
