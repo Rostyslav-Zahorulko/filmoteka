@@ -1,0 +1,73 @@
+.films-gallery-item {
+  @media screen and(min-width: 768px) {
+    margin-right: 25px;
+  }
+}
+.films-gallery-item:not(:last-child) {
+  margin-bottom: 20px;
+}
+.films-gallery-item-image {
+  width: 280px;
+  height: 402px;
+  border-radius: 5px;
+  margin-bottom: 10px;
+}
+.films-gallery-item-description {
+  margin: 0px;
+}
+.films-gallery-item-title,
+.films-gallery-item-info {
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 1.167;
+}
+.films-gallery-item-title {
+  color: #000000;
+  text-transform: uppercase;
+}
+.films-gallery-item-info {
+  color: #ff6b08;
+}
+.films-gallery {
+  padding-left: 20px;
+  padding-right: 20px;
+  margin-bottom: 40px;
+  width: 320 px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  justify-content: center;
+  @media screen and (min-width: 768px) {
+    margin-right: auto;
+    margin-left: auto;
+    padding-left: 75px;
+    padding-right: 75px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-right: -25px;
+  }
+}
+
+// .films-gallery-search {
+//   padding-left: 20px;
+//   padding-right: 20px;
+//   margin-bottom: 40px;
+//   width: 320 px;
+//   display: flex;
+//   flex-wrap: wrap;
+//   justify-content: center;
+//   justify-content: center;
+//   @media screen and (min-width: 768px) {
+//     margin-right: auto;
+//     margin-left: auto;
+//     padding-left: 75px;
+//     padding-right: 75px;
+//     display: flex;
+//     flex-wrap: wrap;
+//     justify-content: center;
+//     margin-right: -25px;
+//   }
+// }
