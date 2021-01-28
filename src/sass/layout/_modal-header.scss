@@ -1,0 +1,61 @@
+.modal-header {
+  background-image: linear-gradient(
+      to right,
+      rgba(00, 00, 00, 0.56),
+      rgba(00, 00, 00, 0.56)
+    ),
+    url(../images/header-modal/modal-header-background-320.jpg);
+  background-size: cover;
+  background-repeat: no-repeat;
+
+  @media screen and (min-device-pixel-ratio: 2),
+    screen and (min-resolution: 192dpi),
+    screen and (min-resolution: 2dppx) {
+    background-image: linear-gradient(
+        to right,
+        rgba(00, 00, 00, 0.56),
+        rgba(00, 00, 00, 0.56)
+      ),
+      url(../images/header-modal/modal-header-background-320-2x.jpg);
+  }
+
+  @media screen and (min-width: 768px) {
+    background-image: linear-gradient(
+        to right,
+        rgba(00, 00, 00, 0.56),
+        rgba(00, 00, 00, 0.56)
+      ),
+      url(../images/header-modal/modal-header-background-768.jpg);
+
+    @media screen and (min-device-pixel-ratio: 2),
+      screen and (min-resolution: 192dpi),
+      screen and (min-resolution: 2dppx) {
+      background-image: linear-gradient(
+          to right,
+          rgba(00, 00, 00, 0.56),
+          rgba(00, 00, 00, 0.56)
+        ),
+        url(../images/header-modal/modal-header-background-768-2x.jpg);
+    }
+  }
+
+  @media screen and (min-width: 1024px) {
+    background-image: linear-gradient(
+        to right,
+        rgba(00, 00, 00, 0.56),
+        rgba(00, 00, 00, 0.56)
+      ),
+      url(../images/header-modal/modal-header-background-1024.jpg);
+
+    @media screen and (min-device-pixel-ratio: 2),
+      screen and (min-resolution: 192dpi),
+      screen and (min-resolution: 2dppx) {
+      background-image: linear-gradient(
+          to right,
+          rgba(00, 00, 00, 0.56),
+          rgba(00, 00, 00, 0.56)
+        ),
+        url(../images/header-modal/modal-header-background-1024-2x.jpg);
+    }
+  }
+}

@@ -10,7 +10,7 @@ const headerTemplates = {
 <nav class="header-navigation">
   <ul class="header-navigation-list">
     <li class="header-navigation-list-item"><a href=""
-        class="navigation-list-item-link link navigation-list-item-link-home">HOME</a></li>
+        class="navigation-list-item-link link navigation-list-item-link-home current">HOME</a></li>
     <li class="header-navigation-list-item"><a href=""
         class="navigation-list-item-link link navigation-list-item-link-my-library">MY LIBRARY</a>
     </li>
@@ -36,7 +36,7 @@ const headerTemplates = {
       <li class="header-navigation-list-item"><a href=""
           class="navigation-list-item-link link navigation-list-item-link-home">HOME</a></li>
       <li class="header-navigation-list-item"><a href=""
-          class="navigation-list-item-link link navigation-list-item-link-my-library">MY LIBRARY</a>
+          class="navigation-list-item-link link navigation-list-item-link-my-library current">MY LIBRARY</a>
       </li>
   
     </ul>
