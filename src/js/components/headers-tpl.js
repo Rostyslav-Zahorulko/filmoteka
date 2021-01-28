@@ -22,7 +22,7 @@ const headerTemplates = {
       <use href="./images/sprite.svg#icon-search"></use>
     </svg></button>
   </form>
-  <p class="header-search-warning">Search result not successful. Enter the correct movie name and</p>
+  <p id="header-search-warning-show">Search result not successful. Enter the correct movie name and</p>
 </div>`,
   myLibraryHeader: `<div class=" header my-library-header header-container">
   <div class="header-nav-container">

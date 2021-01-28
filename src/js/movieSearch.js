@@ -31,11 +31,12 @@ const query = imputValue
 const API = `https://api.themoviedb.org/3/search/movie?api_key=ffddee44025dd24685ea61d637d56d24&language=en-US&query=${query}&page=${pageNumber}&include_adult=false`
 fetch(API)
 .then(res => res.json())
-    .then(data => {
+  .then(data => {
+     showMoveNotFound(data)
        makeNewObjectFilms(data)
     })   
 
-const makeNewObjectFilms = function (data) {
+  const makeNewObjectFilms = function (data) {
   const newData = data.results.map((item) => {
     let curentGenres = [];
     item.genre_ids.map((id) => {
@@ -51,6 +52,7 @@ const makeNewObjectFilms = function (data) {
       item.genre_ids = curentGenres.join(', ');
       if (item.release_date) item.release_date = item.release_date.slice(0, 4);
     }
+
       addMarkup(item)
   });
  
@@ -68,18 +70,12 @@ function addMarkup(item) {
       `) 
 }
 
-// const markupProductInCart =cart.item.reduce(
-//   (acc, el) => acc + 
-//                    ` <div class="cart-item">
-//                     <img src="${el.img.url}" alt="${el.name}">
-//                     <div>
-//                         <h4>${el.name}</h4>
-//                         <h5>${el.price}</h5>
-//                         <span class="remove-item" data-id="${el.id}">Remove</span>
-//                     </div>
-//                     <div>
-//                         <i class="fas fa-chevron-up" data-id="${el.id}"></i>
-//                         <p class="item-amount">${el.quantity}</p>
-//                         <i class="fas fa-chevron-down" data-id="${el.id}"></i>
-//                     </div></div>`, ''
-//   )
+function showMoveNotFound(data) {
+   if (data.results.length === 0) {
+      console.log(refs.headerSearchWarningShow());
+        refs.headerSearchWarningShow().classList.add('header-search-warning-show')
+    }
+    else {
+       refs.headerSearchWarningShow().classList.remove('header-search-warning-show')
+    }
+}
