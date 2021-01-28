@@ -102,10 +102,12 @@
 .header-logo {
   display: flex;
   align-items: center;
-  margin-right: 104px;
 }
 
 .header-logo-img {
+  background-image: url(../images/film.svg);
+  width: 24px;
+  height: 24px;
   margin-right: 10px;
 }
 
@@ -143,6 +145,7 @@
 }
 
 .navigation-list-item-link {
+  text-transform: uppercase;
   font-family: Roboto;
   font-style: normal;
   font-weight: 500;
@@ -157,6 +160,9 @@
   justify-content: space-between;
   border-bottom: 0.5px solid #ffffff;
   margin-bottom: 22px;
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 280px;
 
   @media screen and (min-width: 768px) {
     width: 336px;
@@ -178,17 +184,14 @@
 }
 
 .header-search-warning {
+  display: flex;
+  justify-content: center;
   font-family: Roboto;
   font-style: normal;
   font-weight: normal;
   font-size: 14px;
   line-height: 1.167;
   color: #ff001b;
-
-  @media screen and (min-width: 768px) {
-    display: flex;
-    justify-content: center;
-  }
 }
 
 .header-search-form-input::placeholder {
@@ -204,4 +207,7 @@
   background: none;
   border: none;
   outline: none;
+  background-image: url(../images/search.svg);
+  height: 12px;
+  width: 12px;
 }
