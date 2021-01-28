@@ -21,7 +21,7 @@ const headerTemplates = {
     <input type="text" name="query" class="header-search-form-input" placeholder="Поиск фильмов">
     <button class="header-search-form-btn" type="submit"></button>
   </form>
-  <p class="header-search-warning">Search result not successful. Enter the correct movie name and</p>
+  <p class="header-search-warning is-hidden">Search result not successful. Enter the correct movie name and</p>
 </div>`,
   myLibraryHeader: `<div class=" header my-library-header header-container">
   <div class="header-nav-container">
