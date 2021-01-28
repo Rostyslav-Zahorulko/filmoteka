@@ -5,8 +5,14 @@ import decGenres from './decodingJenres.js'
 
 export default function searchFilm(){
   const headerSearchForm = document.querySelector('.header-search-form')
-  console.log(headerSearchForm);
+  
   headerSearchForm.addEventListener('submit', (e) => {
+    const liFilmsGalleryItem = document.querySelector('.films-gallery-item')
+    const listMovie = document.querySelector('.list-movie-search-js')
+   
+    if (liFilmsGalleryItem) {
+      listMovie.innerHTML = ''
+    }
     e.preventDefault()
     fetchApiSearch(e.target[0].value)
     console.log('Вывожу фильмы по запросу', e.target[0].value);
