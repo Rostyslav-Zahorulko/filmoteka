@@ -1,5 +1,7 @@
 import refs from './refs.js'
 import decGenres from './decodingJenres.js'
+import paginationjs from 'paginationjs'
+console.log(paginationjs);
 
 
 
@@ -16,7 +18,6 @@ export default function searchFilm(){
     e.preventDefault()
     fetchApiSearch(e.target[0].value)
     e.target[0].value = ''
-    console.log('Вывожу фильмы по запросу', e.target[0].value);
     const filmsGalleryId = document.querySelector('#films-gallery');
     filmsGalleryId.innerHTML = ''
 
@@ -53,7 +54,27 @@ fetch(API)
       if (item.release_date) item.release_date = item.release_date.slice(0, 4);
     }
 
-      addMarkup(item)
+    addMarkup(item)
+    
+    // Тестовая пагинация
+    
+var items = $(".list-wrapper .list-item");
+    var numItems = items.length;
+    var perPage = 3;
+
+    items.slice(perPage).hide();
+
+    $('#pagination-container').pagination({
+        items: numItems,
+        itemsOnPage: perPage,
+        prevText: "&laquo;",
+        nextText: "&raquo;",
+        onPageClick: function (pageNumber) {
+            var showFrom = perPage * (pageNumber - 1);
+            var showTo = showFrom + perPage;
+            items.hide().slice(showFrom, showTo).show();
+        }
+    });
   });
  
 };
@@ -62,17 +83,15 @@ fetch(API)
 
 function addMarkup(item) {
     return refs.ulListMovie.insertAdjacentHTML('beforeend', `
-        <li class="films-gallery-item" data-id="${item.id}">
+        <li class="films-gallery-item list-item" data-id="${item.id}">
         <img class="films-gallery-item-image" src="https://image.tmdb.org/t/p/original${item.poster_path}" alt="${item.original_title}" width="150px"/>
         <p class="films-gallery-item-title films-gallery-item-description">${item.original_title}</p> 
         <p class="films-gallery-item-info films-gallery-item-description">${item.genre_ids} | ${item.release_date}</p>
-        </li>
-      `) 
+        </li>`) 
 }
 
 function showMoveNotFound(data) {
    if (data.results.length === 0) {
-      console.log(refs.headerSearchWarningShow());
         refs.headerSearchWarningShow().classList.add('header-search-warning-show')
     }
     else {
