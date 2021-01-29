@@ -17,7 +17,18 @@ function handleMovieDetails(event) {
   }
   movieId = event.target.parentNode.dataset.id;
   getMovieDetails(baseUrl, apiKey, movieId).then(data => {
-    const modalMovieCard = movieDetailedCardTemplate(data);
+    const newData = {
+    poster_path: data.poster_path,
+    title: data.title,
+    vote_average: data.vote_average,
+    vote_count: data.vote_count,
+    popularity: data.popularity,
+    original_title: data.original_title,
+    overview: data.overview,
+    genres: data.genres.slice(0, 3),
+    }
+
+    const modalMovieCard = movieDetailedCardTemplate(newData);
     const markup = `<div class="modal-backdrop">
     ${headerTemplates.modalHeader}
     ${modalMovieCard}
