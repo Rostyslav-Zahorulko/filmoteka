@@ -30,7 +30,7 @@ function handleMovieDetails(event) {
         title: data.title,
         vote_average: data.vote_average,
         vote_count: data.vote_count,
-        popularity: data.popularity,
+        popularity: Math.ceil(data.popularity*10)/10,
         original_title: data.original_title,
         overview: data.overview,
         genres: data.genres.slice(0, 3),
@@ -54,8 +54,8 @@ function handleMovieDetails(event) {
       refs.body.insertAdjacentHTML('beforeend', markup);
 
       window.addEventListener('keydown', onPressESC);
-      refs.modalCard = document.querySelector('.modal-backdrop');
-      refs.modalCard.addEventListener('click', closeOnClick);
+      refs.modalContainer = document.querySelector('.modal-container');
+      refs.modalContainer.addEventListener('click', closeOnClick);
 
       // WATCHED BUTTON HANDLER
       refs.addToWatchedBtn = document.querySelector('#js-watched-button');
@@ -81,12 +81,11 @@ function getMovieDetails(baseUrl, apiKey, movieId) {
 }
 
 function closeMovieDetails() {
-  console.log('closeMovieDetails');
+  refs.modalCard = document.querySelector('.modal-backdrop');
   refs.modalCard.remove();
 }
 
 function onPressESC(event) {
-  console.log('onPresEsc');
   if (event.code === 'Escape') {
     closeMovieDetails();
     window.removeEventListener('keydown', onPressESC);
@@ -94,18 +93,12 @@ function onPressESC(event) {
 }
 
 function closeOnClick(event) {
-  refs.modalDetailedCard = document.querySelector('.modal');
-  refs.modalInfo = document.querySelector('.modal-info');
-  refs.modalGenreInfo = document.querySelector('.modal-info-genres');
-
-  switch (event.target.parentNode) {
-    case refs.modalGenreInfo:
-    case refs.modalInfo:
-    case refs.modalDetailedCard:
-      closeMovieDetails();
-      refs.modalCard.removeEventListener('click', closeOnClick);
-      break;
-    default:
-      return;
-  }
+  switch (event.target) {
+  case refs.addToWatchedBtn:
+  case refs.addToQueueBtn:
+    break;
+  default:
+    closeMovieDetails();
+    refs.modalContainer.removeEventListener('click', closeOnClick);
+}
 }
