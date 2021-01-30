@@ -1,6 +1,12 @@
 import headerTemplates from './components/headers-tpl';
 import movieDetailedCardTemplate from '../templates/details-modal.hbs';
 import refs from './refs';
+import {
+  userWatched,
+  updateUserWatched,
+  userQueue,
+  updateUserQueue,
+} from './userLibrary';
 
 const apiKey = 'ffddee44025dd24685ea61d637d56d24';
 const baseUrl = 'https://api.themoviedb.org/3/movie/';
@@ -9,27 +15,29 @@ let movieId = 0;
 refs.filmsGallery = document.querySelector('.films-gallery-container');
 refs.body = document.querySelector('body');
 
-refs.filmsGallery.addEventListener("click", handleMovieDetails);
+refs.filmsGallery.addEventListener('click', handleMovieDetails);
 
 function handleMovieDetails(event) {
-  if (event.target.parentNode.nodeName !== "LI") {
-    return
+  if (event.target.parentNode.nodeName !== 'LI') {
+    return;
   }
   movieId = event.target.parentNode.dataset.id;
-  getMovieDetails(baseUrl, apiKey, movieId).then(data => {
-    const newData = {
-    poster_path: data.poster_path,
-    title: data.title,
-    vote_average: data.vote_average,
-    vote_count: data.vote_count,
-    popularity: data.popularity,
-    original_title: data.original_title,
-    overview: data.overview,
-    genres: data.genres.slice(0, 3),
-    }
+  getMovieDetails(baseUrl, apiKey, movieId)
+    .then(data => {
+      const newData = {
+        id: data.id,
+        poster_path: data.poster_path,
+        title: data.title,
+        vote_average: data.vote_average,
+        vote_count: data.vote_count,
+        popularity: data.popularity,
+        original_title: data.original_title,
+        overview: data.overview,
+        genres: data.genres.slice(0, 3),
+      };
 
-    const modalMovieCard = movieDetailedCardTemplate(newData);
-    const markup = `<div class="modal-backdrop">
+      const modalMovieCard = movieDetailedCardTemplate(newData);
+      const markup = `<div class="modal-backdrop">
     ${headerTemplates.modalHeader}
     ${modalMovieCard}
     <footer class="footer">
@@ -43,28 +51,40 @@ function handleMovieDetails(event) {
       </div>
     </footer>
     </div>`;
-    refs.body.insertAdjacentHTML('beforeend', markup);
+      refs.body.insertAdjacentHTML('beforeend', markup);
 
-    window.addEventListener('keydown', onPressESC);
-    refs.modalCard = document.querySelector('.modal-backdrop');
-    refs.modalCard.addEventListener('click', closeOnClick); 
-  })
-    .catch(error => console.log(error))
-};
+      window.addEventListener('keydown', onPressESC);
+      refs.modalCard = document.querySelector('.modal-backdrop');
+      refs.modalCard.addEventListener('click', closeOnClick);
+
+      // WATCHED BUTTON HANDLER
+      refs.addToWatchedBtn = document.querySelector('#js-watched-button');
+      refs.addToWatchedBtn.addEventListener('click', e => {
+        updateUserWatched(newData);
+      });
+
+      // QUEUE BUTTON HANDLER
+      refs.addToQueueBtn = document.querySelector('#js-queue-button');
+      refs.addToQueueBtn.addEventListener('click', e => {
+        updateUserQueue(newData);
+      });
+    })
+    .catch(error => console.log(error));
+}
 
 function getMovieDetails(baseUrl, apiKey, movieId) {
-    return fetch(`${baseUrl}${movieId}?api_key=${apiKey}&language=en-US`)
-        .then(response => response.json())
-        .catch(error => {
-            throw error;
-        });
-};
+  return fetch(`${baseUrl}${movieId}?api_key=${apiKey}&language=en-US`)
+    .then(response => response.json())
+    .catch(error => {
+      throw error;
+    });
+}
 
 function closeMovieDetails() {
   console.log('closeMovieDetails');
   refs.modalCard.remove();
 }
-    
+
 function onPressESC(event) {
   console.log('onPresEsc');
   if (event.code === 'Escape') {
@@ -72,12 +92,12 @@ function onPressESC(event) {
     window.removeEventListener('keydown', onPressESC);
   }
 }
-  
+
 function closeOnClick(event) {
-refs.modalDetailedCard = document.querySelector('.modal');
-refs.modalInfo = document.querySelector('.modal-info');
-refs.modalGenreInfo = document.querySelector('.modal-info-genres');
-    
+  refs.modalDetailedCard = document.querySelector('.modal');
+  refs.modalInfo = document.querySelector('.modal-info');
+  refs.modalGenreInfo = document.querySelector('.modal-info-genres');
+
   switch (event.target.parentNode) {
     case refs.modalGenreInfo:
     case refs.modalInfo:
@@ -87,5 +107,5 @@ refs.modalGenreInfo = document.querySelector('.modal-info-genres');
       break;
     default:
       return;
-   }
-};
+  }
+}
