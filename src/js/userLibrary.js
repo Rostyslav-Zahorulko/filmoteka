@@ -2,10 +2,11 @@ const _ = require('lodash');
 
 // userWatched
 
-export let userWatched = [];
+// export let userWatched = [];
 
 export function updateUserWatched(movieData) {
-  let savedWatched = localStorage.getItem('userWatched');
+  let userWatched = [];
+  let savedWatched = localStorage.getItem('localWatched');
   if (savedWatched) {
     userWatched = JSON.parse(savedWatched);
   } else {
@@ -23,7 +24,7 @@ export function updateUserWatched(movieData) {
   console.log(userWatched);
   // const uniqWatched = _.uniq(userWatched, 'title');
   // console.log(uniqWatched);
-  localStorage.setItem('userWatched', JSON.stringify(userWatched));
+  return localStorage.setItem('localWatched', JSON.stringify(userWatched));
 }
 
 // QUEUE
