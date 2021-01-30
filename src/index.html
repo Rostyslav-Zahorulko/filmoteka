@@ -10,14 +10,37 @@
       rel="stylesheet"
     />
   </head>
-  <body>     
+  <body>
     <header class="header">
-      <div class="container header-container-js"></div>
+      <!-- //////////////////////////////// -->
+
+      <div class="backdrop js-backdrop">
+        <div class="modal">
+          <div id="firebaseui-auth-container"></div>
+          <button
+            type="button"
+            class="button-close-modal"
+            data-action="close-modal"
+          >
+            Close
+          </button>
+        </div>
+      </div>
+
+      <div class="container header-container-js">
+        <button class="js-singOut-button logButton" type="button">
+          singOut
+        </button>
+        <button data-action="open-modal" class="logButton" type="button">
+          logIn
+        </button>
+      </div>
+      <!-- //////////////////////////////// -->
     </header>
     <main>
-     <div class="container films-gallery-container">
-       <ul class="list-movie-search-js films-gallery"></ul>
-       <ul class="films-gallery" id="films-gallery"></ul>
+      <div class="container films-gallery-container">
+        <ul class="list-movie-search-js films-gallery"></ul>
+        <ul class="films-gallery" id="films-gallery"></ul>
       </div>
     </main>
     <footer class="footer">
@@ -34,4 +57,3 @@
     </footer>
   </body>
 </html>
-

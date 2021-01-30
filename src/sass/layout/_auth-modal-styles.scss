@@ -1,0 +1,104 @@
+body.show-modal .backdrop {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: initial;
+}
+
+body.show-modal .modal {
+  transform: scale(1);
+}
+
+.backdrop {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.3);
+  z-index: 999;
+
+  pointer-events: none;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 200ms ease-in-out, visibility 200ms ease-in-out;
+}
+
+.modal {
+  z-index: 9999;
+  border-radius: 4px;
+  max-width: 255px;
+  width: 100%;
+  min-height: 258px;
+  background-color: #fff;
+  box-shadow: 0px 1px 3px 0px rgba(0, 0, 0, 0.2),
+    0px 1px 1px 0px rgba(0, 0, 0, 0.14), 0px 2px 1px -1px rgba(0, 0, 0, 0.12);
+
+  transform: scale(1.1);
+  transition: transform 200ms ease-in-out;
+}
+
+.is-hidden {
+  display: none;
+}
+.button-close-modal {
+  margin-bottom: 15px;
+  margin-left: 24px;
+  margin-top: 5px;
+
+  border: none;
+  border-radius: 2px;
+  color: rgb(255, 255, 255);
+  height: 24px;
+
+  font-family: Roboto, Helvetica, Arial, sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+
+  line-height: 1;
+  letter-spacing: 0;
+  overflow: hidden;
+  will-change: box-shadow;
+  transition: box-shadow 0.2s cubic-bezier(0.4, 0, 1, 1),
+    background-color 0.2s cubic-bezier(0.4, 0, 0.2, 1),
+    color 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  outline: 0;
+  cursor: pointer;
+
+  text-align: center;
+
+  background: rgba(158, 158, 158, 0.2);
+
+  max-width: 207px;
+  min-height: 40px;
+  border-color: #007bff;
+  background-color: #007bff;
+  user-select: none;
+  height: auto;
+  width: 100%;
+}
+
+.logButton {
+  position: absolute;
+  margin-left: 7%;
+
+  margin-top: 121px;
+  width: 136px;
+  height: 44px;
+  border: 1px solid #ffffff;
+  border-radius: 5px;
+  font-size: 12px;
+  line-height: 16px;
+  text-align: center;
+  background-color: transparent;
+  color: #fff;
+}
+
+@media screen and (max-width: 767px) {
+  .logButton {
+    margin-top: 170px;
+    margin-left: 35%;
+  }
+}
