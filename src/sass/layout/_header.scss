@@ -183,7 +183,6 @@
   outline: none;
 }
 
-
 .header-search-warning-show {
   display: flex;
   justify-content: center;
@@ -212,4 +211,62 @@
   background-image: url(../images/search.svg);
   height: 12px;
   width: 12px;
+}
+
+/* СТили для пагинации временно тут */
+// Базовие стили
+.list-wrapper {
+  padding: 15px;
+  overflow: hidden;
+}
+
+.list-item {
+  border: 1px solid #eee;
+  background: #fff;
+  margin-bottom: 10px;
+  padding: 10px;
+  box-shadow: 0px 0px 10px 0px #eee;
+}
+
+.list-item h4 {
+  color: #ff7182;
+  font-size: 18px;
+  margin: 0 0 5px;
+}
+
+.list-item p {
+  margin: 0;
+}
+
+.simple-pagination ul {
+  margin: 0 0 20px;
+  padding: 0;
+  list-style: none;
+  text-align: center;
+}
+
+.simple-pagination li {
+  display: inline-block;
+  margin-right: 5px;
+}
+
+.simple-pagination li a,
+.simple-pagination li span {
+  color: #666;
+  padding: 5px 10px;
+  text-decoration: none;
+  border: 1px solid #eee;
+  background-color: #fff;
+  box-shadow: 0px 0px 10px 0px #eee;
+}
+
+.simple-pagination .current {
+  color: #fff;
+  background-color: #ff7182;
+  border-color: #ff7182;
+}
+
+.simple-pagination,
+.simple-pagination {
+  background: #e04e60;
 }

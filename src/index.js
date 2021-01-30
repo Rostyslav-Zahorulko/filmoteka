@@ -3,22 +3,62 @@ import './js/movieSearch.js'
 import * as homePageRendering from './js/homePageRendering';
 import * as modalMovie from './js/modalMovie';
 
+const query = '12'
+let pageNumber = 1
+ 
+
+
+// fetch(`https://api.themoviedb.org/3/search/movie?api_key=ffddee44025dd24685ea61d637d56d24&language=en-US&query=${query}&page=1&include_adult=false`)
+//     .then(res => res.json())
+//     .then(data => {
+//         console.log("data",data.total_results)
+//     const total_results = data.total_results
 /* Пагинация пока тут */
+$(function() {
+    (function(name) {
+        var container = $('#pagination-' + name);
+        container.pagination({
+          dataSource:`https://api.themoviedb.org/3/search/movie?&api_key=ffddee44025dd24685ea61d637d56d24&language=en-US&query=${query}&page=${pageNumber}&include_adult=false&pageNum=${pageNumber}&limit=${10}`,
+          totalNumber: 916,
+          locator: 'results',
+          pageSize: 20,
+        //   showPageNumbers: true,
+        //   showPrevious: true,
+        //   showNext: true,
+        //   showNavigator: true,
+        //   showFirstOnEllipsisShow: true,
+        //   showLastOnEllipsisShow: true,
+          ajax: {
+              beforeSend: function () {
+                  container.prev().html('Loading data from flickr.com ...');
+              },
+             
+          },
+          callback: function (response, pagination) {
+              window.console && console.log(22, response, pagination);
+              console.log('pagination', pagination);
+              pageNumber = pagination.pageNumber,
+                  console.log(response);
+            //  pageRange()
+              console.log(pageNumber)
+             
+                    
+          var dataHtml = '<ul>';
 
-// var items = $(".list-wrapper .list-item");
-//     var numItems = items.length;
-//     var perPage = 3;
+        $.each(response, function (index, results) {
+            dataHtml += '<li class="films-gallery-item list-item">' + results.title + '</li>';
+            dataHtml += `<img  <img class="films-gallery-item-image" src="https://image.tmdb.org/t/p/original${results.poster_path}" ></img>`;
+            
+        });
 
-//     items.slice(perPage).hide();
+        dataHtml += '</ul>';
 
-//     $('#pagination-container').pagination({
-//         items: numItems,
-//         itemsOnPage: perPage,
-//         prevText: "&laquo;",
-//         nextText: "&raquo;",
-//         onPageClick: function (pageNumber) {
-//             var showFrom = perPage * (pageNumber - 1);
-//             var showTo = showFrom + perPage;
-//             items.hide().slice(showFrom, showTo).show();
-//         }
-//     });
+        container.prev().html(dataHtml);
+        }
+        
+    })
+  })('demo2');
+})
+
+// })
+

@@ -4,20 +4,23 @@ import paginationjs from 'paginationjs'
 console.log(paginationjs);
 
 
-
+let pageNumbers = 1
+let inputValue =''
 export default function searchFilm(){
   const headerSearchForm = document.querySelector('.header-search-form')
   
   headerSearchForm.addEventListener('submit', (e) => {
     const liFilmsGalleryItem = document.querySelector('.films-gallery-item')
     const listMovie = document.querySelector('.list-movie-search-js')
-   
+    inputValue += e.target[0].value 
     if (liFilmsGalleryItem) {
       listMovie.innerHTML = ''
     }
     e.preventDefault()
     fetchApiSearch(e.target[0].value)
     e.target[0].value = ''
+ 
+    
     const filmsGalleryId = document.querySelector('#films-gallery');
     filmsGalleryId.innerHTML = ''
 
@@ -27,19 +30,23 @@ export default function searchFilm(){
 
 function fetchApiSearch(imputValue) {
 // const startingUrl = 'https://image.tmdb.org/t/p/original'
-const pageNumber = 1
+
 const query = imputValue
-const API = `https://api.themoviedb.org/3/search/movie?api_key=ffddee44025dd24685ea61d637d56d24&language=en-US&query=${query}&page=${pageNumber}&include_adult=false`
+const API = `https://api.themoviedb.org/3/search/movie?api_key=ffddee44025dd24685ea61d637d56d24&language=en-US&query=${query}&page=${pageNumbers}&include_adult=false`
 fetch(API)
 .then(res => res.json())
   .then(data => {
      showMoveNotFound(data)
-       makeNewObjectFilms(data)
+    makeNewObjectFilms(data)
+    // pagination(data)
+  
+
     })   
 
   const makeNewObjectFilms = function (data) {
-  const newData = data.results.map((item) => {
-    let curentGenres = [];
+    const newData = data.results.map((item) => {
+      let curentGenres = [];
+      // console.log(item.genre_ids);
     item.genre_ids.map((id) => {
       const found = decGenres.find((item) => item.id === id);
       curentGenres.push(found.name);
@@ -54,31 +61,17 @@ fetch(API)
       if (item.release_date) item.release_date = item.release_date.slice(0, 4);
     }
 
-    addMarkup(item)
+      addMarkup(item)
+     
     
-    // Тестовая пагинация
-    
-var items = $(".list-wrapper .list-item");
-    var numItems = items.length;
-    var perPage = 3;
-
-    items.slice(perPage).hide();
-
-    $('#pagination-container').pagination({
-        items: numItems,
-        itemsOnPage: perPage,
-        prevText: "&laquo;",
-        nextText: "&raquo;",
-        onPageClick: function (pageNumber) {
-            var showFrom = perPage * (pageNumber - 1);
-            var showTo = showFrom + perPage;
-            items.hide().slice(showFrom, showTo).show();
-        }
-    });
+  
+ 
   });
  
-};
+
+  };
 }
+
 
 
 function addMarkup(item) {
@@ -88,6 +81,8 @@ function addMarkup(item) {
         <p class="films-gallery-item-title films-gallery-item-description">${item.original_title}</p> 
         <p class="films-gallery-item-info films-gallery-item-description">${item.genre_ids} | ${item.release_date}</p>
         </li>`) 
+  
+  
 }
 
 function showMoveNotFound(data) {
@@ -98,3 +93,39 @@ function showMoveNotFound(data) {
        refs.headerSearchWarningShow().classList.remove('header-search-warning-show')
     }
 }
+
+
+// function pagination(data) {
+
+
+
+  //   console.log(data.total_results);
+  //   var items = $(".list-wrapper .list-item");
+  //   var numItems = data.total_results;
+  // var perPage = 9;
+
+  //   items.slice(perPage).hide();
+
+  //   $('#pagination-container').pagination({
+  //     items: numItems,
+  //       itemsOnPage: perPage,
+  //       prevText: "&laquo;",
+  //     nextText: "&raquo;",
+  //       onPageClick: function (pageNumber) {
+  //         var showFrom = perPage * (pageNumber - 1);
+  //         if (pageNumber === 4) {
+  //           pageNumbers += 1
+  //           console.log(inputValue);
+  //           fetchApiSearch(inputValue)
+  //         }
+  //         console.log('page', pageNumber);
+  //         var showTo = showFrom + perPage;
+  //         console.log('showFrom', showFrom);
+  //           items.hide().slice(showFrom, showTo).show();
+  //       }
+  //   });
+
+
+  
+     
+  //  }
