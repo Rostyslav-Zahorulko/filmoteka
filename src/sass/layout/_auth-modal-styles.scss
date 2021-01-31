@@ -1,14 +1,14 @@
-body.show-modal .backdrop {
+body.show-modal .header-backdrop {
   opacity: 1;
   visibility: visible;
   pointer-events: initial;
 }
 
-body.show-modal .modal {
+body.show-modal .header-modal {
   transform: scale(1);
 }
 
-.backdrop {
+.header-backdrop {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -26,7 +26,7 @@ body.show-modal .modal {
   transition: opacity 200ms ease-in-out, visibility 200ms ease-in-out;
 }
 
-.modal {
+.header-modal {
   z-index: 9999;
   border-radius: 4px;
   max-width: 255px;
