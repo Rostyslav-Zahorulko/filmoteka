@@ -7,6 +7,9 @@ const logOutbutton = document.querySelector('.js-singOut-button');
 
 const openModalBtn = document.querySelector('[data-action="open-modal"]');
 
+
+const userName = document.querySelector('.js-display-username');
+
 const qwert = document.querySelector('.logButton');
 console.log(qwert);
 const firebaseConfig = {
@@ -59,16 +62,14 @@ firebase.auth().onAuthStateChanged(firebaseUser => {
   if (firebaseUser) {
     logOutbutton.classList.remove('is-hidden');
 
-    // document.body.insertAdjacentHTML(
-    //   'beforeend',
-    //   `<span class = "qert">${firebaseUser.displayName} <br> ${firebaseUser.email}</span>`,
-    // );
+    userName.innerHTML = `${firebaseUser.displayName}`;
     document.body.classList.remove('show-modal');
     openModalBtn.classList.add('is-hidden');
     console.log(firebaseUser.email);
 
     console.log(firebaseUser.displayName + ' is logIn');
   } else {
+    userName.innerHTML = '';
     openModalBtn.classList.remove('is-hidden');
     logOutbutton.classList.add('is-hidden');
     console.log('not logget in');

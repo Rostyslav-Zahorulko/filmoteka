@@ -70,12 +70,12 @@ function addMarkup(item) {
       `) 
 }
 
+
+
 function showMoveNotFound(data) {
    if (data.results.length === 0) {
       console.log(refs.headerSearchWarningShow());
-        refs.headerSearchWarningShow().classList.add('header-search-warning-show')
+     refs.headerSearchWarningShow().classList.remove('is-hidden');
     }
-    else {
-       refs.headerSearchWarningShow().classList.remove('header-search-warning-show')
-    }
+    
 }
