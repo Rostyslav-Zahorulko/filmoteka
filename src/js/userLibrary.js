@@ -1,53 +1,65 @@
-const _ = require('lodash');
-
-// userWatched
-
-// export let userWatched = [];
+// WATCHED LIBRARY (ADD MOVIES TO USER WATCHeD IN THE LOCAL STORAGE)
+// LOCAL STORAGE KEY = localWatched
 
 export function updateUserWatched(movieData) {
   let userWatched = [];
-  let savedWatched = localStorage.getItem('localWatched');
-  if (savedWatched) {
-    userWatched = JSON.parse(savedWatched);
+  let localWatched = localStorage.getItem('localWatched');
+
+  if (localWatched) {
+    userWatched = JSON.parse(localWatched);
+    const isDublicate = userWatched.some(function (movie) {
+      return movie.id === movieData.id;
+    });
+    if (isDublicate) {
+      console.log('this movie has already been added');
+      // ЗДЕСЬ ДОБАВИТЬ НОТИФИКЕЙШН
+      return userWatched;
+    } else if (!isDublicate) {
+      userWatched.push(movieData);
+      return userWatched;
+    }
+    return userWatched;
   } else {
-    userWatched = [];
+    userWatched.push(movieData);
   }
 
-  userWatched.map(movie => {
-    if (movie.id === movieData.id) {
-      return console.log('already added');
-      // здесь добавить нотификейшн
-    }
-  });
-
-  userWatched.push(movieData);
-  console.log(userWatched);
-  // const uniqWatched = _.uniq(userWatched, 'title');
-  // console.log(uniqWatched);
-  return localStorage.setItem('localWatched', JSON.stringify(userWatched));
+  return userWatched;
 }
 
-// QUEUE
-export let userQueue = [];
+export function addToLocalWatched(array) {
+  // console.log(array);
+  localStorage.setItem('localWatched', JSON.stringify(array));
+}
+
+// QUEUE LIBRARY (ADD MOVIES TO USER QUEUE IN THE LOCAL STORAGE)
+// LOCAL STORAGE KEY = localQueue
 
 export function updateUserQueue(movieData) {
-  let savedQueue = localStorage.getItem('userQueue');
-  if (savedQueue) {
-    userQueue = JSON.parse(savedQueue);
+  let userQueue = [];
+  let localQueue = localStorage.getItem('localQueue');
+
+  if (localQueue) {
+    userQueue = JSON.parse(localQueue);
+    const isDublicate = userQueue.some(function (movie) {
+      return movie.id === movieData.id;
+    });
+    if (isDublicate) {
+      console.log('this movie has already been added');
+      // ЗДЕСЬ ДОБАВИТЬ НОТИФИКЕЙШН
+      return userQueue;
+    } else if (!isDublicate) {
+      userQueue.push(movieData);
+      return userQueue;
+    }
+    return userQueue;
   } else {
-    userQueue = [];
+    userQueue.push(movieData);
   }
 
-  userQueue.map(movie => {
-    if (movie.id === movieData.id) {
-      return console.log('already added');
-      // здесь добавить нотификейшн
-    }
-  });
+  return userQueue;
+}
 
-  userQueue.push(movieData);
-  console.log(userQueue);
-  // const uniqQueue = _.uniq(userQueue, 'id');
-  // console.log(uniqQueue);
-  localStorage.setItem('userQueue', JSON.stringify(userQueue));
+export function addToLocalQueue(array) {
+  // console.log(array);
+  localStorage.setItem('localQueue', JSON.stringify(array));
 }

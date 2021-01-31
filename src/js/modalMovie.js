@@ -2,9 +2,9 @@ import headerTemplates from './components/headers-tpl';
 import movieDetailedCardTemplate from '../templates/details-modal.hbs';
 import refs from './refs';
 import {
-  userWatched,
+  addToLocalWatched,
   updateUserWatched,
-  userQueue,
+  addToLocalQueue,
   updateUserQueue,
 } from './userLibrary';
 
@@ -30,7 +30,7 @@ function handleMovieDetails(event) {
         title: data.title,
         vote_average: data.vote_average,
         vote_count: data.vote_count,
-        popularity: Math.ceil(data.popularity*10)/10,
+        popularity: Math.ceil(data.popularity * 10) / 10,
         original_title: data.original_title,
         overview: data.overview,
         genres: data.genres.slice(0, 3),
@@ -60,13 +60,13 @@ function handleMovieDetails(event) {
       // WATCHED BUTTON HANDLER
       refs.addToWatchedBtn = document.querySelector('#js-watched-button');
       refs.addToWatchedBtn.addEventListener('click', e => {
-        updateUserWatched(newData);
+        addToLocalWatched(updateUserWatched(newData));
       });
 
       // QUEUE BUTTON HANDLER
       refs.addToQueueBtn = document.querySelector('#js-queue-button');
       refs.addToQueueBtn.addEventListener('click', e => {
-        updateUserQueue(newData);
+        addToLocalQueue(updateUserQueue(newData));
       });
     })
     .catch(error => console.log(error));
@@ -94,11 +94,11 @@ function onPressESC(event) {
 
 function closeOnClick(event) {
   switch (event.target) {
-  case refs.addToWatchedBtn:
-  case refs.addToQueueBtn:
-    break;
-  default:
-    closeMovieDetails();
-    refs.modalContainer.removeEventListener('click', closeOnClick);
-}
+    case refs.addToWatchedBtn:
+    case refs.addToQueueBtn:
+      break;
+    default:
+      closeMovieDetails();
+      refs.modalContainer.removeEventListener('click', closeOnClick);
+  }
 }
