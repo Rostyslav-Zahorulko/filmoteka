@@ -6,6 +6,8 @@ import {
   updateUserWatched,
   addToLocalQueue,
   updateUserQueue,
+  checkIfInQueue,
+  checkIfinWatched,
 } from './userLibrary';
 
 const apiKey = 'ffddee44025dd24685ea61d637d56d24';
@@ -61,6 +63,7 @@ function handleMovieDetails(event) {
       refs.addToWatchedBtn = document.querySelector('#js-watched-button');
       refs.addToWatchedBtn.addEventListener('click', e => {
         addToLocalWatched(updateUserWatched(newData));
+        checkIfInQueue(newData);
       });
 
       // QUEUE BUTTON HANDLER
