@@ -2,10 +2,12 @@ import headerTemplates from './components/headers-tpl';
 import movieDetailedCardTemplate from '../templates/details-modal.hbs';
 import refs from './refs';
 import {
-  userWatched,
+  addToLocalWatched,
   updateUserWatched,
-  userQueue,
+  addToLocalQueue,
   updateUserQueue,
+  checkIfInQueue,
+  checkIfinWatched,
 } from './userLibrary';
 
 const apiKey = 'ffddee44025dd24685ea61d637d56d24';
@@ -60,13 +62,14 @@ function handleMovieDetails(event) {
       // WATCHED BUTTON HANDLER
       refs.addToWatchedBtn = document.querySelector('#js-watched-button');
       refs.addToWatchedBtn.addEventListener('click', e => {
-        updateUserWatched(newData);
+        addToLocalWatched(updateUserWatched(newData));
+        checkIfInQueue(newData);
       });
 
       // QUEUE BUTTON HANDLER
       refs.addToQueueBtn = document.querySelector('#js-queue-button');
       refs.addToQueueBtn.addEventListener('click', e => {
-        updateUserQueue(newData);
+        addToLocalQueue(updateUserQueue(newData));
       });
     })
     .catch(error => console.log(error));
