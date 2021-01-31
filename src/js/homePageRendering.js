@@ -19,6 +19,10 @@ function renderHomePage(headerTemplates, currentPage, genres) {
   renderFilmsGallery(currentPage, genres);
 }
 
+function updateHeaderMarkup(headerTemplates) {
+  refs.header.insertAdjacentHTML('beforeend', headerTemplates);
+}
+
 function renderFilmsGallery(page, genres) {
   fetchTrends(page)
     .then(({ results }) => updateFilmsGalleryMarkup(results, genres))
@@ -59,11 +63,9 @@ function updateFilmsGalleryMarkup(films, genres) {
   });
 }
 
-function updateHeaderMarkup(headerTemplates) {
-  refs.header.insertAdjacentHTML('beforeend', headerTemplates);
-}
-
 renderHomePage(headerTemplates.homeHeader, currentPage, genres);
 
 // Функция поиска и рендера фильма
 searchFilm();
+
+export default renderFilmsGallery;
