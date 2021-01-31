@@ -16,7 +16,25 @@ const headerTemplates = {
         class="navigation-list-item-link link navigation-list-item-link-join-us">join us</a>
     </li>
   </ul>
-</nav></div>
+</nav>
+      <div class="backdrop js-backdrop">
+        <div class="modal">
+          <div id="firebaseui-auth-container"></div>
+          <button
+            type="button"
+            class="button-close-modal"
+            data-action="close-modal"
+          >
+            Close
+          </button>
+        </div>
+      </div>
+          <button class="js-singOut-button logButton" type="button">
+          singOut
+        </button>
+        <button data-action="open-modal" class="logButton" type="button">
+          logIn
+        </button></div>
   <form action="" class="header-search-form" id="search-form">
     <input type="text" name="query" class="header-search-form-input" placeholder="Поиск фильмов">
     <button class="header-search-form-btn" type="submit"></button>
