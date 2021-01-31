@@ -17,8 +17,8 @@ const headerTemplates = {
     </li>
   </ul>
 </nav>
-      <div class="backdrop js-backdrop">
-        <div class="modal">
+      <div class="header-backdrop js-backdrop">
+        <div class="header-modal">
           <div id="firebaseui-auth-container"></div>
           <button
             type="button"
