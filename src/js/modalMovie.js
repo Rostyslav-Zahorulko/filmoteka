@@ -30,7 +30,7 @@ function handleMovieDetails(event) {
         title: data.title,
         vote_average: data.vote_average,
         vote_count: data.vote_count,
-        popularity: Math.ceil(data.popularity*10)/10,
+        popularity: Math.ceil(data.popularity * 10) / 10,
         original_title: data.original_title,
         overview: data.overview,
         genres: data.genres.slice(0, 3),
@@ -94,11 +94,11 @@ function onPressESC(event) {
 
 function closeOnClick(event) {
   switch (event.target) {
-  case refs.addToWatchedBtn:
-  case refs.addToQueueBtn:
-    break;
-  default:
-    closeMovieDetails();
-    refs.modalContainer.removeEventListener('click', closeOnClick);
-}
+    case refs.addToWatchedBtn:
+    case refs.addToQueueBtn:
+      break;
+    default:
+      closeMovieDetails();
+      refs.modalContainer.removeEventListener('click', closeOnClick);
+  }
 }
