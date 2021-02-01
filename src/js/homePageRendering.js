@@ -1,12 +1,11 @@
 import headerTemplates from './components/headers-tpl';
-import searchFilm from './movieSearch.js';
 import genres from './decodingJenres';
+import { paginateTrends, paginateOnClick } from './pagination';
+import { showSpinner, hideSpinner } from './spinner';
 
 const refs = {
-  filmsGallery: document.querySelector('#films-gallery'),
   header: document.querySelector('.header-container-js'),
-  logo: document.querySelector('.header-logo-js'),
-  homeLink: document.querySelector('.navigation-list-item-link-home'),
+  filmsGallery: document.querySelector('#films-gallery'),
 };
 
 const path = 'https://api.themoviedb.org/3';
@@ -15,14 +14,28 @@ const key = 'ffddee44025dd24685ea61d637d56d24';
 let currentPage = 1;
 
 function renderHomePage(headerTemplates, currentPage, genres) {
+  showSpinner();
   updateHeaderMarkup(headerTemplates);
-  renderFilmsGallery(currentPage, genres);
+  renderFilmsGallery(currentPage, genres)
+    .then(({ totalAmountOfFilms }) => paginateTrends(totalAmountOfFilms))
+    .catch(console.log)
+    .finally(hideSpinner);
+  paginateOnClick();
+}
+
+function updateHeaderMarkup(headerTemplates) {
+  refs.header.insertAdjacentHTML('beforeend', headerTemplates);
 }
 
 function renderFilmsGallery(page, genres) {
-  fetchTrends(page)
-    .then(({ results }) => updateFilmsGalleryMarkup(results, genres))
-    .catch(console.log);
+  return fetchTrends(page).then(({ results, total_results }) => {
+    updateFilmsGalleryMarkup(results, genres);
+    const data = {
+      totalAmountOfFilms: total_results,
+    };
+
+    return data;
+  });
 }
 
 function fetchTrends(page) {
@@ -41,6 +54,16 @@ function updateFilmsGalleryMarkup(films, genres) {
     const mapedGenres = filteredGenres.map(({ name }) => name);
     // console.log('mapedGenres: ', mapedGenres);
 
+    let slicedMapedGenres = [];
+
+    if (mapedGenres.length < 3) {
+      slicedMapedGenres = mapedGenres;
+    } else {
+      slicedMapedGenres = mapedGenres.slice(0, 2);
+      slicedMapedGenres.push('Other');
+    }
+    // console.log('slicedMapedGenres: ', slicedMapedGenres);
+
     const markup = `
 <li class="films-gallery-item" data-id="${id}">
   <img
@@ -49,7 +72,7 @@ function updateFilmsGalleryMarkup(films, genres) {
     alt="«${title}» film poster"
   >
   <p class="films-gallery-item-title">${title.toUpperCase()}</p>
-  <p class="films-gallery-item-info">${mapedGenres.slice(0, 3).join(', ')} | ${
+  <p class="films-gallery-item-info">${slicedMapedGenres.join(', ')} | ${
       release_date.split('-')[0]
     }</p>
 </li>
@@ -59,11 +82,6 @@ function updateFilmsGalleryMarkup(films, genres) {
   });
 }
 
-function updateHeaderMarkup(headerTemplates) {
-  refs.header.insertAdjacentHTML('beforeend', headerTemplates);
-}
-
 renderHomePage(headerTemplates.homeHeader, currentPage, genres);
 
-// Функция поиска и рендера фильма
-searchFilm();
+export default renderFilmsGallery;

@@ -9,13 +9,34 @@
       href="https://fonts.googleapis.com/css2?family=Raleway:wght@700&family=Roboto:wght@400;500&display=swap"
       rel="stylesheet"
     />
+        <!--CDN Для пагинации  -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/simplePagination.js/1.4/jquery.simplePagination.min.js"
+      integrity="sha512-J4OD+6Nca5l8HwpKlxiZZ5iF79e9sgRGSf0GxLsL1W55HHdg48AEiKCXqvQCNtA1NOMOVrw15DXnVuPpBm2mPg=="
+      crossorigin="anonymous"></script>
+    <!-- Черновые стили пагинации -->    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/simplePagination.js/1.4/simplePagination.min.css"
+      integrity="sha512-85KEMf8eFSgiFrs/gGSVg0S6JqrmCtvVcA+s1PTMl/qtqH0ucmhrYrAFXock7iSjCaVcCMUNgCEF+sdQBUp7pA=="
+      crossorigin="anonymous" />
   </head>
   <body>
+    <!-- Спиннер -->
+    <div class="spinner-overlay js-spinner">
+      <svg class="spinner" viewBox="0 0 50 50">
+        <circle
+          class="path"
+          cx="25"
+          cy="25"
+          r="20"
+          fill="none"
+          stroke-width="5"
+        ></circle>
+      </svg>
+    </div>
+
+    <!-- Контент страницы -->
     <header class="header">
-      <!-- //////////////////////////////// -->
-
-
-
+      
       <div class="container header-container-js">
 
         <!-- header Login modal window -->
@@ -30,12 +51,14 @@
         </div>
     
       </div>
-      <!-- //////////////////////////////// -->
+      
     </header>
     <main>
       <div class="container films-gallery-container">
         <ul class="list-movie-search-js films-gallery"></ul>
         <ul class="films-gallery" id="films-gallery"></ul>
+        <div id="pagination" class="tui-pagination"></div>
+        <div id="pagination-container"></div>
       </div>
     </main>
     <footer class="footer">
