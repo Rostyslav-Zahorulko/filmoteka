@@ -79,25 +79,3 @@ body.show-modal .header-modal {
   height: auto;
   width: 100%;
 }
-
-.logButton {
-  position: absolute;
-  margin-left: 20px;
-  margin-top: 100px;
-  width: 136px;
-  height: 44px;
-  border: 1px solid #ffffff;
-  border-radius: 5px;
-  font-size: 12px;
-  line-height: 16px;
-  text-align: center;
-  background-color: transparent;
-  color: #fff;
-}
-
-@media screen and (max-width: 767px) {
-  .logButton {
-    margin-top: 120px;
-    margin-left: 35%;
-  }
-}

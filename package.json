@@ -54,6 +54,7 @@
     "firebase": "^8.2.5",
     "firebaseui": "^4.7.1",
     "handlebars": "^4.7.6",
-    "lodash": "^4.17.20"
+    "lodash": "^4.17.20",
+    "toastr": "^2.1.4"
   }
 }
