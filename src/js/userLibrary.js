@@ -1,4 +1,24 @@
 const _ = require('lodash');
+import toastr from 'toastr';
+import '../../node_modules/toastr/build/toastr.css';
+
+toastr.options = {
+  closeButton: true,
+  debug: false,
+  newestOnTop: true,
+  progressBar: false,
+  positionClass: 'toast-bottom-right',
+  preventDuplicates: false,
+  onclick: null,
+  showDuration: '200',
+  hideDuration: '400',
+  timeOut: '2000',
+  extendedTimeOut: '1000',
+  showEasing: 'swing',
+  hideEasing: 'linear',
+  showMethod: 'fadeIn',
+  hideMethod: 'fadeOut',
+};
 
 // WATCHED LIBRARY (ADD MOVIES TO USER WATCHeD IN THE LOCAL STORAGE)
 // LOCAL STORAGE KEY = localWatched
@@ -14,15 +34,17 @@ export function updateUserWatched(movieData) {
     });
     if (isDublicate) {
       console.log('this movie has already been added');
-      // ЗДЕСЬ ДОБАВИТЬ НОТИФИКЕЙШН
+      toastr['warning']('This movie has already been added');
       return userWatched;
     } else if (!isDublicate) {
       userWatched.push(movieData);
+      toastr['success']('Added to your Watched list');
       return userWatched;
     }
     return userWatched;
   } else {
     userWatched.push(movieData);
+    toastr['success']('Added to your Watched list');
   }
 
   return userWatched;
@@ -41,7 +63,7 @@ export function updateUserQueue(movieData) {
 
   if (isInWatched(movieData)) {
     console.log('you`ve already watched this movie');
-    // ЗДЕСЬ ДОБАВИТЬ НОТИФИКЕЙШН
+    toastr['warning']('You`ve alredy watched this movie');
     return userQueue;
   } else {
     let localQueue = localStorage.getItem('localQueue');
@@ -53,15 +75,17 @@ export function updateUserQueue(movieData) {
       });
       if (isDublicate) {
         console.log('this movie has already been added');
-        // ЗДЕСЬ ДОБАВИТЬ НОТИФИКЕЙШН
+        toastr['warning']('This movie has already been added');
         return userQueue;
       } else if (!isDublicate) {
         userQueue.push(movieData);
+        toastr['success']('Added to your Queue');
         return userQueue;
       }
       return userQueue;
     } else {
       userQueue.push(movieData);
+      toastr['success']('Added to your Queue');
     }
 
     return userQueue;
@@ -89,7 +113,6 @@ export function checkIfInQueue(movieData) {
       }
       _.remove(userQueue, getIndex(movieData));
       console.log('movie was deleted wrom Queue and added to watched');
-      // ЗДЕСЬ ДОБАВИТЬ НОТИФИКЕЙШН
       addToLocalQueue(userQueue);
     }
     return;
