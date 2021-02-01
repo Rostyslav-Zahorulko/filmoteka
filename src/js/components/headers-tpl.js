@@ -2,8 +2,8 @@ const headerTemplates = {
   homeHeader: `<div class=" header home-header header-container">
   <div class="header-nav-container">
     <a href="" class="header-logo logo link header-logo-js">
-    <span class="header-logo-img"></span>
-    <span class="header-logo-txt">Filmoteka</span></a>
+    <span class="header-logo-img header-logo-js"></span>
+    <span class="header-logo-txt header-logo-js">Filmoteka</span></a>
   
 <nav class="header-navigation">
   <ul class="header-navigation-list">
@@ -44,8 +44,8 @@ const headerTemplates = {
   myLibraryHeader: `<div class=" header my-library-header header-container">
   <div class="header-nav-container">
     <a href="" class="header-logo logo link header-logo-js">
-      <span class="header-logo-img"></span>
-      <span class="header-logo-txt">Filmoteka</span></a>
+      <span class="header-logo-img header-logo-js"></span>
+      <span class="header-logo-txt header-logo-js">Filmoteka</span></a>
   <nav class="header-navigation">
     <ul class="header-navigation-list">
       <li class="header-navigation-list-item"><a href=""
@@ -66,8 +66,8 @@ const headerTemplates = {
   modalHeader: `<div class="header modal-header header-container">
   <div class="header-nav-container">
     <a href="" class="header-logo logo link header-logo-js">
-      <span class="header-logo-img"></span>
-      <span class="header-logo-txt">Filmoteka</span></a>
+      <span class="header-logo-img header-logo-js"></span>
+      <span class="header-logo-txt header-logo-js">Filmoteka</span></a>
     <nav class="header-navigation">
       <ul class="header-navigation-list">
         <li class="header-navigation-list-item"><a href="" class="navigation-list-item-link link navigation-list-item-link-home">HOME</a></li>
