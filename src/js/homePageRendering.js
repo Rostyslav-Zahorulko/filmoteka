@@ -1,14 +1,12 @@
 import headerTemplates from './components/headers-tpl';
-import searchFilm from './movieSearch.js';
 import genres from './decodingJenres';
-import refs from './refs';
 
-// const refs = {
-//   filmsGallery: document.querySelector('#films-gallery'),
-//   header: document.querySelector('.header-container-js'),
-//   logo: document.querySelector('.header-logo-js'),
-//   homeLink: document.querySelector('.navigation-list-item-link-home'),
-// };
+const refs = {
+  header: document.querySelector('.header-container-js'),
+  filmsGallery: document.querySelector('#films-gallery'),
+  spinner: document.querySelector('.js-spinner'),
+};
+
 refs.spinner.classList.add('is-open');
 const path = 'https://api.themoviedb.org/3';
 const key = 'ffddee44025dd24685ea61d637d56d24';
@@ -27,15 +25,16 @@ function updateHeaderMarkup(headerTemplates) {
 function renderFilmsGallery(page, genres) {
   fetchTrends(page)
     .then(({ results }) => updateFilmsGalleryMarkup(results, genres))
-    .catch(console.log);
-}
-
-function fetchTrends(page) {
-  return fetch(`${path}/trending/movie/day?api_key=${key}&page=${page}`)
-    .then(response => response.json())
+    .catch(console.log)
     .finally(() => {
       refs.spinner.classList.remove('is-open');
     });
+}
+
+function fetchTrends(page) {
+  return fetch(
+    `${path}/trending/movie/day?api_key=${key}&page=${page}`,
+  ).then(response => response.json());
 }
 
 function updateFilmsGalleryMarkup(films, genres) {
@@ -67,8 +66,5 @@ function updateFilmsGalleryMarkup(films, genres) {
 }
 
 renderHomePage(headerTemplates.homeHeader, currentPage, genres);
-
-// Функция поиска и рендера фильма
-searchFilm();
 
 export default renderFilmsGallery;
