@@ -61,8 +61,11 @@ const provider = new firebase.auth.PhoneAuthProvider();
 firebase.auth().onAuthStateChanged(firebaseUser => {
   if (firebaseUser) {
     logOutbutton.classList.remove('is-hidden');
+    let displayName = firebaseUser.displayName;
+    
+  
 
-    userName.innerHTML = `${firebaseUser.displayName}`;
+    userName.innerHTML = `${displayName}`;
     document.body.classList.remove('show-modal');
     openModalBtn.classList.add('is-hidden');
     console.log(firebaseUser.email);
