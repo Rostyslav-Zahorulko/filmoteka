@@ -2,6 +2,7 @@ import headerTemplates from './components/headers-tpl';
 import genres from './decodingJenres';
 import { paginateTrends, paginateOnClick } from './pagination';
 import { showSpinner, hideSpinner } from './spinner';
+import modal from './modalMovie';
 
 const refs = {
   header: document.querySelector('.header-container-js'),
@@ -26,7 +27,6 @@ function renderHomePage(headerTemplates, currentPage, genres) {
 
 function reRendering(event) {
   event.preventDefault();
-  console.log(event);
   const onclickedLinkName = event.target.textContent;
   const watchedFilms = JSON.parse(localStorage.getItem('localWatched'));
   const queuedFilms = JSON.parse(localStorage.getItem('localQueue'));
@@ -34,15 +34,16 @@ function reRendering(event) {
     event.target.parentNode.classList.contains('header-logo-js') ||
     onclickedLinkName === 'HOME'
   ) {
-    renderHomePage(headerTemplates.homeHeader, currentPage, genres);
+    refs.filmsGallery.innerHTML = '';
+    renderHomePage(headerTemplates.homeHeader, (currentPage = 1), genres);
   }
   if (onclickedLinkName === 'MY LIBRARY' || onclickedLinkName === 'watched') {
     updateHeaderMarkup(headerTemplates.myLibraryHeader);
+    const paginationContainer = document.querySelector('#pagination');
+    paginationContainer.innerHTML = '';
     const watchedBtn = document.querySelector('.header-button-watched');
     watchedBtn.classList.add('is-active-btn');
     updateFilmsLibraryMarkup(watchedFilms);
-    const paginationContainer = document.querySelector('#pagination');
-    paginationContainer.innerHTML = '';
   }
 
   if (onclickedLinkName === 'watched') {
@@ -66,7 +67,7 @@ function updateFilmsLibraryMarkup(films) {
   refs.filmsGallery.innerHTML = '';
   if (films) {
     films.map(({ genres, id, poster_path, title, release_date }) => {
-      const mapedGenres = genres.map(({ name }) => name);
+      // const mapedGenres = genres.map(({ name }) => name);
       const markup = `
 <li class="films-gallery-item" data-id="${id}">
   <img
@@ -75,7 +76,7 @@ function updateFilmsLibraryMarkup(films) {
     alt="«${title}» film poster"
   >
   <p class="films-gallery-item-title">${title.toUpperCase()}</p>
-  <p class="films-gallery-item-info">${mapedGenres.slice(0, 3).join(', ')} | ${
+  <p class="films-gallery-item-info">${genres.slice(0, 3).join(', ')} | ${
         release_date.split('-')[0]
       }</p>
 </li>
