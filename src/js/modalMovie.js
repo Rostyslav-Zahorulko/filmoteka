@@ -99,7 +99,7 @@ function renderMovieDetailsPage(modalMovieCard) {
 
 function closeMovieDetails() {
   refs.header.innerHTML = "";
-  refs.header.insertAdjacentHTML('beforeend', headerTemplates.header);
+  refs.header.insertAdjacentHTML('beforeend', headerTemplates.homeHeader);
   document.querySelector('.modal').remove();
   refs.filmsGalleryList.style.display = "flex";
   refs.filmsGalleryListSearch.style.display = "flex";
