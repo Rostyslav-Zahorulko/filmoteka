@@ -63,8 +63,8 @@ function handleMovieDetails(event) {
       // WATCHED BUTTON HANDLER
       refs.addToWatchedBtn = document.querySelector('#js-watched-button');
       refs.addToWatchedBtn.addEventListener('click', e => {
-        addToLocalWatched(updateUserWatched(newData));
         checkIfInQueue(newData);
+        addToLocalWatched(updateUserWatched(newData));
       });
 
       // QUEUE BUTTON HANDLER
