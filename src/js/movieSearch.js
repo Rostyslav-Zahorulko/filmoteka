@@ -7,6 +7,9 @@ function searchFilm() {
   headerSearchForm.addEventListener('submit', e => {
     const liFilmsGalleryItem = document.querySelector('.films-gallery-item');
     const listMovie = document.querySelector('.list-movie-search-js');
+    const paginationRostisl = document.querySelector('#pagination');
+
+    paginationRostisl.innerHTML = ''
 
     if (liFilmsGalleryItem) {
       listMovie.innerHTML = '';
