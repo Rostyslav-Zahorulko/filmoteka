@@ -1,21 +1,26 @@
 import headerTemplates from './components/headers-tpl';
 import genres from './decodingJenres';
+import { paginateTrends, paginateOnClick } from './pagination';
+import { showSpinner, hideSpinner } from './spinner';
 
 const refs = {
   header: document.querySelector('.header-container-js'),
   filmsGallery: document.querySelector('#films-gallery'),
-  spinner: document.querySelector('.js-spinner'),
 };
 
-refs.spinner.classList.add('is-open');
 const path = 'https://api.themoviedb.org/3';
 const key = 'ffddee44025dd24685ea61d637d56d24';
 
 let currentPage = 1;
 
 function renderHomePage(headerTemplates, currentPage, genres) {
+  showSpinner();
   updateHeaderMarkup(headerTemplates);
-  renderFilmsGallery(currentPage, genres);
+  renderFilmsGallery(currentPage, genres)
+    .then(({ totalAmountOfFilms }) => paginateTrends(totalAmountOfFilms))
+    .catch(console.log)
+    .finally(hideSpinner);
+  paginateOnClick();
 }
 
 function updateHeaderMarkup(headerTemplates) {
@@ -23,12 +28,14 @@ function updateHeaderMarkup(headerTemplates) {
 }
 
 function renderFilmsGallery(page, genres) {
-  fetchTrends(page)
-    .then(({ results }) => updateFilmsGalleryMarkup(results, genres))
-    .catch(console.log)
-    .finally(() => {
-      refs.spinner.classList.remove('is-open');
-    });
+  return fetchTrends(page).then(({ results, total_results }) => {
+    updateFilmsGalleryMarkup(results, genres);
+    const data = {
+      totalAmountOfFilms: total_results,
+    };
+
+    return data;
+  });
 }
 
 function fetchTrends(page) {
