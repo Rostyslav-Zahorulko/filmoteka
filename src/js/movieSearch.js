@@ -9,7 +9,7 @@ function searchFilm() {
     const listMovie = document.querySelector('.list-movie-search-js');
     const paginationRostisl = document.querySelector('#pagination');
 
-    paginationRostisl.innerHTML = ''
+    paginationRostisl.innerHTML = '';
 
     if (liFilmsGalleryItem) {
       listMovie.innerHTML = '';
@@ -25,47 +25,46 @@ function searchFilm() {
 }
 
 function fetchApiSearch(imputValue) {
-// const startingUrl = 'https://image.tmdb.org/t/p/original'
-const pageNumber = 1
-const query = imputValue
-const API = `https://api.themoviedb.org/3/search/movie?api_key=ffddee44025dd24685ea61d637d56d24&language=en-US&query=${query}&page=${pageNumber}&include_adult=false`
-fetch(API)
-.then(res => res.json())
-  .then(data => {
-     showMoveNotFound(data)
-    makeNewObjectFilms(data)
-    refs.spinner.classList.remove('is-open');
-    console.log(data);
+  // const startingUrl = 'https://image.tmdb.org/t/p/original'
+  const pageNumber = 1;
+  const query = imputValue;
+  const API = `https://api.themoviedb.org/3/search/movie?api_key=ffddee44025dd24685ea61d637d56d24&language=en-US&query=${query}&page=${pageNumber}&include_adult=false`;
+  fetch(API)
+    .then(res => res.json())
+    .then(data => {
+      showMoveNotFound(data);
+      makeNewObjectFilms(data);
+      refs.spinner.classList.remove('is-open');
+      console.log(data);
 
-var items = $(".list-wrapper .list-item");
-    var numItems = data.total_pages;
-    var perPage = 20;
+      var items = $('.list-wrapper .list-item');
+      var numItems = data.total_pages;
+      var perPage = 20;
 
-    items.slice(perPage).hide();
+      items.slice(perPage).hide();
 
-    $('#pagination-container').pagination({
+      $('#pagination-container').pagination({
         items: numItems,
         itemsOnPage: perPage,
-        prevText: "&laquo;",
-        nextText: "&raquo;",
-      onPageClick: function (pageNumber) {
-        const listMovie = document.querySelector('.list-movie-search-js')
-        listMovie.innerHTML = ''
-        fetch(`https://api.themoviedb.org/3/search/movie?api_key=ffddee44025dd24685ea61d637d56d24&language=en-US&query=${query}&page=${pageNumber}&include_adult=false`)
-          .then(res => res.json())
-          .then(data => {
-            showMoveNotFound(data)
-            makeNewObjectFilms(data)
-            console.log(data);
-            // var showFrom = perPage * (pageNumber - 1);
-            // var showTo = showFrom + perPage;
-          })
-      }
+        prevText: '&laquo;',
+        nextText: '&raquo;',
+        onPageClick: function (pageNumber) {
+          const listMovie = document.querySelector('.list-movie-search-js');
+          listMovie.innerHTML = '';
+          fetch(
+            `https://api.themoviedb.org/3/search/movie?api_key=ffddee44025dd24685ea61d637d56d24&language=en-US&query=${query}&page=${pageNumber}&include_adult=false`,
+          )
+            .then(res => res.json())
+            .then(data => {
+              showMoveNotFound(data);
+              makeNewObjectFilms(data);
+              console.log(data);
+              // var showFrom = perPage * (pageNumber - 1);
+              // var showTo = showFrom + perPage;
+            });
+        },
+      });
     });
-  
-    
-    })   
-
 
   const makeNewObjectFilms = function (data) {
     const newData = data.results.map(item => {
@@ -106,11 +105,7 @@ function addMarkup(item) {
 function showMoveNotFound(data) {
   if (data.results.length === 0) {
     console.log(refs.headerSearchWarningShow());
-    refs.headerSearchWarningShow().classList.add('header-search-warning-show');
-  } else {
-    refs
-      .headerSearchWarningShow()
-      .classList.remove('header-search-warning-show');
+    refs.headerSearchWarningShow().classList.remove('is-hidden');
   }
 }
 
