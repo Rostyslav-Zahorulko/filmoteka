@@ -47,6 +47,16 @@ function updateFilmsGalleryMarkup(films, genres) {
     const mapedGenres = filteredGenres.map(({ name }) => name);
     // console.log('mapedGenres: ', mapedGenres);
 
+    let slicedMapedGenres = [];
+
+    if (mapedGenres.length < 3) {
+      slicedMapedGenres = mapedGenres;
+    } else {
+      slicedMapedGenres = mapedGenres.slice(0, 2);
+      slicedMapedGenres.push('Other');
+    }
+    // console.log('slicedMapedGenres: ', slicedMapedGenres);
+
     const markup = `
 <li class="films-gallery-item" data-id="${id}">
   <img
@@ -55,7 +65,7 @@ function updateFilmsGalleryMarkup(films, genres) {
     alt="«${title}» film poster"
   >
   <p class="films-gallery-item-title">${title.toUpperCase()}</p>
-  <p class="films-gallery-item-info">${mapedGenres.slice(0, 3).join(', ')} | ${
+  <p class="films-gallery-item-info">${slicedMapedGenres.join(', ')} | ${
       release_date.split('-')[0]
     }</p>
 </li>
