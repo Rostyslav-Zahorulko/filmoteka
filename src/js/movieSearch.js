@@ -1,7 +1,7 @@
 import refs from './refs.js';
 import decGenres from './decodingJenres.js';
 
-export default function searchFilm() {
+function searchFilm() {
   const headerSearchForm = document.querySelector('.header-search-form');
 
   headerSearchForm.addEventListener('submit', e => {
@@ -82,3 +82,5 @@ function showMoveNotFound(data) {
       .classList.remove('header-search-warning-show');
   }
 }
+
+searchFilm();
