@@ -24,6 +24,7 @@ function handleMovieDetails(event) {
     return;
   }
   movieId = event.target.parentNode.dataset.id;
+  refs.spinner.classList.add('is-open');
   getMovieDetails(baseUrl, apiKey, movieId)
     .then(data => {
       const newData = {
@@ -72,7 +73,10 @@ function handleMovieDetails(event) {
         addToLocalQueue(updateUserQueue(newData));
       });
     })
-    .catch(error => console.log(error));
+    .catch(error => console.log(error))
+    .finally(() => {
+      refs.spinner.classList.remove('is-open');
+    });
 }
 
 function getMovieDetails(baseUrl, apiKey, movieId) {
