@@ -3,6 +3,7 @@ import 'tui-pagination/dist/tui-pagination.css';
 import renderFilmsGallery from './homePageRendering';
 import genres from './decodingJenres';
 
+
 function paginateTrends(totalAmountOfFilms) {
   const options = {
     totalItems: totalAmountOfFilms,
