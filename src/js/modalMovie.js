@@ -90,6 +90,8 @@ function renderMovieDetailsPage(modalMovieCard) {
   refs.header.innerHTML = "";
   refs.filmsGalleryList.innerHTML = "";
   refs.filmsGalleryListSearch.innerHTML = "";
+  refs.filmsGalleryList.style.display = "none";
+  refs.filmsGalleryListSearch.style.display = "none";
   refs.pagination.style.display = "none";
   refs.header.insertAdjacentHTML('beforeend', headerTemplates.modalHeader);
   refs.filmsGallery.insertAdjacentHTML('afterbegin', modalMovieCard);
@@ -99,6 +101,8 @@ function closeMovieDetails() {
   refs.header.innerHTML = "";
   refs.header.insertAdjacentHTML('beforeend', headerTemplates.header);
   document.querySelector('.modal').remove();
+  refs.filmsGalleryList.style.display = "flex";
+  refs.filmsGalleryListSearch.style.display = "flex";
   renderFilmsGallery(currentPage, genres);
   refs.pagination.style.display = "block";
 }
