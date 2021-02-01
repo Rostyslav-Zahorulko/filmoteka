@@ -1,5 +1,7 @@
 import headerTemplates from './components/headers-tpl';
 import movieDetailedCardTemplate from '../templates/details-modal.hbs';
+import renderFilmsGallery from './homePageRendering';
+import genres from './decodingJenres';
 import refs from './refs';
 import {
   addToLocalWatched,
@@ -13,16 +15,25 @@ import {
 const apiKey = 'ffddee44025dd24685ea61d637d56d24';
 const baseUrl = 'https://api.themoviedb.org/3/movie/';
 let movieId = 0;
+let currentPage = 0;
 
 refs.filmsGallery = document.querySelector('.films-gallery-container');
-refs.body = document.querySelector('body');
+refs.header = document.querySelector('.header-container-js');
+refs.main = document.querySelector("main");
+refs.filmsGalleryListSearch = document.querySelector('.list-movie-search-js');
+refs.filmsGalleryList = document.querySelector('#films-gallery');
+refs.pagination = document.querySelector("#pagination");
 
-refs.filmsGallery.addEventListener('click', handleMovieDetails);
+refs.filmsGalleryList.addEventListener('click', handleMovieDetails);
+refs.filmsGalleryListSearch.addEventListener('click', handleMovieDetails);
 
 function handleMovieDetails(event) {
   if (event.target.parentNode.nodeName !== 'LI') {
     return;
-  }
+  };
+  refs.currentPage = document.querySelector('.tui-is-selected');
+  currentPage = Number(refs.currentPage.textContent);
+  
   movieId = event.target.parentNode.dataset.id;
   refs.spinner.classList.add('is-open');
   getMovieDetails(baseUrl, apiKey, movieId)
@@ -36,29 +47,17 @@ function handleMovieDetails(event) {
         popularity: Math.ceil(data.popularity * 10) / 10,
         original_title: data.original_title,
         overview: data.overview,
-        genres: data.genres.slice(0, 3),
+        genres: data.genres.slice(0, 2).map(({ name }) => name),
       };
+      if (data.genres.length > 2) {
+        newData.genres.push('Other');
+      }
 
       const modalMovieCard = movieDetailedCardTemplate(newData);
-      const markup = `<div class="modal-backdrop">
-    ${headerTemplates.modalHeader}
-    ${modalMovieCard}
-    <footer class="footer">
-      <div class="block">
-        <p class="text">&#169; 2020 | All Rights Reserved |</p>
-        <div class="mob-container">
-          <p class="develop-text">Developed with</p>
-          <span class="footer-heart-svg heart-svg"></span>
-          <a class="open-modal-develop" href="#">by GoIT Students</a>
-        </div>
-      </div>
-    </footer>
-    </div>`;
-      refs.body.insertAdjacentHTML('beforeend', markup);
+      renderMovieDetailsPage(modalMovieCard);
 
       window.addEventListener('keydown', onPressESC);
-      refs.modalContainer = document.querySelector('.modal-container');
-      refs.modalContainer.addEventListener('click', closeOnClick);
+      refs.main.addEventListener('click', closeOnClick);
 
       // WATCHED BUTTON HANDLER
       refs.addToWatchedBtn = document.querySelector('#js-watched-button');
@@ -87,9 +86,21 @@ function getMovieDetails(baseUrl, apiKey, movieId) {
     });
 }
 
+function renderMovieDetailsPage(modalMovieCard) {
+  refs.header.innerHTML = "";
+  refs.filmsGalleryList.innerHTML = "";
+  refs.filmsGalleryListSearch.innerHTML = "";
+  refs.pagination.style.display = "none";
+  refs.header.insertAdjacentHTML('beforeend', headerTemplates.modalHeader);
+  refs.filmsGallery.insertAdjacentHTML('afterbegin', modalMovieCard);
+}
+
 function closeMovieDetails() {
-  refs.modalCard = document.querySelector('.modal-backdrop');
-  refs.modalCard.remove();
+  refs.header.innerHTML = "";
+  refs.header.insertAdjacentHTML('beforeend', headerTemplates.header);
+  document.querySelector('.modal').remove();
+  renderFilmsGallery(currentPage, genres);
+  refs.pagination.style.display = "block";
 }
 
 function onPressESC(event) {
@@ -106,6 +117,6 @@ function closeOnClick(event) {
       break;
     default:
       closeMovieDetails();
-      refs.modalContainer.removeEventListener('click', closeOnClick);
+      refs.main.removeEventListener('click', closeOnClick);
   }
 }
