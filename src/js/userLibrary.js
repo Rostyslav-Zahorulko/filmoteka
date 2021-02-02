@@ -60,32 +60,34 @@ export function addToLocalWatched(array) {
 
 export function updateUserQueue(movieData) {
   let userQueue = [];
-  let localQueue = localStorage.getItem('localQueue');
 
-  if (localQueue) {
-    userQueue = JSON.parse(localQueue);
+  if (isInWatched(movieData)) {
+    console.log('you`ve already watched this movie');
+    toastr['warning']('You`ve alredy watched this movie');
+    return userQueue;
+  } else {
+    let localQueue = localStorage.getItem('localQueue');
 
-    if (isInWatched(movieData)) {
-      console.log('you`ve already watched this movie');
-      toastr['warning']('You`ve alredy watched this movie');
+    if (localQueue) {
+      userQueue = JSON.parse(localQueue);
+      const isDublicate = userQueue.some(function (movie) {
+        return movie.id === movieData.id;
+      });
+      if (isDublicate) {
+        console.log('this movie has already been added');
+        toastr['warning']('This movie has already been added');
+        return userQueue;
+      } else if (!isDublicate) {
+        userQueue.push(movieData);
+        toastr['success']('Added to your Queue');
+        return userQueue;
+      }
       return userQueue;
-    }
-
-    const isDublicate = userQueue.some(function (movie) {
-      return movie.id === movieData.id;
-    });
-    if (isDublicate) {
-      console.log('this movie has already been added');
-      toastr['warning']('This movie has already been added');
-      return userQueue;
-    } else if (!isDublicate) {
+    } else {
       userQueue.push(movieData);
       toastr['success']('Added to your Queue');
-      return userQueue;
     }
-  } else {
-    userQueue.push(movieData);
-    toastr['success']('Added to your Queue');
+
     return userQueue;
   }
 }
@@ -97,25 +99,27 @@ export function addToLocalQueue(array) {
 
 // CHECK IF WATCHED MOVIE IS ON QUEUE. DELETE IF SO
 export function checkIfInQueue(movieData) {
-  // let userQueue = [];
+  let userQueue = [];
   let localQueue = localStorage.getItem('localQueue');
 
   if (localQueue) {
-    let userQueue = JSON.parse(localQueue);
+    userQueue = JSON.parse(localQueue);
     const isDublicate = userQueue.some(function (movie) {
       return movie.id === movieData.id;
     });
     if (isDublicate) {
-      let movieIndex = userQueue.findIndex(movie => movie.id === movieData.id);
-      userQueue.splice(movieIndex, 1);
+      function getIndex(item) {
+        _.indexOf(userQueue, item);
+      }
+      _.remove(userQueue, getIndex(movieData));
       console.log('movie was deleted wrom Queue and added to watched');
       addToLocalQueue(userQueue);
     }
-    // return;
+    return;
   }
 }
 
-// IS THIS MOVIE IS ALREADY WATCHED (DO NOT ADD TO QUEUE)
+// IS THIS MOWIE IS ALREADY WATCHED (DO NOT ADD TO QUEUE)
 function isInWatched(movieData) {
   let userWatched = [];
   let localWatched = localStorage.getItem('localWatched');
