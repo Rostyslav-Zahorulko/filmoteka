@@ -1,5 +1,5 @@
 import * as basicLightbox from 'basiclightbox';
-const markup = `<div class="team-wrapper">
+const markupStudent = `<div class="team-wrapper">
 <div class="team-card">
  <img
     class="team-image"
@@ -101,11 +101,11 @@ const markup = `<div class="team-wrapper">
 </div>`;
 const container = document.querySelector('.open-modal-develop');
 
-container.addEventListener('click', openModal);
+container.addEventListener('click', openModalStudent);
 
-const modal = basicLightbox.create(markup);
+const modal = basicLightbox.create(markupStudent);
 
-function openModal(e) {
+function openModalStudent(e) {
   modal.show();
 
   window.addEventListener('keydown', closeModalHandler);
