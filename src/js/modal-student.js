@@ -1,4 +1,6 @@
 import * as basicLightbox from 'basiclightbox';
+import photoRed from '../images/photo-red.jpg';
+
 const markupStudent = `<div class="team-wrapper">
 <div class="team-card">
  <img
@@ -21,7 +23,7 @@ const markupStudent = `<div class="team-wrapper">
 <div class="team-card">
     <img
     class="team-image"
-    src="https://ca.slack-edge.com/T01AD58HHH7-U01A9LTBZA8-d98ef4f21eca-512"
+    src="https://ca.slack-edge.com/T01AD58HHH7-U01A9LTBZA8-06cbe1fcd7b6-512"
   >
     <p class="team-name">Oksana Cherepanova</p>
     <p class="team-role">Developer</p>
@@ -39,7 +41,7 @@ const markupStudent = `<div class="team-wrapper">
 <div class="team-card">
     <img
     class="team-image"
-    src="https://ca.slack-edge.com/T01AD58HHH7-U01A3BS63M0-aac3cdcbf412-512"
+    src="https://ca.slack-edge.com/T01AD58HHH7-U01AT710YLQ-3a6d16128ec7-512"
   >
     <p class="team-name">David Shakaya</p>
     <p class="team-role">Developer</p>
@@ -66,7 +68,7 @@ const markupStudent = `<div class="team-wrapper">
 <div class="team-card">
     <img
     class="team-image"
-    src="https://ca.slack-edge.com/T01AD58HHH7-U01A3BS63M0-aac3cdcbf412-512"
+    src="https://ca.slack-edge.com/T01AD58HHH7-U019WKPR89L-21c1789a67bc-512"
   >
     <p class="team-name">Serhii Koziuba</p>
     <p class="team-role">Developer</p>
@@ -84,7 +86,7 @@ const markupStudent = `<div class="team-wrapper">
 <div class="team-card">
     <img
     class="team-image"
-    src="https://ca.slack-edge.com/T01AD58HHH7-U01A3BS63M0-aac3cdcbf412-512"
+    src="${photoRed}"
   >
     <p class="team-name">Iryna Redka</p>
     <p class="team-role">Developer</p>
