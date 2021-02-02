@@ -81,38 +81,6 @@ export function addToLocalWatched(array) {
 // QUEUE LIBRARY (ADD MOVIES TO USER QUEUE IN THE LOCAL STORAGE)
 // LOCAL STORAGE KEY = localQueue
 
-// export function updateUserQueue(movieData) {
-//   let userQueue = [];
-//   let localQueue = localStorage.getItem('localQueue');
-
-//   if (localQueue) {
-//     userQueue = JSON.parse(localQueue);
-
-//     if (isInWatched(movieData)) {
-//       console.log('you`ve already watched this movie');
-//       toastr['warning']('You`ve alredy watched this movie');
-//       return userQueue;
-//     }
-
-//     const isDublicate = userQueue.some(function (movie) {
-//       return movie.id === movieData.id;
-//     });
-//     if (isDublicate) {
-//       console.log('this movie has already been added');
-//       toastr['warning']('This movie has already been added');
-//       return userQueue;
-//     } else if (!isDublicate) {
-//       userQueue.push(movieData);
-//       toastr['success']('Added to your Queue');
-//       return userQueue;
-//     }
-//   } else {
-//     userQueue.push(movieData);
-//     toastr['success']('Added to your Queue');
-//     return userQueue;
-//   }
-// }
-
 export function updateUserQueue(movieData) {
   let userQueue = [];
   let localQueue = localStorage.getItem('localQueue');
@@ -133,23 +101,23 @@ export function updateUserQueue(movieData) {
         console.log('you`ve already watched this movie');
         toastr['warning']('You`ve alredy watched this movie');
         return userQueue;
-      }
-
-      const isDublicate = userQueue.some(function (movie) {
-        return movie.id === movieData.id;
-      });
-      if (isDublicate) {
-        console.log('this movie has already been added');
-        toastr['warning']('This movie has already been added');
-        return userQueue;
-      } else if (!isDublicate) {
-        userQueue.push(movieData);
-        movieData.isInQueue = true;
-        toastr['success']('Added to your Queue');
-        // изменение текста кнопки
-        refs.addToQueueBtn.textContent = 'In Queue (remove)';
-        refs.addToQueueBtn.classList.add('js-is-in-queue');
-        return userQueue;
+      } else {
+        const isDublicate = userQueue.some(function (movie) {
+          return movie.id === movieData.id;
+        });
+        if (isDublicate) {
+          console.log('this movie has already been added');
+          toastr['warning']('This movie has already been added');
+          return userQueue;
+        } else if (!isDublicate) {
+          userQueue.push(movieData);
+          movieData.isInQueue = true;
+          toastr['success']('Added to your Queue');
+          // изменение текста кнопки
+          refs.addToQueueBtn.textContent = 'In Queue (remove)';
+          refs.addToQueueBtn.classList.add('js-is-in-queue');
+          return userQueue;
+        }
       }
     }
   } else {
