@@ -9,7 +9,7 @@ import {
   addToLocalQueue,
   updateUserQueue,
   checkIfInQueue,
-  checkIfinWatched,
+  checkIfIsInUserLibrary,
 } from './userLibrary';
 
 const apiKey = 'ffddee44025dd24685ea61d637d56d24';
@@ -19,10 +19,10 @@ let currentPage = 0;
 
 refs.filmsGallery = document.querySelector('.films-gallery-container');
 refs.header = document.querySelector('.header-container-js');
-refs.main = document.querySelector("main");
+refs.main = document.querySelector('main');
 refs.filmsGalleryListSearch = document.querySelector('.list-movie-search-js');
 refs.filmsGalleryList = document.querySelector('#films-gallery');
-refs.pagination = document.querySelector("#pagination");
+refs.pagination = document.querySelector('#pagination');
 
 refs.filmsGalleryList.addEventListener('click', handleMovieDetails);
 refs.filmsGalleryListSearch.addEventListener('click', handleMovieDetails);
@@ -30,10 +30,10 @@ refs.filmsGalleryListSearch.addEventListener('click', handleMovieDetails);
 function handleMovieDetails(event) {
   if (event.target.parentNode.nodeName !== 'LI') {
     return;
-  };
+  }
   refs.currentPage = document.querySelector('.tui-is-selected');
   currentPage = Number(refs.currentPage.textContent);
-  
+
   movieId = event.target.parentNode.dataset.id;
   refs.spinner.classList.add('is-open');
   getMovieDetails(baseUrl, apiKey, movieId)
@@ -56,18 +56,21 @@ function handleMovieDetails(event) {
       const modalMovieCard = movieDetailedCardTemplate(newData);
       renderMovieDetailsPage(modalMovieCard);
 
+      // ADD BUTTUNS & CHECK IF THE MOVIE IS IN USER LIBRARY
+      refs.addToWatchedBtn = document.querySelector('#js-watched-button');
+      refs.addToQueueBtn = document.querySelector('#js-queue-button');
+      checkIfIsInUserLibrary(newData);
+
       window.addEventListener('keydown', onPressESC);
       refs.main.addEventListener('click', closeOnClick);
 
       // WATCHED BUTTON HANDLER
-      refs.addToWatchedBtn = document.querySelector('#js-watched-button');
       refs.addToWatchedBtn.addEventListener('click', e => {
-        addToLocalWatched(updateUserWatched(newData));
         checkIfInQueue(newData);
+        addToLocalWatched(updateUserWatched(newData));
       });
 
       // QUEUE BUTTON HANDLER
-      refs.addToQueueBtn = document.querySelector('#js-queue-button');
       refs.addToQueueBtn.addEventListener('click', e => {
         addToLocalQueue(updateUserQueue(newData));
       });
@@ -87,24 +90,24 @@ function getMovieDetails(baseUrl, apiKey, movieId) {
 }
 
 function renderMovieDetailsPage(modalMovieCard) {
-  refs.header.innerHTML = "";
-  refs.filmsGalleryList.innerHTML = "";
-  refs.filmsGalleryListSearch.innerHTML = "";
-  refs.filmsGalleryList.style.display = "none";
-  refs.filmsGalleryListSearch.style.display = "none";
-  refs.pagination.style.display = "none";
+  refs.header.innerHTML = '';
+  refs.filmsGalleryList.innerHTML = '';
+  refs.filmsGalleryListSearch.innerHTML = '';
+  refs.filmsGalleryList.style.display = 'none';
+  refs.filmsGalleryListSearch.style.display = 'none';
+  refs.pagination.style.display = 'none';
   refs.header.insertAdjacentHTML('beforeend', headerTemplates.modalHeader);
   refs.filmsGallery.insertAdjacentHTML('afterbegin', modalMovieCard);
 }
 
 function closeMovieDetails() {
-  refs.header.innerHTML = "";
+  refs.header.innerHTML = '';
   refs.header.insertAdjacentHTML('beforeend', headerTemplates.homeHeader);
   document.querySelector('.modal').remove();
-  refs.filmsGalleryList.style.display = "flex";
-  refs.filmsGalleryListSearch.style.display = "flex";
+  refs.filmsGalleryList.style.display = 'flex';
+  refs.filmsGalleryListSearch.style.display = 'flex';
   renderFilmsGallery(currentPage, genres);
-  refs.pagination.style.display = "block";
+  refs.pagination.style.display = 'block';
 }
 
 function onPressESC(event) {
