@@ -6,3 +6,5 @@ import './js/modalMovie';
 import './js/login-form.js';
 import './js/pagination';
 import './js/spinner';
+import '../node_modules/basiclightbox/dist/basicLightbox.min.css';
+import './js/modal-student';
