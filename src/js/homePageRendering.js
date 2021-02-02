@@ -24,71 +24,9 @@ function renderHomePage(headerTemplates, currentPage, genres) {
   refs.header.addEventListener('click', reRendering);
 }
 
-function reRendering(event) {
-  event.preventDefault();
-  console.log(event);
-  const onclickedLinkName = event.target.textContent;
-  const watchedFilms = JSON.parse(localStorage.getItem('localWatched'));
-  const queuedFilms = JSON.parse(localStorage.getItem('localQueue'));
-  if (
-    event.target.parentNode.classList.contains('header-logo-js') ||
-    onclickedLinkName === 'HOME'
-  ) {
-    renderHomePage(headerTemplates.homeHeader, currentPage, genres);
-  }
-  if (onclickedLinkName === 'MY LIBRARY' || onclickedLinkName === 'watched') {
-    updateHeaderMarkup(headerTemplates.myLibraryHeader);
-    const watchedBtn = document.querySelector('.header-button-watched');
-    watchedBtn.classList.add('is-active-btn');
-    updateFilmsLibraryMarkup(watchedFilms);
-    const paginationContainer = document.querySelector('#pagination');
-    paginationContainer.innerHTML = '';
-  }
-
-  if (onclickedLinkName === 'watched') {
-    const queuedBtn = document.querySelector('.header-button-queue');
-    const watchedBtn = document.querySelector('.header-button-watched');
-    queuedBtn.classList.remove('is-active-btn');
-    watchedBtn.classList.add('is-active-btn');
-    updateFilmsLibraryMarkup(watchedFilms);
-  }
-
-  if (onclickedLinkName === 'queue') {
-    const queuedBtn = document.querySelector('.header-button-queue');
-    const watchedBtn = document.querySelector('.header-button-watched');
-    queuedBtn.classList.add('is-active-btn');
-    watchedBtn.classList.remove('is-active-btn');
-    updateFilmsLibraryMarkup(queuedFilms);
-  }
+function updateHeaderMarkup(headerTemplates) {
+  refs.header.insertAdjacentHTML('beforeend', headerTemplates);
 }
-
-function updateFilmsLibraryMarkup(films) {
-  refs.filmsGallery.innerHTML = '';
-  if (films) {
-    films.map(({ genres, id, poster_path, title, release_date }) => {
-      const mapedGenres = genres.map(({ name }) => name);
-      const markup = `
-<li class="films-gallery-item" data-id="${id}">
-  <img
-    class="films-gallery-item-image"
-    src="https://image.tmdb.org/t/p/w342${poster_path}"
-    alt="«${title}» film poster"
-  >
-  <p class="films-gallery-item-title">${title.toUpperCase()}</p>
-  <p class="films-gallery-item-info">${mapedGenres.slice(0, 3).join(', ')} | ${
-        release_date.split('-')[0]
-      }</p>
-</li>
-`;
-
-      refs.filmsGallery.insertAdjacentHTML('beforeend', markup);
-    });
-  }
-}
-
-// function updateHeaderMarkup(headerTemplates) {
-//   refs.header.insertAdjacentHTML('beforeend', headerTemplates);
-// }
 
 function renderFilmsGallery(page, genres) {
   return fetchTrends(page).then(({ results, total_results }) => {
@@ -145,9 +83,42 @@ function updateFilmsGalleryMarkup(films, genres) {
   });
 }
 
-function updateHeaderMarkup(headerTemplates) {
-  refs.header.innerHTML = '';
-  refs.header.insertAdjacentHTML('beforeend', headerTemplates);
+function reRendering(event) {
+  event.preventDefault();
+  console.log(event);
+  const onclickedLinkName = event.target.textContent;
+  const watchedFilms = JSON.parse(localStorage.getItem('localWatched'));
+  const queuedFilms = JSON.parse(localStorage.getItem('localQueue'));
+  if (
+    event.target.parentNode.classList.contains('header-logo-js') ||
+    onclickedLinkName === 'HOME'
+  ) {
+    renderHomePage(headerTemplates.homeHeader, currentPage, genres);
+  }
+  if (onclickedLinkName === 'MY LIBRARY' || onclickedLinkName === 'watched') {
+    updateHeaderMarkup(headerTemplates.myLibraryHeader);
+    const watchedBtn = document.querySelector('.header-button-watched');
+    watchedBtn.classList.add('is-active-btn');
+    updateFilmsLibraryMarkup(watchedFilms);
+    const paginationContainer = document.querySelector('#pagination');
+    paginationContainer.innerHTML = '';
+  }
+
+  if (onclickedLinkName === 'watched') {
+    const queuedBtn = document.querySelector('.header-button-queue');
+    const watchedBtn = document.querySelector('.header-button-watched');
+    queuedBtn.classList.remove('is-active-btn');
+    watchedBtn.classList.add('is-active-btn');
+    updateFilmsLibraryMarkup(watchedFilms);
+  }
+
+  if (onclickedLinkName === 'queue') {
+    const queuedBtn = document.querySelector('.header-button-queue');
+    const watchedBtn = document.querySelector('.header-button-watched');
+    queuedBtn.classList.add('is-active-btn');
+    watchedBtn.classList.remove('is-active-btn');
+    updateFilmsLibraryMarkup(queuedFilms);
+  }
 }
 
 renderHomePage(headerTemplates.homeHeader, currentPage, genres);
