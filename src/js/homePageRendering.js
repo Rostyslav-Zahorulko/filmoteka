@@ -21,7 +21,6 @@ function renderHomePage(headerTemplates, currentPage, genres) {
     .catch(console.log)
     .finally(hideSpinner);
   paginateOnClick();
-  refs.header.addEventListener('click', reRendering);
 }
 
 function updateHeaderMarkup(headerTemplates) {
@@ -81,44 +80,6 @@ function updateFilmsGalleryMarkup(films, genres) {
 
     refs.filmsGallery.insertAdjacentHTML('beforeend', markup);
   });
-}
-
-function reRendering(event) {
-  event.preventDefault();
-  console.log(event);
-  const onclickedLinkName = event.target.textContent;
-  const watchedFilms = JSON.parse(localStorage.getItem('localWatched'));
-  const queuedFilms = JSON.parse(localStorage.getItem('localQueue'));
-  if (
-    event.target.parentNode.classList.contains('header-logo-js') ||
-    onclickedLinkName === 'HOME'
-  ) {
-    renderHomePage(headerTemplates.homeHeader, currentPage, genres);
-  }
-  if (onclickedLinkName === 'MY LIBRARY' || onclickedLinkName === 'watched') {
-    updateHeaderMarkup(headerTemplates.myLibraryHeader);
-    const watchedBtn = document.querySelector('.header-button-watched');
-    watchedBtn.classList.add('is-active-btn');
-    updateFilmsLibraryMarkup(watchedFilms);
-    const paginationContainer = document.querySelector('#pagination');
-    paginationContainer.innerHTML = '';
-  }
-
-  if (onclickedLinkName === 'watched') {
-    const queuedBtn = document.querySelector('.header-button-queue');
-    const watchedBtn = document.querySelector('.header-button-watched');
-    queuedBtn.classList.remove('is-active-btn');
-    watchedBtn.classList.add('is-active-btn');
-    updateFilmsLibraryMarkup(watchedFilms);
-  }
-
-  if (onclickedLinkName === 'queue') {
-    const queuedBtn = document.querySelector('.header-button-queue');
-    const watchedBtn = document.querySelector('.header-button-watched');
-    queuedBtn.classList.add('is-active-btn');
-    watchedBtn.classList.remove('is-active-btn');
-    updateFilmsLibraryMarkup(queuedFilms);
-  }
 }
 
 renderHomePage(headerTemplates.homeHeader, currentPage, genres);
