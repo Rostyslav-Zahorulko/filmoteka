@@ -42,7 +42,6 @@ function handleMovieDetails(event) {
         id: data.id,
         poster_path: data.poster_path,
         title: data.title,
-        release_date: data.release_date,
         vote_average: data.vote_average,
         vote_count: data.vote_count,
         popularity: Math.ceil(data.popularity * 10) / 10,
@@ -63,8 +62,8 @@ function handleMovieDetails(event) {
       // WATCHED BUTTON HANDLER
       refs.addToWatchedBtn = document.querySelector('#js-watched-button');
       refs.addToWatchedBtn.addEventListener('click', e => {
-        checkIfInQueue(newData);
         addToLocalWatched(updateUserWatched(newData));
+        checkIfInQueue(newData);
       });
 
       // QUEUE BUTTON HANDLER
