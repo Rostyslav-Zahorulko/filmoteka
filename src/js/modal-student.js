@@ -5,7 +5,7 @@ const markupStudent = `<div class="team-wrapper">
 <div class="team-card">
  <img
     class="team-image"
-    src="https://ca.slack-edge.com/T01AD58HHH7-U01A3BS63M0-aac3cdcbf412-512"
+    src="https://ca.slack-edge.com/T01301DGATC-U013V8Q7HU1-b66c40babb7d-192"
   >
     <p class="team-name">Rostyslav Zahorulko</p>
     <p class="team-role">Team Lead</p>
