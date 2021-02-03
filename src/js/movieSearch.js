@@ -140,16 +140,15 @@ function listenSearchFormSubmit() {
 
     if (input.value === '') {
       refs.notice.classList.remove('is-hidden');
-      // console.dir(refs.notice.textContent);
-      // refs.notice.textContent ===
-      //   'Unable to make a search query. Please enter any text!';
+      refs.notice.textContent =
+        'Unable to make a search query. Please enter any text!';
 
       return;
     }
 
     query = input.value;
 
-    refs.filmsGallery.innerHTML = '';
+    // refs.filmsGallery.innerHTML = '';
 
     showSpinner();
 
@@ -175,12 +174,13 @@ function renderFilmsGallery(page, query, genres) {
 
       if (results.length === 0) {
         refs.notice.classList.remove('is-hidden');
-        // console.dir(refs.notice.textContent);
-        // refs.notice.textContent ===
-        //   'Your search did not match any films. Please clarify the request!';
+        refs.notice.textContent =
+          'Your search did not match any films. Please clarify the request!';
 
         return;
       }
+
+      refs.filmsGallery.innerHTML = '';
 
       updateFilmsGalleryMarkup(results, genres);
 
