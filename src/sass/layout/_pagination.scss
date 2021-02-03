@@ -14,6 +14,7 @@
 .tui-ico-next,
 .tui-ico-prev {
   overflow: hidden;
+  pointer-events: none;
 }
 
 .tui-pagination {
