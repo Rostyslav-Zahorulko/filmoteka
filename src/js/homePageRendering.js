@@ -6,6 +6,11 @@ import { showSpinner, hideSpinner } from './spinner';
 const refs = {
   header: document.querySelector('.header-container-js'),
   filmsGallery: document.querySelector('#films-gallery'),
+  libraryBtn: document.querySelector('.navigation-list-item-link-my-library'),
+  paginationContainer: document.querySelector('#pagination'),
+  watchedFilms: JSON.parse(localStorage.getItem('localWatched')),
+  queuedFilms: JSON.parse(localStorage.getItem('localQueue')),
+  homeLink: document.querySelector('.navigation-list-item-link-home'),
 };
 
 const path = 'https://api.themoviedb.org/3';
@@ -27,7 +32,9 @@ function renderHomePage(headerTemplates, currentPage, genres) {
 }
 
 function updateHeaderMarkup(headerTemplates) {
+  refs.header.innerHTML = '';
   refs.header.insertAdjacentHTML('beforeend', headerTemplates);
+  refs.libraryBtn.addEventListener('click', libraryHandleClick);
 }
 
 function renderFilmsGallery(page, genres) {
@@ -84,6 +91,58 @@ function updateFilmsGalleryMarkup(films, genres) {
     refs.filmsGallery.insertAdjacentHTML('beforeend', markup);
   });
 }
+
+//--------------ОТРИСОВКА БИБЛИОТЕКИ ПОЛЬЗОВАТЕЛЯ----------------
+function libraryHandleClick(event) {
+  event.preventDefault();
+  refs.homeLink.classList.remove('current');
+  refs.libraryBtn.classList.add('current');
+  const filmsGalleryListSearch = document.querySelector(
+    '.list-movie-search-js',
+  );
+  filmsGalleryListSearch.style.display = 'none';
+  updateHeaderMarkup(headerTemplates.myLibraryHeader);
+  refs.filmsGallery.innerHTML = '';
+  refs.paginationContainer.style.display = 'none';
+  updateFilmsLibraryMarkup(refs.watchedFilms);
+
+  const watchedBtn = document.querySelector('.header-button-watched');
+  const queueBtn = document.querySelector('.header-button-queue');
+  function onLibraryButtonsClick(activeBtn, inactiveBtn, films) {
+    activeBtn.addEventListener('click', event => {
+      event.preventDefault();
+      updateFilmsLibraryMarkup(films);
+      inactiveBtn.classList.remove('is-active-btn');
+      activeBtn.classList.add('is-active-btn');
+    });
+  }
+
+  onLibraryButtonsClick(queueBtn, watchedBtn, refs.queuedFilms);
+  onLibraryButtonsClick(watchedBtn, queueBtn, refs.watchedFilms);
+
+  function updateFilmsLibraryMarkup(localStorageFilms) {
+    refs.filmsGallery.innerHTML = '';
+    localStorageFilms.map(
+      ({ id, poster_path, title, release_date, genres }) => {
+        const markup = `
+<li class="films-gallery-item" data-id="${id}">
+  <img
+    class="films-gallery-item-image"
+    src="https://image.tmdb.org/t/p/w342${poster_path}"
+    alt="«${title}» film poster"
+  >
+  <p class="films-gallery-item-title">${title.toUpperCase()}</p>
+  <p class="films-gallery-item-info">${genres.join(', ')} | ${
+          release_date.split('-')[0]
+        }</p>
+</li>
+`;
+        refs.filmsGallery.insertAdjacentHTML('beforeend', markup);
+      },
+    );
+  }
+}
+//-------------------------------------------------------------
 
 renderHomePage(headerTemplates.homeHeader, currentPage, genres);
 
