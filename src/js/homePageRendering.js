@@ -10,6 +10,7 @@ const refs = {
   paginationContainer: document.querySelector('#pagination'),
   watchedFilms: JSON.parse(localStorage.getItem('localWatched')),
   queuedFilms: JSON.parse(localStorage.getItem('localQueue')),
+  homeLink: document.querySelector('.navigation-list-item-link-home'),
 };
 
 const path = 'https://api.themoviedb.org/3';
@@ -91,6 +92,8 @@ function updateFilmsGalleryMarkup(films, genres) {
 //--------------ОТРИСОВКА БИБЛИОТЕКИ ПОЛЬЗОВАТЕЛЯ----------------
 function libraryHandleClick(event) {
   event.preventDefault();
+  refs.homeLink.classList.remove('current');
+  refs.libraryBtn.classList.add('current');
   const filmsGalleryListSearch = document.querySelector(
     '.list-movie-search-js',
   );
@@ -102,15 +105,17 @@ function libraryHandleClick(event) {
 
   const watchedBtn = document.querySelector('.header-button-watched');
   const queueBtn = document.querySelector('.header-button-queue');
-  function onLibraryButtonsClick(btn, films) {
-    btn.addEventListener('click', event => {
+  function onLibraryButtonsClick(activeBtn, inactiveBtn, films) {
+    activeBtn.addEventListener('click', event => {
       event.preventDefault();
       updateFilmsLibraryMarkup(films);
+      inactiveBtn.classList.remove('is-active-btn');
+      activeBtn.classList.add('is-active-btn');
     });
   }
 
-  onLibraryButtonsClick(queueBtn, refs.queuedFilms);
-  onLibraryButtonsClick(watchedBtn, refs.watchedFilms);
+  onLibraryButtonsClick(queueBtn, watchedBtn, refs.queuedFilms);
+  onLibraryButtonsClick(watchedBtn, queueBtn, refs.watchedFilms);
 
   function updateFilmsLibraryMarkup(localStorageFilms) {
     refs.filmsGallery.innerHTML = '';
