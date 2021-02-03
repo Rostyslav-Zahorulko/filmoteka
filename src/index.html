@@ -36,20 +36,38 @@
 
     <!-- Контент страницы -->
     <header class="header">
+
+      <div class="header-nav-container">
+        <a href="" class="header-logo logo link header-logo-js">
+          <span class="header-logo-img"></span>
+          <span class="header-logo-txt">Filmoteka</span></a>
+      </div>
+
+
+      <div class="header-nav-container-right-side">
+      
+        <nav class="header-navigation">
+          <ul class="header-navigation-list">
+            <li class="header-navigation-list-item"><a href=""
+                class="navigation-list-item-link link navigation-list-item-link-home current">HOME</a></li>
+            <li class="header-navigation-list-item"><a href=""
+                class="navigation-list-item-link link navigation-list-item-link-my-library">MY LIBRARY</a>
+            </li>
+      
+          </ul>
+        </nav>
+        <button class="js-singOut-button logButton" type="button">
+          sign Out
+        </button>
+        <button data-action="open-modal" class="logButton" type="button">
+          log In
+        </button>
+      </div>
+
+      <div class='display-userinfo'><span class='display-user-logo'></span> <span class='js-display-username'></span></div>
+
       
       <div class="container header-container-js">
-
-        <!-- header Login modal window -->
-
-        <div class="header-backdrop js-backdrop">
-          <div class="header-modal">
-            <div id="firebaseui-auth-container"></div>
-            <button type="button" class="button-close-modal" data-action="close-modal">
-              Close
-            </button>
-          </div>
-        </div>
-    
       </div>
       
     </header>
