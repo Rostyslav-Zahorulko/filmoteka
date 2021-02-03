@@ -87,6 +87,28 @@ function paginateOnClick() {
         renderFilmsGallery(currentPage, genres);
         return;
 
+      case 'tui-page-btn tui-first-child':
+        currentPage = 1;
+        // console.log('currentPage: ', currentPage);
+        renderFilmsGallery(currentPage, genres);
+        return;
+
+      case 'tui-page-btn tui-prev-is-ellip tui-first-child':
+        const a = document.querySelector('.tui-is-selected');
+        console.log('activeBtnRef.textContent: ', a.textContent);
+
+        // Тут має бути якась логіка
+
+        return;
+
+      case 'tui-page-btn tui-next-is-ellip tui-last-child':
+        const b = document.querySelector('.tui-is-selected');
+        console.log('activeBtnRef.textContent: ', b.textContent);
+
+        // Тут має бути якась логіка
+
+        return;
+
       default:
         console.log('Hi!');
     }
