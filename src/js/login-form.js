@@ -62,13 +62,16 @@ firebase.auth().onAuthStateChanged(firebaseUser => {
   if (firebaseUser) {
     logOutbutton.classList.remove('is-hidden');
     let displayName = firebaseUser.displayName;
-    
-  
+
+    if (displayName === null) {
+      displayName = 'guest';
+    }
 
     userName.innerHTML = `${displayName}`;
+
     document.body.classList.remove('show-modal');
     openModalBtn.classList.add('is-hidden');
-    console.log(firebaseUser.email);
+    
 
     console.log(firebaseUser.displayName + ' is logIn');
   } else {
