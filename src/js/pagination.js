@@ -1,6 +1,7 @@
 import Pagination from 'tui-pagination';
 import renderFilmsGallery from './homePageRendering';
 import genres from './decodingJenres';
+import { showSpinner, hideSpinner } from './spinner';
 
 function paginateTrends(totalAmountOfFilms) {
   const options = {
@@ -51,6 +52,8 @@ function paginateOnClick() {
 
     filmsGallery.innerHTML = '';
 
+    showSpinner();
+
     const button = event.target;
 
     // console.dir(button);
@@ -60,37 +63,37 @@ function paginateOnClick() {
       case 'tui-page-btn':
         currentPage = Number(button.textContent);
         // console.log('currentPage: ', currentPage);
-        renderFilmsGallery(currentPage, genres);
+        renderFilmsGallery(currentPage, genres).finally(hideSpinner);
         return;
 
       case 'tui-page-btn tui-prev':
         currentPage -= 1;
         // console.log('currentPage: ', currentPage);
-        renderFilmsGallery(currentPage, genres);
+        renderFilmsGallery(currentPage, genres).finally(hideSpinner);
         return;
 
       case 'tui-page-btn tui-next':
         currentPage += 1;
         // console.log('currentPage: ', currentPage);
-        renderFilmsGallery(currentPage, genres);
+        renderFilmsGallery(currentPage, genres).finally(hideSpinner);
         return;
 
       case 'tui-page-btn tui-first':
         currentPage = 1;
         // console.log('currentPage: ', currentPage);
-        renderFilmsGallery(currentPage, genres);
+        renderFilmsGallery(currentPage, genres).finally(hideSpinner);
         return;
 
       case 'tui-page-btn tui-last':
         currentPage = 1000;
         // console.log('currentPage: ', currentPage);
-        renderFilmsGallery(currentPage, genres);
+        renderFilmsGallery(currentPage, genres).finally(hideSpinner);
         return;
 
       case 'tui-page-btn tui-first-child':
         currentPage = 1;
         // console.log('currentPage: ', currentPage);
-        renderFilmsGallery(currentPage, genres);
+        renderFilmsGallery(currentPage, genres).finally(hideSpinner);
         return;
 
       case 'tui-page-btn tui-prev-is-ellip tui-first-child':
