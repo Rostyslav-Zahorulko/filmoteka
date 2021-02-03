@@ -3,7 +3,7 @@ import renderFilmsGallery from './homePageRendering';
 import genres from './decodingJenres';
 import { showSpinner, hideSpinner } from './spinner';
 
-function paginateTrends(totalAmountOfFilms) {
+function paginateFilms(totalAmountOfFilms) {
   const options = {
     totalItems: totalAmountOfFilms,
     itemsPerPage: 20,
@@ -34,7 +34,7 @@ function paginateTrends(totalAmountOfFilms) {
   new Pagination('pagination', options);
 }
 
-function paginateOnClick() {
+function paginateOnClick(totalAmountOfFilms) {
   const paginationContainer = document.querySelector('#pagination');
   const filmsGallery = document.querySelector('#films-gallery');
 
@@ -85,7 +85,7 @@ function paginateOnClick() {
         return;
 
       case 'tui-page-btn tui-last':
-        currentPage = 1000;
+        currentPage = totalAmountOfFilms / 20;
         // console.log('currentPage: ', currentPage);
         renderFilmsGallery(currentPage, genres).finally(hideSpinner);
         return;
@@ -118,4 +118,4 @@ function paginateOnClick() {
   }
 }
 
-export { paginateTrends, paginateOnClick };
+export { paginateFilms, paginateOnClick };
