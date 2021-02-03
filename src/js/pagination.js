@@ -1,14 +1,12 @@
 import Pagination from 'tui-pagination';
-import 'tui-pagination/dist/tui-pagination.css';
 import renderFilmsGallery from './homePageRendering';
 import genres from './decodingJenres';
-
 
 function paginateTrends(totalAmountOfFilms) {
   const options = {
     totalItems: totalAmountOfFilms,
     itemsPerPage: 20,
-    visiblePages: 10,
+    visiblePages: 5,
     page: 1,
     centerAlign: false,
     firstItemClassName: 'tui-first-child',
