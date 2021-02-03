@@ -1,6 +1,6 @@
 import headerTemplates from './components/headers-tpl';
 import genres from './decodingJenres';
-import { paginateTrends, paginateOnClick } from './pagination';
+import { paginateFilms, paginateOnClick } from './pagination';
 import { showSpinner, hideSpinner } from './spinner';
 
 const refs = {
@@ -17,10 +17,13 @@ function renderHomePage(headerTemplates, currentPage, genres) {
   showSpinner();
   updateHeaderMarkup(headerTemplates);
   renderFilmsGallery(currentPage, genres)
-    .then(({ totalAmountOfFilms }) => paginateTrends(totalAmountOfFilms))
+    .then(({ totalAmountOfFilms }) => {
+      paginateFilms(totalAmountOfFilms);
+      paginateOnClick(totalAmountOfFilms);
+    })
     .catch(console.log)
     .finally(hideSpinner);
-  paginateOnClick();
+  // paginateOnClick();
 }
 
 function updateHeaderMarkup(headerTemplates) {
