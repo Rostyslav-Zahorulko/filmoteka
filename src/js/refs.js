@@ -9,6 +9,7 @@ const refs = {
   logo: document.querySelector('.header-logo-js'),
   homeLink: document.querySelector('.navigation-list-item-link-home'),
   spinner: document.querySelector('.js-spinner'),
+  paginationContainer: document.querySelector('#pagination'),
 };
 
 export default refs;

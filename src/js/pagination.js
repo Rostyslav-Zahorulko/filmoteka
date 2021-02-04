@@ -1,7 +1,12 @@
 import Pagination from 'tui-pagination';
 import renderFilmsGallery from './homePageRendering';
-import genres from './decodingJenres';
 import { showSpinner, hideSpinner } from './spinner';
+import apiServise from './api-servise';
+
+const refs = {
+  filmsGallery: document.querySelector('#films-gallery'),
+  paginationContainer: document.querySelector('#pagination'),
+};
 
 function paginateFilms(totalAmountOfFilms) {
   const options = {
@@ -35,12 +40,7 @@ function paginateFilms(totalAmountOfFilms) {
 }
 
 function paginateOnClick(totalAmountOfFilms) {
-  const paginationContainer = document.querySelector('#pagination');
-  const filmsGallery = document.querySelector('#films-gallery');
-
-  let currentPage = 1;
-
-  paginationContainer.addEventListener(
+  refs.paginationContainer.addEventListener(
     'click',
     handleOnPaginationContainerClick,
   );
@@ -50,7 +50,7 @@ function paginateOnClick(totalAmountOfFilms) {
       return;
     }
 
-    filmsGallery.innerHTML = '';
+    refs.filmsGallery.innerHTML = '';
 
     showSpinner();
 
@@ -61,55 +61,53 @@ function paginateOnClick(totalAmountOfFilms) {
 
     switch (button.className) {
       case 'tui-page-btn':
-        currentPage = Number(button.textContent);
-        // console.log('currentPage: ', currentPage);
-        renderFilmsGallery(currentPage, genres).finally(hideSpinner);
+        apiServise.setPage(Number(button.textContent));
+        // console.log('page: ', apiServise.page);
+        renderFilmsGallery().finally(hideSpinner);
         return;
 
       case 'tui-page-btn tui-prev':
-        currentPage -= 1;
-        // console.log('currentPage: ', currentPage);
-        renderFilmsGallery(currentPage, genres).finally(hideSpinner);
+        apiServise.decrementPage();
+        // console.log('page: ', apiServise.page);
+        renderFilmsGallery().finally(hideSpinner);
         return;
 
       case 'tui-page-btn tui-next':
-        currentPage += 1;
-        // console.log('currentPage: ', currentPage);
-        renderFilmsGallery(currentPage, genres).finally(hideSpinner);
+        apiServise.incrementPage();
+        // console.log('page: ', apiServise.page);
+        renderFilmsGallery().finally(hideSpinner);
         return;
 
       case 'tui-page-btn tui-first':
-        currentPage = 1;
-        // console.log('currentPage: ', currentPage);
-        renderFilmsGallery(currentPage, genres).finally(hideSpinner);
+        apiServise.resetPage();
+        // console.log('page: ', apiServise.page);
+        renderFilmsGallery().finally(hideSpinner);
         return;
 
       case 'tui-page-btn tui-last':
-        currentPage = totalAmountOfFilms / 20;
-        // console.log('currentPage: ', currentPage);
-        renderFilmsGallery(currentPage, genres).finally(hideSpinner);
+        apiServise.setPage(totalAmountOfFilms / 20);
+        // console.log('page: ', apiServise.page);
+        renderFilmsGallery().finally(hideSpinner);
         return;
 
       case 'tui-page-btn tui-first-child':
-        currentPage = 1;
-        // console.log('currentPage: ', currentPage);
-        renderFilmsGallery(currentPage, genres).finally(hideSpinner);
+        apiServise.resetPage();
+        // console.log('page: ', apiServise.page);
+        renderFilmsGallery().finally(hideSpinner);
         return;
 
       case 'tui-page-btn tui-prev-is-ellip tui-first-child':
-        const a = document.querySelector('.tui-is-selected');
-        console.log('activeBtnRef.textContent: ', a.textContent);
-
-        // Тут має бути якась логіка
-
+        const activeBtnRef1 = document.querySelector('.tui-is-selected');
+        apiServise.setPage(Number(activeBtnRef1.textContent));
+        // console.log('page: ', apiServise.page);
+        renderFilmsGallery().finally(hideSpinner);
         return;
 
       case 'tui-page-btn tui-next-is-ellip tui-last-child':
-        const b = document.querySelector('.tui-is-selected');
-        console.log('activeBtnRef.textContent: ', b.textContent);
-
-        // Тут має бути якась логіка
-
+        const activeBtnRef2 = document.querySelector('.tui-is-selected');
+        apiServise.setPage(Number(activeBtnRef2.textContent));
+        // console.log('page: ', apiServise.page);
+        renderFilmsGallery().finally(hideSpinner);
         return;
 
       default:
