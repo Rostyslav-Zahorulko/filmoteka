@@ -43,7 +43,7 @@ const markupStudent = `<div class="team-wrapper">
     class="team-image"
     src="https://ca.slack-edge.com/T01AD58HHH7-U01AT710YLQ-3a6d16128ec7-512"
   >
-    <p class="team-name">David Shakaya</p>
+    <p class="team-name">David<br>Shakaya</p>
     <p class="team-role">Developer</p>
     
 </div>
@@ -61,7 +61,7 @@ const markupStudent = `<div class="team-wrapper">
     class="team-image"
     src="https://ca.slack-edge.com/T01AD58HHH7-U01ATCQ5GKA-46dd5abf2215-512"
   >
-    <p class="team-name">Zoe Baletska</p>
+    <p class="team-name">Zoe<br>Baletska</p>
     <p class="team-role">Developer</p>
     
 </div>
@@ -70,7 +70,7 @@ const markupStudent = `<div class="team-wrapper">
     class="team-image"
     src="https://ca.slack-edge.com/T01AD58HHH7-U019WKPR89L-21c1789a67bc-512"
   >
-    <p class="team-name">Serhii Koziuba</p>
+    <p class="team-name">Serhii<br>Koziuba</p>
     <p class="team-role">Developer</p>
     
 </div>
@@ -88,7 +88,7 @@ const markupStudent = `<div class="team-wrapper">
     class="team-image"
     src="${photoRed}"
   >
-    <p class="team-name">Iryna Redka</p>
+    <p class="team-name">Iryna<br>Redka</p>
     <p class="team-role">Developer</p>
     
 </div>
