@@ -2,6 +2,7 @@ import headerTemplates from './components/headers-tpl';
 import genres from './decodingJenres';
 import { paginateFilms, paginateOnClick } from './pagination';
 import { showSpinner, hideSpinner } from './spinner';
+import apiServise from './api-servise';
 
 const refs = {
   header: document.querySelector('.header-container-js'),
@@ -16,30 +17,35 @@ const refs = {
 const path = 'https://api.themoviedb.org/3';
 const key = 'ffddee44025dd24685ea61d637d56d24';
 
-let currentPage = 1;
-
-function renderHomePage(headerTemplates, currentPage, genres) {
+function renderHomePage() {
+  apiServise.resetPage();
   showSpinner();
-  updateHeaderMarkup(headerTemplates);
-  renderFilmsGallery(currentPage, genres)
-    .then(({ totalAmountOfFilms }) => {
-      paginateFilms(totalAmountOfFilms);
-      paginateOnClick(totalAmountOfFilms);
-    })
-    .catch(console.log)
-    .finally(hideSpinner);
-  // paginateOnClick();
+  updateHeaderMarkup();
+  setPagination().catch(console.log).finally(hideSpinner);
 }
 
-function updateHeaderMarkup(headerTemplates) {
+function updateHeaderMarkup() {
   refs.header.innerHTML = '';
-  refs.header.insertAdjacentHTML('beforeend', headerTemplates);
+  refs.header.insertAdjacentHTML('beforeend', headerTemplates.homeHeader);
   refs.libraryBtn.addEventListener('click', libraryHandleClick);
 }
 
-function renderFilmsGallery(page, genres) {
-  return fetchTrends(page).then(({ results, total_results }) => {
-    updateFilmsGalleryMarkup(results, genres);
+function setPagination() {
+  return renderFilmsGallery().then(({ totalAmountOfFilms }) => {
+    // console.log('totalAmountOfFilms: ', totalAmountOfFilms);
+
+    paginateFilms(totalAmountOfFilms);
+    paginateOnClick(totalAmountOfFilms);
+  });
+}
+
+function renderFilmsGallery() {
+  return fetchTrends().then(({ results, total_results }) => {
+    // console.log('results: ', results);
+    // console.log('total_results: ', total_results);
+
+    updateFilmsGalleryMarkup(results);
+
     const data = {
       totalAmountOfFilms: total_results,
     };
@@ -48,13 +54,13 @@ function renderFilmsGallery(page, genres) {
   });
 }
 
-function fetchTrends(page) {
+function fetchTrends() {
   return fetch(
-    `${path}/trending/movie/day?api_key=${key}&page=${page}`,
+    `${path}/trending/movie/day?api_key=${key}&page=${apiServise.page}`,
   ).then(response => response.json());
 }
 
-function updateFilmsGalleryMarkup(films, genres) {
+function updateFilmsGalleryMarkup(films) {
   // console.log('genres: ', genres);
 
   films.map(({ id, poster_path, title, release_date, genre_ids }) => {
@@ -144,6 +150,6 @@ function libraryHandleClick(event) {
 }
 //-------------------------------------------------------------
 
-renderHomePage(headerTemplates.homeHeader, currentPage, genres);
+renderHomePage();
 
 export default renderFilmsGallery;
