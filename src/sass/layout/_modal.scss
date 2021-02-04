@@ -22,6 +22,10 @@
   border-radius: 5px;
 
   background: $dark;
+  transition: all 200ms ease-in-out;
+   &:hover {
+    box-shadow: 1px 1px 3px 3px rgba(0, 0, 0, 0.5);
+  }
 }
 
 .modal-info-title {
@@ -168,7 +172,7 @@
   margin-right: 15px;
   border: 1px solid $dark;
   border-radius: 5px;
-
+  cursor: pointer;
   font-family: Roboto;
   font-weight: 500;
   font-size: 12px;
@@ -176,7 +180,11 @@
   text-transform: uppercase;
   color: $dark;
   background-color: $white;
-
+   transition: all 200ms ease-in-out;
+    &:hover {
+    border: 1px solid $accentColor;
+    box-shadow: 1px 1px 3px 3px rgb(255, 102, 0);
+  }
   &:nth-child(2n) {
     margin-right: 0;
   }
