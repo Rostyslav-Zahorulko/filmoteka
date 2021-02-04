@@ -1,17 +1,10 @@
 import firebase from 'firebase/app';
+import 'firebase/database';
 import 'firebaseui';
 import '../../node_modules/firebaseui/dist/firebaseui.css';
 import './modal-login';
+import refs from './refs';
 
-const logOutbutton = document.querySelector('.js-singOut-button');
-
-const openModalBtn = document.querySelector('[data-action="open-modal"]');
-
-
-const userName = document.querySelector('.js-display-username');
-
-const qwert = document.querySelector('.logButton');
-console.log(qwert);
 const firebaseConfig = {
   apiKey: 'AIzaSyC7TRb9mfyMhzQU-yq3pDKTxl2-zaHwRmo',
   authDomain: 'filmoteka-login.firebaseapp.com',
@@ -22,27 +15,13 @@ const firebaseConfig = {
   messagingSenderId: '658952655924',
   appId: '1:658952655924:web:26304edc0b944079c1e661',
 };
-
 firebase.initializeApp(firebaseConfig);
-
 const ui = new firebaseui.auth.AuthUI(firebase.auth());
-
-logOutbutton.addEventListener('click', e => {
-  firebase.auth().signOut();
-});
 const uiStart = () => ui.start('#firebaseui-auth-container', uiConfig);
-const uiConfig = {
-  callbacks: {
-    signInSuccessWithAuthResult: function (authResult, redirectUrl) {
-      if (authResult) {
-        console.log(
-          'здесь можно что-то здесь можно что-то добавить после входа после входа',
-        );
+//phoneAuth
+new firebase.auth.PhoneAuthProvider();
 
-        console.log(authResult);
-      }
-    },
-  },
+const uiConfig = {
   signInFlow: 'popup',
   signInOptions: [
     firebase.auth.PhoneAuthProvider.PROVIDER_ID,
@@ -51,34 +30,33 @@ const uiConfig = {
     firebaseui.auth.AnonymousAuthProvider.PROVIDER_ID,
   ],
 };
-
-//phoneAuth
-
-const provider = new firebase.auth.PhoneAuthProvider();
+refs.logOutbutton.addEventListener('click', e => {
+  firebase.auth().signOut();
+});
 
 // login state
-
 firebase.auth().onAuthStateChanged(firebaseUser => {
   if (firebaseUser) {
-    logOutbutton.classList.remove('is-hidden');
     let displayName = firebaseUser.displayName;
-
     if (displayName === null) {
       displayName = 'guest';
     }
-
-    userName.innerHTML = `${displayName}`;
-
+    refs.userName.innerHTML = `${displayName}`;
     document.body.classList.remove('show-modal');
-    openModalBtn.classList.add('is-hidden');
-    
-
-    console.log(firebaseUser.displayName + ' is logIn');
+    showLogOutbutton();
   } else {
-    userName.innerHTML = '';
-    openModalBtn.classList.remove('is-hidden');
-    logOutbutton.classList.add('is-hidden');
-    console.log('not logget in');
+    refs.userName.innerHTML = '';
+    showOpenModalBtn();
     uiStart();
   }
 });
+
+function showLogOutbutton() {
+  refs.logOutbutton.classList.remove('is-hidden');
+  refs.openModalBtn.classList.add('is-hidden');
+}
+
+function showOpenModalBtn() {
+  refs.openModalBtn.classList.remove('is-hidden');
+  refs.logOutbutton.classList.add('is-hidden');
+}
