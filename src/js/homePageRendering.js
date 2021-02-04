@@ -17,16 +17,16 @@ const refs = {
 const path = 'https://api.themoviedb.org/3';
 const key = 'ffddee44025dd24685ea61d637d56d24';
 
-function renderHomePage() {
+function renderHomePage(headerTpl) {
   apiServise.resetPage();
   showSpinner();
-  updateHeaderMarkup();
+  updateHeaderMarkup(headerTpl);
   setPagination().catch(console.log).finally(hideSpinner);
 }
 
-function updateHeaderMarkup() {
+function updateHeaderMarkup(headerTpl) {
   refs.header.innerHTML = '';
-  refs.header.insertAdjacentHTML('beforeend', headerTemplates.homeHeader);
+  refs.header.insertAdjacentHTML('beforeend', headerTpl);
   refs.libraryBtn.addEventListener('click', libraryHandleClick);
 }
 
@@ -138,9 +138,7 @@ function libraryHandleClick(event) {
     alt="«${title}» film poster"
   >
   <p class="films-gallery-item-title">${title.toUpperCase()}</p>
-  <p class="films-gallery-item-info">${genres.join(', ')} | ${
-          release_date.split('-')[0]
-        }</p>
+  <p class="films-gallery-item-info">${genres.join(', ')} | ${release_date}</p>
 </li>
 `;
         refs.filmsGallery.insertAdjacentHTML('beforeend', markup);
@@ -150,6 +148,6 @@ function libraryHandleClick(event) {
 }
 //-------------------------------------------------------------
 
-renderHomePage();
+renderHomePage(headerTemplates.homeHeader);
 
 export default renderFilmsGallery;
