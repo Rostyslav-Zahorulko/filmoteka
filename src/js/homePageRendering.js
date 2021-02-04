@@ -9,8 +9,6 @@ const refs = {
   filmsGallery: document.querySelector('#films-gallery'),
   libraryBtn: document.querySelector('.navigation-list-item-link-my-library'),
   paginationContainer: document.querySelector('#pagination'),
-  watchedFilms: JSON.parse(localStorage.getItem('localWatched')),
-  queuedFilms: JSON.parse(localStorage.getItem('localQueue')),
   homeLink: document.querySelector('.navigation-list-item-link-home'),
 };
 
@@ -103,6 +101,8 @@ function libraryHandleClick(event) {
   event.preventDefault();
   refs.homeLink.classList.remove('current');
   refs.libraryBtn.classList.add('current');
+  const watchedFilms = JSON.parse(localStorage.getItem('localWatched'));
+  const queuedFilms = JSON.parse(localStorage.getItem('localQueue'));
   const filmsGalleryListSearch = document.querySelector(
     '.list-movie-search-js',
   );
@@ -110,7 +110,7 @@ function libraryHandleClick(event) {
   updateHeaderMarkup(headerTemplates.myLibraryHeader);
   refs.filmsGallery.innerHTML = '';
   refs.paginationContainer.style.display = 'none';
-  updateFilmsLibraryMarkup(refs.watchedFilms);
+  updateFilmsLibraryMarkup(watchedFilms);
 
   const watchedBtn = document.querySelector('.header-button-watched');
   const queueBtn = document.querySelector('.header-button-queue');
@@ -123,13 +123,13 @@ function libraryHandleClick(event) {
     });
   }
 
-  onLibraryButtonsClick(queueBtn, watchedBtn, refs.queuedFilms);
-  onLibraryButtonsClick(watchedBtn, queueBtn, refs.watchedFilms);
+  onLibraryButtonsClick(queueBtn, watchedBtn, queuedFilms);
+  onLibraryButtonsClick(watchedBtn, queueBtn, watchedFilms);
 
   function updateFilmsLibraryMarkup(localStorageFilms) {
     refs.filmsGallery.innerHTML = '';
     localStorageFilms.map(
-      ({ id, poster_path, title, release_date, genres }) => {
+      ({ id, poster_path, title, release_date, genres, vote_average }) => {
         const markup = `
 <li class="films-gallery-item" data-id="${id}">
   <img
@@ -138,7 +138,9 @@ function libraryHandleClick(event) {
     alt="«${title}» film poster"
   >
   <p class="films-gallery-item-title">${title.toUpperCase()}</p>
-  <p class="films-gallery-item-info">${genres.join(', ')} | ${release_date}</p>
+  <p class="films-gallery-item-info">${genres.join(
+    ', ',
+  )} | ${release_date}<span class="modal-info-vote-average library">${vote_average}</span></p>
 </li>
 `;
         refs.filmsGallery.insertAdjacentHTML('beforeend', markup);
