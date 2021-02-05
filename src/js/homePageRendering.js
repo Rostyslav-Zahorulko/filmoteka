@@ -112,6 +112,9 @@ function libraryHandleClick(event) {
   refs.filmsGallery.innerHTML = '';
   refs.paginationContainer.style.display = 'none';
   updateFilmsLibraryMarkup(watchedFilms);
+  if (document.querySelector('.modal')) {
+    document.querySelector('.modal').remove();
+  }
 
   const watchedBtn = document.querySelector('.header-button-watched');
   const queueBtn = document.querySelector('.header-button-queue');
