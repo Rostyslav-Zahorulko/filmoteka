@@ -4,7 +4,6 @@ import { paginateFilms, paginateOnClick } from './pagination';
 import { showSpinner, hideSpinner } from './spinner';
 import apiServise from './api-servise';
 import {
-  // currentUserId,
   getUserWatchedFromDatabase,
   getUserQueueFromDatabase,
 } from './userLibrary';
@@ -110,6 +109,11 @@ function libraryHandleClick(event) {
   const watchedFilms = getUserWatchedFromDatabase(currentUserId);
   const queuedFilms = getUserQueueFromDatabase(currentUserId);
   updateHeaderMarkup(headerTemplates.myLibraryHeader);
+
+  if (document.querySelector('.modal')) {
+    document.querySelector('.modal').remove();
+  }
+
   const watchedBtn = document.querySelector('.header-button-watched');
   const queueBtn = document.querySelector('.header-button-queue');
 
