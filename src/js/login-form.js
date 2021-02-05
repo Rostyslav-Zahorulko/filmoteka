@@ -4,7 +4,7 @@ import 'firebaseui';
 import '../../node_modules/firebaseui/dist/firebaseui.css';
 import './modal-login';
 import refs from './refs';
-import { currentUserId } from './userLibrary';
+
 
 const firebaseConfig = {
   apiKey: 'AIzaSyC7TRb9mfyMhzQU-yq3pDKTxl2-zaHwRmo',
@@ -45,7 +45,6 @@ const uiConfig = {
 refs.logOutbutton.addEventListener('click', e => {
   firebase.auth().signOut();
   localStorage.removeItem('currentUserId');
-  currentUserId = '';
   setUserData(firebaseUser.uid);
 });
 
