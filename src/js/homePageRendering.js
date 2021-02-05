@@ -135,6 +135,14 @@ function libraryHandleClick(event) {
   onLibraryButtonsClick(watchedBtn, queueBtn, watchedFilms);
 
   function updateFilmsLibraryMarkup(localStorageFilms) {
+    if (!localStorageFilms) {
+      refs.filmsGallery.innerHTML = '';
+      const message =
+        '<div class="films-gallery-warning"><p>You haven`t added any movies to Your Library yet.</p><div>';
+      refs.filmsGallery.insertAdjacentHTML('beforeend', message);
+      return;
+    }
+
     refs.filmsGallery.innerHTML = '';
     localStorageFilms.map(
       ({ id, poster_path, title, release_date, genres, vote_average }) => {
