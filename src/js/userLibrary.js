@@ -224,6 +224,9 @@ function getUserLibraryFromDatabase(userId) {
 
 // GET USERWATCHED DATA FROM DATABASE
 export function getUserWatchedFromDatabase(userId) {
+  if (!userId) {
+    return;
+  }
   let userWatched = [];
   filmotekaDatabase.on('value', elem => {
     userWatched = elem.val()[`${userId}`][`userWatched`];
@@ -234,6 +237,10 @@ export function getUserWatchedFromDatabase(userId) {
 
 // GET USERQUEUE DATA FROM DATABASE
 export function getUserQueueFromDatabase(userId) {
+  if (!userId) {
+    toastr['error']('Please LOG IN to create Your Library');
+    return;
+  }
   let userQueue = [];
   filmotekaDatabase.on('value', elem => {
     userQueue = elem.val()[`${userId}`][`userQueue`];
