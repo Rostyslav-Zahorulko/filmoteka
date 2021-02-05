@@ -5,7 +5,6 @@ import '../../node_modules/firebaseui/dist/firebaseui.css';
 import './modal-login';
 import refs from './refs';
 
-
 const firebaseConfig = {
   apiKey: 'AIzaSyC7TRb9mfyMhzQU-yq3pDKTxl2-zaHwRmo',
   authDomain: 'filmoteka-login.firebaseapp.com',
@@ -45,7 +44,8 @@ const uiConfig = {
 refs.logOutbutton.addEventListener('click', e => {
   firebase.auth().signOut();
   localStorage.removeItem('currentUserId');
-  setUserData(firebaseUser.uid);
+  window.location.reload();
+  // setUserData(firebaseUser.uid);
 });
 
 // login state
