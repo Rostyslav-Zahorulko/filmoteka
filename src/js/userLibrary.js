@@ -213,7 +213,7 @@ function isInWatched(movieData) {
 
 // ================ DATABASE FUNCTIONS==========================
 // GET ALL LIBRARY DATA FROM DATABASE
-function getUserLibraryFromDatabase(userId) {
+export function getUserLibraryFromDatabase(userId) {
   let userBase = {};
   filmotekaDatabase.on('value', elem => {
     userBase = elem.val()[`${userId}`];

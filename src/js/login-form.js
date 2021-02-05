@@ -4,6 +4,7 @@ import 'firebaseui';
 import '../../node_modules/firebaseui/dist/firebaseui.css';
 import './modal-login';
 import refs from './refs';
+import { getUserLibraryFromDatabase } from './userLibrary';
 
 const firebaseConfig = {
   apiKey: 'AIzaSyC7TRb9mfyMhzQU-yq3pDKTxl2-zaHwRmo',
@@ -47,7 +48,6 @@ refs.logOutbutton.addEventListener('click', e => {
   firebase.auth().signOut();
   localStorage.removeItem('currentUserId');
   window.location.reload();
-  // setUserData(firebaseUser.uid);
 });
 
 // login state
@@ -63,6 +63,10 @@ firebase.auth().onAuthStateChanged(firebaseUser => {
     localStorage.setItem('currentUserId', JSON.stringify(firebaseUser.uid));
     currentUserId = JSON.parse(localStorage.getItem('currentUserId'));
     console.log(currentUserId);
+
+    if (!getUserLibraryFromDatabase(currentUserId)) {
+      setUserData(currentUserId);
+    }
   } else {
     refs.userName.innerHTML = '';
     showOpenModalBtn();
