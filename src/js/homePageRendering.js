@@ -103,10 +103,6 @@ function libraryHandleClick(event) {
   refs.libraryBtn.classList.add('current');
   const watchedFilms = JSON.parse(localStorage.getItem('localWatched'));
   const queuedFilms = JSON.parse(localStorage.getItem('localQueue'));
-  const filmsGalleryListSearch = document.querySelector(
-    '.list-movie-search-js',
-  );
-  filmsGalleryListSearch.style.display = 'none';
   updateHeaderMarkup(headerTemplates.myLibraryHeader);
   refs.filmsGallery.innerHTML = '';
   refs.paginationContainer.style.display = 'none';
