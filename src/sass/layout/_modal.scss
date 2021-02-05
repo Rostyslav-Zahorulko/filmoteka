@@ -23,9 +23,16 @@
 
   background: $dark;
   transition: all 200ms ease-in-out;
-   &:hover {
+
+  &:hover {
     box-shadow: 1px 1px 3px 3px rgba(0, 0, 0, 0.5);
   }
+}
+
+.modal-info {
+  width: 280px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .modal-info-title {
@@ -167,7 +174,7 @@
 }
 
 .modal-info-buttons-list-item {
-  min-width: 136px;
+  min-width: 132px;
   height: 44px;
   margin-right: 15px;
   border: 1px solid $dark;
@@ -180,11 +187,13 @@
   text-transform: uppercase;
   color: $dark;
   background-color: $white;
-   transition: all 200ms ease-in-out;
-    &:hover {
+  transition: all 200ms ease-in-out;
+
+  &:hover {
     border: 1px solid $accentColor;
     box-shadow: 1px 1px 3px 3px rgb(255, 102, 0);
   }
+
   &:nth-child(2n) {
     margin-right: 0;
   }
@@ -211,6 +220,11 @@
     margin-bottom: 0px;
   }
 
+  .modal-info {
+    width: 294px;
+    margin-left: 0;
+  }
+
   .modal-info-title {
     margin-top: 0;
     margin-bottom: 20px;
@@ -224,13 +238,18 @@
 }
 
 @media screen and (min-width: 1024px) {
+  .modal-container {
+    padding-left: 71px;
+    padding-right: 71px;
+  }
+
   .modal-image {
     width: 426px;
     height: 514px;
   }
 
-  .modal-container {
-    padding-left: 71px;
-    padding-right: 71px;
+  .modal-info {
+    width: 426px;
+    margin-left: 0;
   }
 }
