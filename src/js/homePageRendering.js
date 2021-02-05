@@ -120,7 +120,6 @@ function libraryHandleClick(event) {
   refs.filmsGallery.innerHTML = '';
   refs.paginationContainer.style.display = 'none';
   updateFilmsLibraryMarkup(watchedFilms);
-  // renderMyLibraryWatched(watchedBtn, queueBtn, watchedFilms);
 
   function onLibraryButtonsClick(activeBtn, inactiveBtn, films) {
     activeBtn.addEventListener('click', event => {
@@ -138,7 +137,7 @@ function libraryHandleClick(event) {
     if (!localStorageFilms) {
       refs.filmsGallery.innerHTML = '';
       const message =
-        '<div class="films-gallery-warning"><p>You haven`t added any movies to Your Library yet.</p><div>';
+        '<div class="films-gallery-warning"><p>No movies here yet. Visit Home to add some =)</p><div>';
       refs.filmsGallery.insertAdjacentHTML('beforeend', message);
       return;
     }
@@ -162,12 +161,6 @@ function libraryHandleClick(event) {
         refs.filmsGallery.insertAdjacentHTML('beforeend', markup);
       },
     );
-  }
-  //========================Zoe Dobavila=======================
-  function renderMyLibraryWatched(activeBtn, inactiveBtn, films) {
-    updateFilmsLibraryMarkup(films);
-    inactiveBtn.classList.remove('is-active-btn');
-    activeBtn.classList.add('is-active-btn');
   }
 }
 
