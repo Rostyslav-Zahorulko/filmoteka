@@ -22,7 +22,6 @@ let activeLink = '';
 let activeBtn = '';
 
 refs.headerSearchInput = document.querySelector('.header-search-form-input');
-refs.main = document.querySelector('.films-gallery-container');
 refs.header = document.querySelector('.header-container-js');
 refs.main = document.querySelector('main');
 refs.filmsGalleryList = document.querySelector('#films-gallery');
