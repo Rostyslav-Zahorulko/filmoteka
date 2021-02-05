@@ -4,6 +4,7 @@ import 'firebaseui';
 import '../../node_modules/firebaseui/dist/firebaseui.css';
 import './modal-login';
 import refs from './refs';
+import { getUserLibraryFromDatabase } from './userLibrary';
 
 const firebaseConfig = {
   apiKey: 'AIzaSyC7TRb9mfyMhzQU-yq3pDKTxl2-zaHwRmo',
@@ -23,6 +24,8 @@ new firebase.auth.PhoneAuthProvider();
 
 // =======VARIABLE FOR WORKING WITH USER LIBRARY========
 export const filmotekaDatabase = firebase.database().ref('users');
+export let currentUserId = '';
+console.log(currentUserId);
 
 const uiConfig = {
   signInFlow: 'popup',
@@ -45,7 +48,6 @@ refs.logOutbutton.addEventListener('click', e => {
   firebase.auth().signOut();
   localStorage.removeItem('currentUserId');
   window.location.reload();
-  // setUserData(firebaseUser.uid);
 });
 
 // login state
@@ -59,6 +61,12 @@ firebase.auth().onAuthStateChanged(firebaseUser => {
     document.body.classList.remove('show-modal');
     showLogOutbutton();
     localStorage.setItem('currentUserId', JSON.stringify(firebaseUser.uid));
+    currentUserId = JSON.parse(localStorage.getItem('currentUserId'));
+    console.log(currentUserId);
+
+    if (!getUserLibraryFromDatabase(currentUserId)) {
+      setUserData(currentUserId);
+    }
   } else {
     refs.userName.innerHTML = '';
     showOpenModalBtn();
