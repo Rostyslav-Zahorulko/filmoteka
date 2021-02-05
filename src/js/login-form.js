@@ -38,6 +38,8 @@ const uiConfig = {
   callbacks: {
     signInSuccessWithAuthResult: function (authResult) {
       if (authResult) {
+        location.reload();
+
         setUserData(firebaseUser.uid);
         return true;
       }
