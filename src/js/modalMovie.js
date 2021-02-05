@@ -4,9 +4,7 @@ import renderFilmsGallery from './homePageRendering';
 import genres from './decodingJenres';
 import refs from './refs';
 import {
-  addToLocalWatched,
   updateUserWatched,
-  addToLocalQueue,
   updateUserQueue,
   checkIfInQueue,
   checkIfIsInUserLibrary,
@@ -68,12 +66,12 @@ function handleMovieDetails(event) {
       // WATCHED BUTTON HANDLER
       refs.addToWatchedBtn.addEventListener('click', e => {
         checkIfInQueue(newData);
-        addToLocalWatched(updateUserWatched(newData));
+        updateUserWatched(newData);
       });
 
       // QUEUE BUTTON HANDLER
       refs.addToQueueBtn.addEventListener('click', e => {
-        addToLocalQueue(updateUserQueue(newData));
+        updateUserQueue(newData);
       });
     })
     .catch(error => console.log(error))
