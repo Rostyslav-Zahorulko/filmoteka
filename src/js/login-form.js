@@ -23,6 +23,8 @@ new firebase.auth.PhoneAuthProvider();
 
 // =======VARIABLE FOR WORKING WITH USER LIBRARY========
 export const filmotekaDatabase = firebase.database().ref('users');
+export let currentUserId = '';
+console.log(currentUserId);
 
 const uiConfig = {
   signInFlow: 'popup',
@@ -59,6 +61,8 @@ firebase.auth().onAuthStateChanged(firebaseUser => {
     document.body.classList.remove('show-modal');
     showLogOutbutton();
     localStorage.setItem('currentUserId', JSON.stringify(firebaseUser.uid));
+    currentUserId = JSON.parse(localStorage.getItem('currentUserId'));
+    console.log(currentUserId);
   } else {
     refs.userName.innerHTML = '';
     showOpenModalBtn();

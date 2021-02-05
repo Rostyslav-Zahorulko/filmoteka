@@ -3,7 +3,7 @@ import 'firebaseui';
 import 'firebase/database';
 import '../../node_modules/firebaseui/dist/firebaseui.css';
 import refs from './refs';
-import { filmotekaDatabase } from './login-form';
+import { currentUserId, filmotekaDatabase } from './login-form';
 
 import toastr from 'toastr';
 import '../../node_modules/toastr/build/toastr.css';
@@ -25,28 +25,25 @@ toastr.options = {
   hideMethod: 'fadeOut',
 };
 
+// ========================VARIABLES==============================
+// export let currentUserId = JSON.parse(localStorage.getItem('currentUserId'));
+
+// let userWatched = getUserWatchedFromDatabase(currentUserId);
+// let userQueue = getUserQueueFromDatabase(currentUserId);
+
 // ==================INITIALAZING DATABASE========================
 filmotekaDatabase.on('value', elem => {
   const usersBase = elem.val();
   console.log(usersBase);
 });
 
-// ========================VARIABLES==============================
-export const currentUserId = JSON.parse(localStorage.getItem('currentUserId'));
-console.log(currentUserId);
-// let userWatched = getUserWatchedFromDatabase(currentUserId);
-// let userQueue = getUserQueueFromDatabase(currentUserId);
-
 // ==================ADDING TO USER WATCHED LIBRARY===============
 export function updateUserWatched(movieData) {
-  if (currentUserId === null) {
+  let userData = getUserLibraryFromDatabase(currentUserId);
+  if (!userData) {
     toastr['error']('Please LOG IN to add the movie');
     return;
   }
-
-  let userData = getUserLibraryFromDatabase(currentUserId);
-  console.log(currentUserId);
-  console.log(userData);
 
   if (userData.userWatched) {
     if (!userData.userQueue) {
@@ -101,12 +98,12 @@ export function updateUserWatched(movieData) {
 
 // ==================ADDING TO USER QUEUE LIBRARY===============
 export function updateUserQueue(movieData) {
-  if (currentUserId === null) {
+  let userData = getUserLibraryFromDatabase(currentUserId);
+  if (!userData) {
     toastr['error']('Please LOG IN to add the movie');
     return;
   }
 
-  let userData = getUserLibraryFromDatabase(currentUserId);
   // console.log(userData.userQueue);
   if (userData.userQueue) {
     if (!userData.userWatched) {
@@ -169,11 +166,12 @@ export function updateUserQueue(movieData) {
 
 // ===============CHECK IF WATCHED MOVIE IS IN QUEUE. DELETE IF SO=================
 export function checkIfInQueue(movieData) {
-  if (currentUserId === null) {
-    return;
-  }
   let userData = getUserLibraryFromDatabase(currentUserId);
   // console.log(userData.userQueue);
+  if (!userData) {
+    toastr['error']('Please LOG IN to add the movie');
+    return;
+  }
 
   if (userData.userQueue) {
     if (!userData.userWatched) {
@@ -279,12 +277,12 @@ function changeQueueBtnToAdd() {
 
 // UPDATE BUTTONS IN MOVIECARD IF USER HAS WATCHeD THE MOVIE
 export function checkIfIsInUserLibrary(movieData) {
-  if (currentUserId === null) {
-    toastr['error']('Please sign up or log in to add the movie');
+  let userData = getUserLibraryFromDatabase(currentUserId);
+
+  if (!userData) {
+    toastr['error']('Please LOG IN to add the movie');
     return;
   }
-
-  let userData = getUserLibraryFromDatabase(currentUserId);
   // CHECK USER WATCHeD
   if (userData.userWatched) {
     const isDublicate = userData.userWatched.some(

@@ -4,10 +4,11 @@ import { paginateFilms, paginateOnClick } from './pagination';
 import { showSpinner, hideSpinner } from './spinner';
 import apiServise from './api-servise';
 import {
-  currentUserId,
+  // currentUserId,
   getUserWatchedFromDatabase,
   getUserQueueFromDatabase,
 } from './userLibrary';
+import { currentUserId } from './login-form';
 
 const refs = {
   header: document.querySelector('.header-container-js'),
@@ -109,12 +110,14 @@ function libraryHandleClick(event) {
   const watchedFilms = getUserWatchedFromDatabase(currentUserId);
   const queuedFilms = getUserQueueFromDatabase(currentUserId);
   updateHeaderMarkup(headerTemplates.myLibraryHeader);
+  const watchedBtn = document.querySelector('.header-button-watched');
+  const queueBtn = document.querySelector('.header-button-queue');
+
   refs.filmsGallery.innerHTML = '';
   refs.paginationContainer.style.display = 'none';
   updateFilmsLibraryMarkup(watchedFilms);
+  // renderMyLibraryWatched(watchedBtn, queueBtn, watchedFilms);
 
-  const watchedBtn = document.querySelector('.header-button-watched');
-  const queueBtn = document.querySelector('.header-button-queue');
   function onLibraryButtonsClick(activeBtn, inactiveBtn, films) {
     activeBtn.addEventListener('click', event => {
       event.preventDefault();
@@ -148,7 +151,14 @@ function libraryHandleClick(event) {
       },
     );
   }
+  //========================Zoe Dobavila=======================
+  function renderMyLibraryWatched(activeBtn, inactiveBtn, films) {
+    updateFilmsLibraryMarkup(films);
+    inactiveBtn.classList.remove('is-active-btn');
+    activeBtn.classList.add('is-active-btn');
+  }
 }
+
 //-------------------------------------------------------------
 
 renderHomePage(headerTemplates.homeHeader);
