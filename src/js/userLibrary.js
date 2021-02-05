@@ -100,7 +100,6 @@ export function updateUserWatched(movieData) {
 }
 
 // ==================ADDING TO USER QUEUE LIBRARY===============
-
 export function updateUserQueue(movieData) {
   if (currentUserId === null) {
     toastr['error']('Please LOG IN to add the movie');
