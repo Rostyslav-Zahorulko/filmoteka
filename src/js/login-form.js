@@ -21,6 +21,9 @@ const uiStart = () => ui.start('#firebaseui-auth-container', uiConfig);
 //phoneAuth
 new firebase.auth.PhoneAuthProvider();
 
+// =======VARIABLE FOR WORKING WITH USER LIBRARY========
+export const filmotekaDatabase = firebase.database().ref('users');
+
 const uiConfig = {
   signInFlow: 'popup',
   signInOptions: [
@@ -29,9 +32,20 @@ const uiConfig = {
     firebase.auth.EmailAuthProvider.PROVIDER_ID,
     firebaseui.auth.AnonymousAuthProvider.PROVIDER_ID,
   ],
+  callbacks: {
+    signInSuccessWithAuthResult: function (authResult) {
+      if (authResult) {
+        setUserData(firebaseUser.uid);
+        return true;
+      }
+    },
+  },
 };
 refs.logOutbutton.addEventListener('click', e => {
   firebase.auth().signOut();
+  localStorage.removeItem('currentUserId');
+  window.location.reload();
+  // setUserData(firebaseUser.uid);
 });
 
 // login state
@@ -44,6 +58,7 @@ firebase.auth().onAuthStateChanged(firebaseUser => {
     refs.userName.innerHTML = `${displayName}`;
     document.body.classList.remove('show-modal');
     showLogOutbutton();
+    localStorage.setItem('currentUserId', JSON.stringify(firebaseUser.uid));
   } else {
     refs.userName.innerHTML = '';
     showOpenModalBtn();
@@ -59,4 +74,15 @@ function showLogOutbutton() {
 function showOpenModalBtn() {
   refs.openModalBtn.classList.remove('is-hidden');
   refs.logOutbutton.classList.add('is-hidden');
+}
+
+function setUserData(userId) {
+  const userLibrary = {
+    userId: userId,
+    userWatched: [],
+    userQueue: [],
+  };
+  const updates = {};
+  updates['users/' + userId] = userLibrary;
+  return firebase.database().ref().update(updates);
 }

@@ -1,8 +1,12 @@
+import firebase from 'firebase/app';
+import 'firebaseui';
+import 'firebase/database';
+import '../../node_modules/firebaseui/dist/firebaseui.css';
 import refs from './refs';
+import { filmotekaDatabase } from './login-form';
 
 import toastr from 'toastr';
 import '../../node_modules/toastr/build/toastr.css';
-
 toastr.options = {
   closeButton: true,
   debug: false,
@@ -21,195 +25,295 @@ toastr.options = {
   hideMethod: 'fadeOut',
 };
 
-// WATCHED LIBRARY (ADD MOVIES TO USER WATCHeD IN THE LOCAL STORAGE)
-// LOCAL STORAGE KEY = localWatched
+// ==================INITIALAZING DATABASE========================
+filmotekaDatabase.on('value', elem => {
+  const usersBase = elem.val();
+  console.log(usersBase);
+});
+
+// ========================VARIABLES==============================
+export const currentUserId = JSON.parse(localStorage.getItem('currentUserId'));
+console.log(currentUserId);
+// let userWatched = getUserWatchedFromDatabase(currentUserId);
+// let userQueue = getUserQueueFromDatabase(currentUserId);
+
+// ==================ADDING TO USER WATCHED LIBRARY===============
 export function updateUserWatched(movieData) {
-  let userWatched = [];
-  let localWatched = localStorage.getItem('localWatched');
+  if (currentUserId === null) {
+    toastr['error']('Please LOG IN to add the movie');
+    return;
+  }
 
-  if (localWatched) {
-    userWatched = JSON.parse(localWatched);
+  let userData = getUserLibraryFromDatabase(currentUserId);
+  console.log(currentUserId);
+  console.log(userData);
 
+  if (userData.userWatched) {
+    if (!userData.userQueue) {
+      userData.userQueue = [];
+      updateUserDatabase(currentUserId, userData);
+      // console.log(userData.userQueue);
+    }
     if (refs.addToWatchedBtn.classList.contains('js-is-in-watched')) {
-      let movieIndex = userWatched.findIndex(
+      let movieIndex = userData.userWatched.findIndex(
         movie => movie.id === movieData.id,
       );
       movieData.isInWatched = false;
-      userWatched.splice(movieIndex, 1);
-      refs.addToWatchedBtn.textContent = 'Add to Watched';
-      refs.addToWatchedBtn.classList.remove('js-is-in-watched');
+      userData.userWatched.splice(movieIndex, 1);
+      updateUserDatabase(currentUserId, userData);
+      changeWatchedBtnToAdd();
       toastr['success']('Removed from your Watched list');
-
-      return userWatched;
+      return userData.userWatched;
     } else {
-      const isDublicate = userWatched.some(function (movie) {
+      const isDublicate = userData.userWatched.some(function (movie) {
         return movie.id === movieData.id;
       });
       if (isDublicate) {
-        console.log('this movie has already been added');
         toastr['warning']('This movie has already been added');
-        return userWatched;
+        return userData.userWatched;
       } else if (!isDublicate) {
         movieData.isInWatched = true;
-        userWatched.push(movieData);
+        userData.userWatched.push(movieData);
+        updateUserDatabase(currentUserId, userData);
         toastr['success']('Added to your Watched list');
-        // изменение текста кнопки
-        refs.addToWatchedBtn.textContent = 'Watched (remove)';
-        refs.addToWatchedBtn.classList.add('js-is-in-watched');
-
-        return userWatched;
+        changeWatchedBtnToRemove();
+        return userData.userWatched;
       }
-      return userWatched;
+      return userData.userWatched;
     }
   } else {
     movieData.isInWatched = true;
-    userWatched.push(movieData);
+    userData.userWatched = [];
+    userData.userWatched.push(movieData);
+
+    if (!userData.userQueue) {
+      userData.userQueue = [];
+      updateUserDatabase(currentUserId, userData);
+      // console.log(userData.userQueue);
+    } else {
+      updateUserDatabase(currentUserId, userData);
+    }
     toastr['success']('Added to your Watched list');
-    // изменение текста кнопки
-    refs.addToWatchedBtn.textContent = 'Watched (remove)';
-    refs.addToWatchedBtn.classList.add('js-is-in-watched');
+    changeWatchedBtnToRemove();
+  }
+  // getUserWatchedFromDatabase(currentUserId);
+}
+
+// ==================ADDING TO USER QUEUE LIBRARY===============
+export function updateUserQueue(movieData) {
+  if (currentUserId === null) {
+    toastr['error']('Please LOG IN to add the movie');
+    return;
   }
 
-  return userWatched;
-}
-
-export function addToLocalWatched(array) {
-  // console.log(array);
-  localStorage.setItem('localWatched', JSON.stringify(array));
-}
-
-// QUEUE LIBRARY (ADD MOVIES TO USER QUEUE IN THE LOCAL STORAGE)
-// LOCAL STORAGE KEY = localQueue
-
-export function updateUserQueue(movieData) {
-  let userQueue = [];
-  let localQueue = localStorage.getItem('localQueue');
-
-  if (localQueue) {
-    userQueue = JSON.parse(localQueue);
-
+  let userData = getUserLibraryFromDatabase(currentUserId);
+  // console.log(userData.userQueue);
+  if (userData.userQueue) {
+    if (!userData.userWatched) {
+      userData.userWatched = [];
+      updateUserDatabase(currentUserId, userData);
+    }
     if (refs.addToQueueBtn.classList.contains('js-is-in-queue')) {
-      let movieIndex = userQueue.findIndex(movie => movie.id === movieData.id);
+      let movieIndex = userData.userQueue.findIndex(
+        movie => movie.id === movieData.id,
+      );
       movieData.isInQueue = false;
-      userQueue.splice(movieIndex, 1);
-      refs.addToQueueBtn.textContent = 'Add to Queue';
-      refs.addToQueueBtn.classList.remove('js-is-in-queue');
+      userData.userQueue.splice(movieIndex, 1);
+      updateUserDatabase(currentUserId, userData);
+      changeQueueBtnToAdd();
       toastr['success']('Removed from your Queue');
-      return userQueue;
+      return userData.userQueue;
     } else {
       if (isInWatched(movieData)) {
         console.log('you`ve already watched this movie');
         toastr['warning']('You`ve alredy watched this movie');
-        return userQueue;
+        return userData.userQueue;
       } else {
-        const isDublicate = userQueue.some(function (movie) {
+        const isDublicate = userData.userQueue.some(function (movie) {
           return movie.id === movieData.id;
         });
+
         if (isDublicate) {
           console.log('this movie has already been added');
           toastr['warning']('This movie has already been added');
-          return userQueue;
+          return userData.userQueue;
         } else if (!isDublicate) {
-          userQueue.push(movieData);
           movieData.isInQueue = true;
+          userData.userQueue.push(movieData);
+          updateUserDatabase(currentUserId, userData);
           toastr['success']('Added to your Queue');
           // изменение текста кнопки
-          refs.addToQueueBtn.textContent = 'In Queue (remove)';
-          refs.addToQueueBtn.classList.add('js-is-in-queue');
-          return userQueue;
+          changeQueueBtnToRemove();
+          return userData.userQueue;
         }
       }
     }
   } else {
-    userQueue.push(movieData);
+    userData.userQueue = [];
     movieData.isInQueue = true;
+    userData.userQueue.push(movieData);
+
+    if (!userData.userWatched) {
+      userData.userQueue = [];
+      updateUserDatabase(currentUserId, userData);
+    } else {
+      updateUserDatabase(currentUserId, userData);
+    }
+
     toastr['success']('Added to your Queue');
     // изменение текста кнопки
-    refs.addToQueueBtn.textContent = 'In Queue (remove)';
-    refs.addToQueueBtn.classList.add('js-is-in-queue');
-    return userQueue;
+    changeQueueBtnToRemove();
+    return userData.userQueue;
   }
 }
 
-export function addToLocalQueue(array) {
-  // console.log(array);
-  localStorage.setItem('localQueue', JSON.stringify(array));
-}
-
-// CHECK IF WATCHED MOVIE IS ON QUEUE. DELETE IF SO
+// ===============CHECK IF WATCHED MOVIE IS IN QUEUE. DELETE IF SO=================
 export function checkIfInQueue(movieData) {
-  // let userQueue = [];
-  let localQueue = localStorage.getItem('localQueue');
+  if (currentUserId === null) {
+    return;
+  }
+  let userData = getUserLibraryFromDatabase(currentUserId);
+  // console.log(userData.userQueue);
 
-  if (localQueue) {
-    let userQueue = JSON.parse(localQueue);
-    const isDublicate = userQueue.some(function (movie) {
+  if (userData.userQueue) {
+    if (!userData.userWatched) {
+      userData.userWatched = [];
+      updateUserDatabase(currentUserId, userData);
+    }
+
+    const isDublicate = userData.userQueue.some(function (movie) {
       return movie.id === movieData.id;
     });
     if (isDublicate) {
-      let movieIndex = userQueue.findIndex(movie => movie.id === movieData.id);
-      userQueue.splice(movieIndex, 1);
+      let movieIndex = userData.userQueue.findIndex(
+        movie => movie.id === movieData.id,
+      );
       movieData.isInQueue = false;
-
-      refs.addToQueueBtn.textContent = 'Add to Queue';
-      refs.addToQueueBtn.classList.remove('js-is-in-queue');
-
+      userData.userQueue.splice(movieIndex, 1);
+      changeQueueBtnToAdd();
       console.log('movie was deleted wrom Queue and added to watched');
-      addToLocalQueue(userQueue);
+      updateUserDatabase(currentUserId, userData);
     }
-    // return;
+    // getUserQueueFromDatabase(currentUserId);
   }
 }
 
-// IS THIS MOVIE IS ALREADY WATCHED (DO NOT ADD TO QUEUE)
+// =============IS THIS MOVIE IS ALREADY WATCHED (DO NOT ADD TO QUEUE)=======
 function isInWatched(movieData) {
-  let userWatched = [];
-  let localWatched = localStorage.getItem('localWatched');
+  let userData = getUserLibraryFromDatabase(currentUserId);
 
-  if (localWatched) {
-    userWatched = JSON.parse(localWatched);
-    const isDublicate = userWatched.some(function (movie) {
+  if (userData.userWatched) {
+    const isDublicate = userData.userWatched.some(function (movie) {
       return movie.id === movieData.id;
     });
+    console.log(isDublicate);
     return isDublicate;
   } else {
     return false;
   }
 }
 
-// UPDATE BUTTONS IN MOVIECARD IF USER HAS wATCHeD THE MOVIE
-export function checkIfIsInUserLibrary(movieData) {
-  // CHECK UZER WATCHeD
-  let localWatched = localStorage.getItem('localWatched');
+// ================ DATABASE FUNCTIONS==========================
+// GET ALL LIBRARY DATA FROM DATABASE
+function getUserLibraryFromDatabase(userId) {
+  let userBase = {};
+  filmotekaDatabase.on('value', elem => {
+    userBase = elem.val()[`${userId}`];
+    console.log(userBase);
+  });
+  return userBase;
+}
 
-  if (localWatched) {
-    let userWatched = JSON.parse(localWatched);
-    const isDublicate = userWatched.some(movie => movie.id === movieData.id);
-    console.log(isDublicate);
+// GET USERWATCHED DATA FROM DATABASE
+export function getUserWatchedFromDatabase(userId) {
+  let userWatched = [];
+  filmotekaDatabase.on('value', elem => {
+    userWatched = elem.val()[`${userId}`][`userWatched`];
+    // console.log(userWatched);
+  });
+  return userWatched;
+}
+
+// GET USERQUEUE DATA FROM DATABASE
+export function getUserQueueFromDatabase(userId) {
+  let userQueue = [];
+  filmotekaDatabase.on('value', elem => {
+    userQueue = elem.val()[`${userId}`][`userQueue`];
+    // console.log(userQueue);
+  });
+  return userQueue;
+}
+
+// UPDATE DATABaSE
+function updateUserDatabase(userId, userData) {
+  const userLibrary = {
+    userId: userId,
+    userWatched: userData.userWatched,
+    userQueue: userData.userQueue,
+  };
+  const updates = {};
+  updates['users/' + userId] = userLibrary;
+  return firebase.database().ref().update(updates);
+}
+
+// ==========================BUTTONS HANDLERS===============================
+function changeWatchedBtnToRemove() {
+  refs.addToWatchedBtn.textContent = 'Watched (remove)';
+  refs.addToWatchedBtn.classList.add('js-is-in-watched');
+}
+
+function changeWatchedBtnToAdd() {
+  refs.addToWatchedBtn.textContent = 'Add to Watched';
+  refs.addToWatchedBtn.classList.remove('js-is-in-watched');
+}
+
+function changeQueueBtnToRemove() {
+  refs.addToQueueBtn.textContent = 'In queue (remove)';
+  refs.addToQueueBtn.classList.add('js-is-in-queue');
+}
+
+function changeQueueBtnToAdd() {
+  refs.addToQueueBtn.textContent = 'Add to Queue';
+  refs.addToQueueBtn.classList.remove('js-is-in-queue');
+}
+
+// UPDATE BUTTONS IN MOVIECARD IF USER HAS WATCHeD THE MOVIE
+export function checkIfIsInUserLibrary(movieData) {
+  if (currentUserId === null) {
+    toastr['error']('Please sign up or log in to add the movie');
+    return;
+  }
+
+  let userData = getUserLibraryFromDatabase(currentUserId);
+  // CHECK USER WATCHeD
+  if (userData.userWatched) {
+    const isDublicate = userData.userWatched.some(
+      movie => movie.id === movieData.id,
+    );
+    // console.log(isDublicate);
     if (isDublicate) {
-      let movieIndex = userWatched.findIndex(
+      let movieIndex = userData.userWatched.findIndex(
         movie => movie.id === movieData.id,
       );
       console.log(movieIndex);
-      if (userWatched[movieIndex].isInWatched) {
-        refs.addToWatchedBtn.textContent = 'Watched (remove)';
-        refs.addToWatchedBtn.classList.add('js-is-in-watched');
+      if (userData.userWatched[movieIndex].isInWatched) {
+        changeWatchedBtnToRemove();
       }
     }
   }
   // CHECK USER QUEUE
-  let localQueue = localStorage.getItem('localQueue');
-
-  if (localQueue) {
-    let userQueue = JSON.parse(localQueue);
-    const isDublicate = userQueue.some(movie => movie.id === movieData.id);
+  if (userData.userQueue) {
+    const isDublicate = userData.userQueue.some(
+      movie => movie.id === movieData.id,
+    );
     console.log(isDublicate);
     if (isDublicate) {
-      let movieIndex = userQueue.findIndex(movie => movie.id === movieData.id);
+      let movieIndex = userData.userQueue.findIndex(
+        movie => movie.id === movieData.id,
+      );
       console.log(movieIndex);
-      if (userQueue[movieIndex].isInQueue) {
-        refs.addToQueueBtn.textContent = 'In queue (remove)';
-        refs.addToQueueBtn.classList.add('js-is-in-queue');
+      if (userData.userQueue[movieIndex].isInQueue) {
+        changeQueueBtnToRemove();
       }
     }
   }

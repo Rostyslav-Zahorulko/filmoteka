@@ -3,6 +3,11 @@ import genres from './decodingJenres';
 import { paginateFilms, paginateOnClick } from './pagination';
 import { showSpinner, hideSpinner } from './spinner';
 import apiServise from './api-servise';
+import {
+  currentUserId,
+  getUserWatchedFromDatabase,
+  getUserQueueFromDatabase,
+} from './userLibrary';
 
 const refs = {
   header: document.querySelector('.header-container-js'),
@@ -101,8 +106,8 @@ function libraryHandleClick(event) {
   event.preventDefault();
   refs.homeLink.classList.remove('current');
   refs.libraryBtn.classList.add('current');
-  const watchedFilms = JSON.parse(localStorage.getItem('localWatched'));
-  const queuedFilms = JSON.parse(localStorage.getItem('localQueue'));
+  const watchedFilms = getUserWatchedFromDatabase(currentUserId);
+  const queuedFilms = getUserQueueFromDatabase(currentUserId);
   updateHeaderMarkup(headerTemplates.myLibraryHeader);
   refs.filmsGallery.innerHTML = '';
   refs.paginationContainer.style.display = 'none';
