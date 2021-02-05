@@ -1,6 +1,7 @@
 import headerTemplates from './components/headers-tpl';
 import movieDetailedCardTemplate from '../templates/details-modal.hbs';
 import renderFilmsGallery from './homePageRendering';
+import listenSearchFormSubmit from './movieSearch';
 import genres from './decodingJenres';
 import refs from './refs';
 import {
@@ -14,23 +15,41 @@ const apiKey = 'ffddee44025dd24685ea61d637d56d24';
 const baseUrl = 'https://api.themoviedb.org/3/movie/';
 let movieId = 0;
 let currentPage = 0;
+let inputValue = '';
+let activeLink = '';
+let activeBtn = '';
 
-refs.filmsGallery = document.querySelector('.films-gallery-container');
+refs.headerSearchInput = document.querySelector('.header-search-form-input');
 refs.header = document.querySelector('.header-container-js');
 refs.main = document.querySelector('main');
-refs.filmsGalleryListSearch = document.querySelector('.list-movie-search-js');
 refs.filmsGalleryList = document.querySelector('#films-gallery');
 refs.pagination = document.querySelector('#pagination');
 
+refs.headerSearchInput.addEventListener('change', getInputValue);
 refs.filmsGalleryList.addEventListener('click', handleMovieDetails);
-refs.filmsGalleryListSearch.addEventListener('click', handleMovieDetails);
+
+function getActiveElements() {
+  activeLink = document.querySelector('.current').textContent;
+  currentPage = Number(document.querySelector('.tui-is-selected').textContent);
+
+  if (activeLink === 'MY LIBRARY') {
+    refs.activeBtn = document.querySelector('.is-active-btn');
+    activeBtn = refs.activeBtn.textContent;
+  }
+  return [activeLink, currentPage, activeBtn];
+}
+
+function getInputValue(event) {
+  inputValue = event.target.value;
+  return inputValue;
+}
 
 function handleMovieDetails(event) {
+  getActiveElements();
+
   if (event.target.parentNode.nodeName !== 'LI') {
     return;
   }
-  refs.currentPage = document.querySelector('.tui-is-selected');
-  currentPage = Number(refs.currentPage.textContent);
 
   movieId = event.target.parentNode.dataset.id;
   refs.spinner.classList.add('is-open');
@@ -40,13 +59,13 @@ function handleMovieDetails(event) {
         id: data.id,
         poster_path: data.poster_path,
         title: data.title,
-        release_date: data.release_date,
         vote_average: data.vote_average,
         vote_count: data.vote_count,
         popularity: Math.ceil(data.popularity * 10) / 10,
         original_title: data.original_title,
         overview: data.overview,
         genres: data.genres.slice(0, 2).map(({ name }) => name),
+        release_date: data.release_date.split('-')[0],
       };
       if (data.genres.length > 2) {
         newData.genres.push('Other');
@@ -55,13 +74,13 @@ function handleMovieDetails(event) {
       const modalMovieCard = movieDetailedCardTemplate(newData);
       renderMovieDetailsPage(modalMovieCard);
 
+      window.addEventListener('keydown', onPressESC);
+      refs.main.addEventListener('click', closeOnClick);
+
       // ADD BUTTUNS & CHECK IF THE MOVIE IS IN USER LIBRARY
       refs.addToWatchedBtn = document.querySelector('#js-watched-button');
       refs.addToQueueBtn = document.querySelector('#js-queue-button');
       checkIfIsInUserLibrary(newData);
-
-      window.addEventListener('keydown', onPressESC);
-      refs.main.addEventListener('click', closeOnClick);
 
       // WATCHED BUTTON HANDLER
       refs.addToWatchedBtn.addEventListener('click', e => {
@@ -89,24 +108,67 @@ function getMovieDetails(baseUrl, apiKey, movieId) {
 }
 
 function renderMovieDetailsPage(modalMovieCard) {
+  // document.querySelector('.header-container');
   refs.header.innerHTML = '';
   refs.filmsGalleryList.innerHTML = '';
-  refs.filmsGalleryListSearch.innerHTML = '';
   refs.filmsGalleryList.style.display = 'none';
-  refs.filmsGalleryListSearch.style.display = 'none';
   refs.pagination.style.display = 'none';
   refs.header.insertAdjacentHTML('beforeend', headerTemplates.modalHeader);
-  refs.filmsGallery.insertAdjacentHTML('afterbegin', modalMovieCard);
+  refs.main.insertAdjacentHTML('afterbegin', modalMovieCard);
 }
 
 function closeMovieDetails() {
   refs.header.innerHTML = '';
-  refs.header.insertAdjacentHTML('beforeend', headerTemplates.homeHeader);
   document.querySelector('.modal').remove();
   refs.filmsGalleryList.style.display = 'flex';
-  refs.filmsGalleryListSearch.style.display = 'flex';
-  renderFilmsGallery(currentPage, genres);
-  refs.pagination.style.display = 'block';
+
+  if (activeLink === 'HOME') {
+    refs.header.insertAdjacentHTML('beforeend', headerTemplates.homeHeader);
+    refs.searchForm = document.querySelector('#search-form');
+    refs.searchForm.addEventListener('submit', listenSearchFormSubmit);
+
+    if (inputValue !== '') {
+      renderSearchFilmsGallery(currentPage, genres, inputValue);
+    } else {
+      renderFilmsGallery(currentPage, genres);
+    }
+    refs.pagination.style.display = 'block';
+  }
+
+  if (activeLink === 'MY LIBRARY') {
+    refs.header.insertAdjacentHTML(
+      'beforeend',
+      headerTemplates.myLibraryHeader,
+    );
+    const userLocalStorageWatched = JSON.parse(
+      localStorage.getItem('localWatched'),
+    );
+    const userLocalStorageQueue = JSON.parse(
+      localStorage.getItem('localQueue'),
+    );
+
+    if (activeBtn === 'watched') {
+      renderLibrary(userLocalStorageWatched);
+    } else {
+      renderLibrary(userLocalStorageQueue);
+    }
+
+    refs.watchedBtn = document.querySelector('.header-button-watched');
+    refs.queueBtn = document.querySelector('.header-button-queue');
+
+    onLibraryButtonsClick(
+      refs.queueBtn,
+      refs.watchedBtn,
+      userLocalStorageQueue,
+    );
+    onLibraryButtonsClick(
+      refs.watchedBtn,
+      refs.queueBtn,
+      userLocalStorageWatched,
+    );
+  }
+
+  // inputValue = "";
 }
 
 function onPressESC(event) {
@@ -125,4 +187,83 @@ function closeOnClick(event) {
       closeMovieDetails();
       refs.main.removeEventListener('click', closeOnClick);
   }
+}
+
+// ========RENDER SearchGalleryFilms============
+function renderSearchFilmsGallery(currentPage, genres, inputValue) {
+  return fetchApiSearch(currentPage, inputValue).then(
+    ({ results, total_results }) => {
+      updateFilmsGalleryMarkup(results, genres);
+      const data = {
+        totalAmountOfFilms: total_results,
+      };
+
+      return data;
+    },
+  );
+}
+function fetchApiSearch(currentPage, inputValue) {
+  return fetch(
+    `https://api.themoviedb.org/3/search/movie?api_key=${apiKey}&language=en-US&query=${inputValue}&page=${currentPage}&include_adult=false`,
+  ).then(res => res.json());
+}
+
+function updateFilmsGalleryMarkup(films, genres) {
+  films.map(({ id, poster_path, title, release_date, genre_ids }) => {
+    const filteredGenres = genres.filter(genre => genre_ids.includes(genre.id));
+
+    const mapedGenres = filteredGenres.map(({ name }) => name);
+
+    let slicedMapedGenres = [];
+
+    if (mapedGenres.length < 3) {
+      slicedMapedGenres = mapedGenres;
+    } else {
+      slicedMapedGenres = mapedGenres.slice(0, 2);
+      slicedMapedGenres.push('Other');
+    }
+    const markup = `
+<li class="films-gallery-item" data-id="${id}">
+  <img
+    class="films-gallery-item-image"
+    src="https://image.tmdb.org/t/p/w342${poster_path}"
+    alt="«${title}» film poster"
+  >
+  <p class="films-gallery-item-title">${title.toUpperCase()}</p>
+  <p class="films-gallery-item-info">${slicedMapedGenres.join(', ')} | ${
+      release_date.split('-')[0]
+    }</p>
+</li>
+`;
+
+    refs.filmsGalleryList.insertAdjacentHTML('beforeend', markup);
+  });
+}
+
+function onLibraryButtonsClick(activeBtn, inactiveBtn, films) {
+  activeBtn.addEventListener('click', event => {
+    event.preventDefault();
+    refs.filmsGalleryList.innerHTML = '';
+    renderLibrary(films);
+    inactiveBtn.classList.remove('is-active-btn');
+    activeBtn.classList.add('is-active-btn');
+  });
+}
+
+function renderLibrary(films) {
+  films.map(({ id, poster_path, title, release_date, genres }) => {
+    const markup = `
+<li class="films-gallery-item" data-id="${id}">
+  <img
+    class="films-gallery-item-image"
+    src="https://image.tmdb.org/t/p/w342${poster_path}"
+    alt="«${title}» film poster"
+  >
+  <p class="films-gallery-item-title">${title.toUpperCase()}</p>
+  <p class="films-gallery-item-info">${genres} | ${release_date}</p>
+</li>
+`;
+
+    refs.filmsGalleryList.insertAdjacentHTML('beforeend', markup);
+  });
 }

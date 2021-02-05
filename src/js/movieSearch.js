@@ -12,8 +12,7 @@ const refs = {
 const path = 'https://api.themoviedb.org/3';
 const key = 'ffddee44025dd24685ea61d637d56d24';
 
-function listenSearchFormSubmit() {
-  refs.searchForm.addEventListener('submit', event => {
+function listenSearchFormSubmit(event) {
     event.preventDefault();
 
     apiServise.resetPage();
@@ -38,9 +37,8 @@ function listenSearchFormSubmit() {
     showSpinner();
     setPagination().catch(console.log).finally(hideSpinner);
 
-    form.reset();
-  });
-}
+  form.reset();
+};
 
 function setPagination() {
   return renderFilmsGallery().then(({ totalAmountOfFilms }) => {
@@ -120,4 +118,5 @@ function updateFilmsGalleryMarkup(films) {
   });
 }
 
-listenSearchFormSubmit();
+refs.searchForm.addEventListener('submit', listenSearchFormSubmit);
+export default listenSearchFormSubmit;

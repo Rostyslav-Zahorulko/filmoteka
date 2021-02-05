@@ -108,10 +108,6 @@ function libraryHandleClick(event) {
   refs.libraryBtn.classList.add('current');
   const watchedFilms = getUserWatchedFromDatabase(currentUserId);
   const queuedFilms = getUserQueueFromDatabase(currentUserId);
-  const filmsGalleryListSearch = document.querySelector(
-    '.list-movie-search-js',
-  );
-  filmsGalleryListSearch.style.display = 'none';
   updateHeaderMarkup(headerTemplates.myLibraryHeader);
   refs.filmsGallery.innerHTML = '';
   refs.paginationContainer.style.display = 'none';
