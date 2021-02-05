@@ -113,7 +113,7 @@ function renderMovieDetailsPage(modalMovieCard) {
   // document.querySelector('.header-container');
   refs.header.innerHTML = '';
   refs.filmsGalleryList.innerHTML = '';
-  refs.filmsGalleryList.style.display = 'none';
+  // refs.filmsGalleryList.style.display = 'none';
   refs.pagination.style.display = 'none';
   refs.header.insertAdjacentHTML('beforeend', headerTemplates.modalHeader);
   refs.main.insertAdjacentHTML('afterbegin', modalMovieCard);
@@ -149,14 +149,16 @@ function closeMovieDetails() {
       localStorage.getItem('localQueue'),
     );
 
+    refs.watchedBtn = document.querySelector('.header-button-watched');
+    refs.queueBtn = document.querySelector('.header-button-queue');
+
     if (activeBtn === 'watched') {
       renderLibrary(userLocalStorageWatched);
     } else {
       renderLibrary(userLocalStorageQueue);
+      refs.watchedBtn.classList.remove('is-active-btn');
+      refs.queueBtn.classList.add('is-active-btn');
     }
-
-    refs.watchedBtn = document.querySelector('.header-button-watched');
-    refs.queueBtn = document.querySelector('.header-button-queue');
 
     onLibraryButtonsClick(
       refs.queueBtn,
@@ -237,7 +239,6 @@ function updateFilmsGalleryMarkup(films, genres) {
     }</p>
 </li>
 `;
-
     refs.filmsGalleryList.insertAdjacentHTML('beforeend', markup);
   });
 }
@@ -253,8 +254,9 @@ function onLibraryButtonsClick(activeBtn, inactiveBtn, films) {
 }
 
 function renderLibrary(films) {
-  films.map(({ id, poster_path, title, release_date, genres }) => {
-    const markup = `
+  films.map(
+    ({ id, poster_path, title, release_date, genres, vote_average }) => {
+      const markup = `
 <li class="films-gallery-item" data-id="${id}">
   <img
     class="films-gallery-item-image"
@@ -262,10 +264,13 @@ function renderLibrary(films) {
     alt="«${title}» film poster"
   >
   <p class="films-gallery-item-title">${title.toUpperCase()}</p>
-  <p class="films-gallery-item-info">${genres} | ${release_date}</p>
+  <p class="films-gallery-item-info">${genres.join(
+    ', ',
+  )} | ${release_date}<span class="modal-info-vote-average library">${vote_average}</span></p>
 </li>
 `;
 
-    refs.filmsGalleryList.insertAdjacentHTML('beforeend', markup);
-  });
+      refs.filmsGalleryList.insertAdjacentHTML('beforeend', markup);
+    },
+  );
 }
