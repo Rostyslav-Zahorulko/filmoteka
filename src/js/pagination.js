@@ -1,5 +1,5 @@
 import Pagination from 'tui-pagination';
-import renderFilmsGallery from './homePageRendering';
+import { renderFilmsGallery} from './homePageRendering';
 import { showSpinner, hideSpinner } from './spinner';
 import apiServise from './api-servise';
 
@@ -42,10 +42,11 @@ function paginateFilms(totalAmountOfFilms) {
 function paginateOnClick(totalAmountOfFilms) {
   refs.paginationContainer.addEventListener(
     'click',
-    handleOnPaginationContainerClick,
+    handleOnPaginationContainerClick
   );
 
   function handleOnPaginationContainerClick(event) {
+    console.log("сработало: " + handleOnPaginationContainerClick);
     if (event.target.nodeName !== 'A') {
       return;
     }

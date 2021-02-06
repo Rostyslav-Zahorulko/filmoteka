@@ -36,7 +36,6 @@ function updateHeaderMarkup(headerTpl) {
 function setPagination() {
   return renderFilmsGallery().then(({ totalAmountOfFilms }) => {
     // console.log('totalAmountOfFilms: ', totalAmountOfFilms);
-
     paginateFilms(totalAmountOfFilms);
     paginateOnClick(totalAmountOfFilms);
   });
@@ -167,4 +166,4 @@ function libraryHandleClick(event) {
 
 renderHomePage(headerTemplates.homeHeader);
 
-export default renderFilmsGallery;
+export { renderFilmsGallery,  libraryHandleClick};
