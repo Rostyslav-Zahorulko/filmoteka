@@ -146,6 +146,12 @@ export function updateUserQueue(movieData) {
       }
     }
   } else {
+    if (!userData.userWatched) {
+      userData.userWatched = [];
+      userData.userQueue = [];
+      updateUserDatabase(currentUserId, userData);
+      // console.log(userData.userQueue);
+    }
     if (isInWatched(movieData)) {
       console.log('you`ve already watched this movie');
       toastr['warning']('You`ve alredy watched this movie');
@@ -254,6 +260,9 @@ export function getUserQueueFromDatabase(userId) {
 
 // UPDATE DATABaSE
 function updateUserDatabase(userId, userData) {
+  // if (!userData) {
+  //   return;
+  // }
   const userLibrary = {
     userId: userId,
     userWatched: userData.userWatched,
