@@ -1,4 +1,4 @@
-import { paginateFilms, paginateOnClick } from './pagination';
+import { paginateFilms } from './pagination';
 import genres from './decodingJenres';
 import { showSpinner, hideSpinner } from './spinner';
 import apiServise from './api-servise';
@@ -7,13 +7,17 @@ const refs = {
   filmsGallery: document.querySelector('#films-gallery'),
   searchForm: document.querySelector('#search-form'),
   notice: document.querySelector('.header-search-warning-show'),
+  pagination: document.querySelector('#pagination'),
 };
 
 const path = 'https://api.themoviedb.org/3';
 const key = 'ffddee44025dd24685ea61d637d56d24';
 
 function listenSearchFormSubmit(event) {
-    event.preventDefault();
+  event.preventDefault();
+
+  refs.pagination.innerHTML = "",
+  
 
     apiServise.resetPage();
     // console.log('apiServise.page: ', apiServise.page);
@@ -23,30 +27,111 @@ function listenSearchFormSubmit(event) {
     const form = event.currentTarget;
     const input = form.elements.query;
 
+    apiServise.setQuery(input.value);
+    // console.log('apiServise.query: ', apiServise.query);
+
     if (input.value === '') {
       refs.notice.classList.remove('is-hidden');
       refs.notice.textContent =
         'Unable to make a search query. Please enter any text!';
 
-      return;
+      // return;
     }
 
-    apiServise.setQuery(input.value);
-    // console.log('apiServise.query: ', apiServise.query);
-
     showSpinner();
-    setPagination().catch(console.log).finally(hideSpinner);
+  refs.paginationContainer = document.querySelector('#pagination');
+    setPagination(apiServise.query).catch(console.log).finally(hideSpinner);
 
   form.reset();
+  return
 };
+
 
 function setPagination() {
   return renderFilmsGallery().then(({ totalAmountOfFilms }) => {
     // console.log('totalAmountOfFilms: ', totalAmountOfFilms);
-
     paginateFilms(totalAmountOfFilms);
     paginateOnClick(totalAmountOfFilms);
   });
+}
+
+
+
+function paginateOnClick(totalAmountOfFilms) {
+  refs.paginationContainer.addEventListener(
+    'click',
+    handleOnPaginationContainerClick
+  );
+
+  function handleOnPaginationContainerClick(event) {
+    if (event.target.nodeName !== 'A') {
+      return;
+    }
+
+    refs.filmsGallery.innerHTML = '';
+
+    showSpinner();
+
+    const button = event.target;
+
+    // console.dir(button);
+    // console.log('button.className: ', button.className);
+
+    switch (button.className) {
+      case 'tui-page-btn':
+        apiServise.setPage(Number(button.textContent));
+        // console.log('page: ', apiServise.page);
+        renderFilmsGallery().finally(hideSpinner);
+        return;
+
+      case 'tui-page-btn tui-prev':
+        apiServise.decrementPage();
+        // console.log('page: ', apiServise.page);
+        renderFilmsGallery().finally(hideSpinner);
+        return;
+
+      case 'tui-page-btn tui-next':
+        apiServise.incrementPage();
+        // console.log('page: ', apiServise.page);
+        renderFilmsGallery().finally(hideSpinner);
+        return;
+
+      case 'tui-page-btn tui-first':
+        apiServise.resetPage();
+        // console.log('page: ', apiServise.page);
+        renderFilmsGallery().finally(hideSpinner);
+        return;
+
+      case 'tui-page-btn tui-last':
+        apiServise.setPage(totalAmountOfFilms / 20);
+        // console.log('page: ', apiServise.page);
+        renderFilmsGallery().finally(hideSpinner);
+        return;
+
+      case 'tui-page-btn tui-first-child':
+        apiServise.resetPage();
+        // console.log('page: ', apiServise.page);
+        renderFilmsGallery().finally(hideSpinner);
+        return;
+
+      case 'tui-page-btn tui-prev-is-ellip tui-first-child':
+        const activeBtnRef1 = document.querySelector('.tui-is-selected');
+        apiServise.setPage(Number(activeBtnRef1.textContent));
+        // console.log('page: ', apiServise.page);
+        renderFilmsGallery().finally(hideSpinner);
+        return;
+
+      case 'tui-page-btn tui-next-is-ellip tui-last-child':
+        const activeBtnRef2 = document.querySelector('.tui-is-selected');
+        apiServise.setPage(Number(activeBtnRef2.textContent));
+        // console.log('page: ', apiServise.page);
+        renderFilmsGallery().finally(hideSpinner);
+        return;
+
+      default:
+        console.log('Hi!');
+    }
+  }
 }
 
 function renderFilmsGallery() {
@@ -117,6 +202,10 @@ function updateFilmsGalleryMarkup(films) {
     refs.filmsGallery.insertAdjacentHTML('beforeend', markup);
   });
 }
+
+
+
+// =====================================================================
 
 refs.searchForm.addEventListener('submit', listenSearchFormSubmit);
 export default listenSearchFormSubmit;
