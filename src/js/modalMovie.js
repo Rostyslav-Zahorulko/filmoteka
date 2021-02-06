@@ -270,6 +270,13 @@ function onLibraryButtonsClick(activeBtn, inactiveBtn, films) {
 }
 
 function renderLibrary(films) {
+  if (!films) {
+    refs.filmsGallery.innerHTML = '';
+    const message =
+      '<div class="films-gallery-warning"><p>No movies here yet. Visit Home to add some =)</p><div>';
+    refs.filmsGallery.insertAdjacentHTML('beforeend', message);
+    return;
+  }
   films.map(
     ({ id, poster_path, title, release_date, genres, vote_average }) => {
       const markup = `
