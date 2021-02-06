@@ -153,6 +153,8 @@ function closeMovieDetails() {
       renderLibrary(userLocalStorageWatched);
     } else {
       renderLibrary(userLocalStorageQueue);
+      refs.watchedBtn.classList.remove('is-active-btn');
+      refs.queueBtn.classList.add('is-active-btn');
     }
 
     refs.watchedBtn.classList.remove('is-active-btn');

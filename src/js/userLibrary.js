@@ -146,6 +146,11 @@ export function updateUserQueue(movieData) {
       }
     }
   } else {
+    if (isInWatched(movieData)) {
+      console.log('you`ve already watched this movie');
+      toastr['warning']('You`ve alredy watched this movie');
+      return userData.userQueue;
+    }
     userData.userQueue = [];
     movieData.isInQueue = true;
     userData.userQueue.push(movieData);
@@ -169,7 +174,6 @@ export function checkIfInQueue(movieData) {
   let userData = getUserLibraryFromDatabase(currentUserId);
   // console.log(userData.userQueue);
   if (!userData) {
-    toastr['error']('Please LOG IN to add the movie');
     return;
   }
 
@@ -238,7 +242,6 @@ export function getUserWatchedFromDatabase(userId) {
 // GET USERQUEUE DATA FROM DATABASE
 export function getUserQueueFromDatabase(userId) {
   if (!userId) {
-    toastr['error']('Please LOG IN to create Your Library');
     return;
   }
   let userQueue = [];
