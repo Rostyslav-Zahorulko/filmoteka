@@ -6,6 +6,16 @@ console.log(students);
 let markup = ''
 
 
+const markupStudent = students.reduce(
+  (string, item) => string + `
+<div class="team-card">
+ <img class="team-image" src="${item.src}" alt="${item.name}">
+    <p class="team-name">${item.name}</p>
+    <p class="team-role">${item.role}</p>
+</div>`
+,
+  ""
+);
 // {/* </div> */}
 // console.log(`);
 
