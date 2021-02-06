@@ -1,3 +1,5 @@
+import photoRed from '../images/photo-red.jpg';
+
 const students = [
   {
     src: 'https://ca.slack-edge.com/T01301DGATC-U013V8Q7HU1-b66c40babb7d-192',
@@ -54,7 +56,7 @@ const students = [
     role: 'Developer',
   },
   {
-    src: '${photoRed}',
+    src: `${photoRed}`,
     alt: 'Iryna',
     name: 'Iryna<br>Redka',
     role: 'Developer',

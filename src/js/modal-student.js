@@ -1,5 +1,4 @@
 import * as basicLightbox from 'basiclightbox';
-import photoRed from '../images/photo-red.jpg';
 import students from './list-students'
 console.log(students);
 
