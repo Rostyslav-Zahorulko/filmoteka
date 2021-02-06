@@ -6,6 +6,15 @@
 .team-wrapper {
   display: flex;
   flex-wrap: wrap;
+  background-image: linear-gradient(
+    to bottom right,
+    rgb(209, 199, 186),
+    rgb(198, 188, 170),
+    rgb(187, 177, 153),
+    rgb(175, 165, 137),
+    rgb(164, 154, 120),
+    rgb(153, 143, 104)
+  );
 
   @media screen and (max-width: ($tablet - 1)) {
     margin-top: 610px;
@@ -45,6 +54,10 @@
     margin: 20px;
     width: calc((100% - 240px) / 6);
   }
+  &:hover {
+    transform: scale(1.2);
+    transition-duration: 0.5s;
+  }
 }
 
 .team-image {
@@ -54,6 +67,7 @@
 }
 
 .team-name {
+  text-decoration: none;
   font-size: 14px;
   margin-bottom: 5px;
   font-family: $mainFont;
@@ -62,12 +76,11 @@
 
 .team-role {
   font-family: $mainFont;
-  font-size: 12px;
+  font-size: 14px;
+  color: $accentColor;
   @media screen and (max-width: ($tablet - 1)) {
     font-size: 12px;
   }
-
-  color: $accentColor;
 }
 .basicLightbox {
   overflow: scroll;

@@ -1,26 +1,25 @@
 import * as basicLightbox from 'basiclightbox';
-import students from './list-students'
-console.log(students);
-
-let markup = ''
-
+import students from './list-students';
 
 const markupStudent = students.reduce(
-  (string, item) => string + `
+  (string, { src, link, name, role }) =>
+    string +
+    `
 <div class="team-card">
- <img class="team-image" src="${item.src}" alt="${item.name}">
-    <p class="team-name">${item.name}</p>
-    <p class="team-role">${item.role}</p>
-</div>`
-,
-  ""
+ <img class="team-image" src="${src}" alt="${name}">
+    <h2 class="team-name">${name}</h2>
+    <p class="team-role">${role}</p>
+</div>`,
+  '',
 );
 
 const container = document.querySelector('.open-modal-develop');
 
 container.addEventListener('click', openModalStudent);
 
-const modal = basicLightbox.create(`<div class="team-wrapper">${markupStudent}</div>`);
+const modal = basicLightbox.create(
+  `<div class="team-wrapper">${markupStudent}</div>`,
+);
 
 function openModalStudent(e) {
   modal.show();
