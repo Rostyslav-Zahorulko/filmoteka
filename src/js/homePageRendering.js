@@ -82,6 +82,12 @@ function updateFilmsGalleryMarkup(films) {
     }
     // console.log('slicedMapedGenres: ', slicedMapedGenres);
 
+    if (release_date) {
+      release_date;
+    } else {
+      release_date = 'Unknown release date';
+    }
+
     const markup = `
 <li class="films-gallery-item" data-id="${id}">
   <img
@@ -167,4 +173,4 @@ function libraryHandleClick(event) {
 
 renderHomePage(headerTemplates.homeHeader);
 
-export { renderFilmsGallery,  libraryHandleClick};
+export { renderFilmsGallery, libraryHandleClick };

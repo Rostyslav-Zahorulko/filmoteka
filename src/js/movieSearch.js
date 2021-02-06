@@ -178,11 +178,13 @@ function updateFilmsGalleryMarkup(films) {
       slicedMapedGenres.push('Other');
     }
     // console.log('slicedMapedGenres: ', slicedMapedGenres);
+
     if (release_date) {
       release_date;
     } else {
-      release_date = 'unknown release date';
+      release_date = 'Unknown release date';
     }
+
     const markup = `
 <li class="films-gallery-item" data-id="${id}">
   <img
