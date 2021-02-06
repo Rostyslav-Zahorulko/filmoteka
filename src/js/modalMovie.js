@@ -1,6 +1,6 @@
 import headerTemplates from './components/headers-tpl';
 import movieDetailedCardTemplate from '../templates/details-modal.hbs';
-import { renderFilmsGallery,  libraryHandleClick} from './homePageRendering';
+import { renderFilmsGallery, libraryHandleClick } from './homePageRendering';
 import listenSearchFormSubmit from './movieSearch';
 import genres from './decodingJenres';
 import refs from './refs';
@@ -25,11 +25,12 @@ let activeBtn = '';
 refs.headerSearchInput = document.querySelector('.header-search-form-input');
 refs.header = document.querySelector('.header-container-js');
 refs.main = document.querySelector('main');
-refs.libraryBtn = document.querySelector('.navigation-list-item-link-my-library');
+refs.libraryBtn = document.querySelector(
+  '.navigation-list-item-link-my-library',
+);
 refs.homeLink = document.querySelector('.navigation-list-item-link-home');
 refs.filmsGalleryList = document.querySelector('#films-gallery');
 refs.pagination = document.querySelector('#pagination');
-
 
 refs.headerSearchInput.addEventListener('change', getInputValue);
 refs.filmsGalleryList.addEventListener('click', handleMovieDetails);
@@ -56,6 +57,11 @@ function handleMovieDetails(event) {
   if (event.target.parentNode.nodeName !== 'LI') {
     return;
   }
+
+  refs.libraryBtn.addEventListener('click', e => {
+    window.removeEventListener('keydown', onPressESC);
+    refs.main.removeEventListener('click', closeOnClick);
+  });
 
   movieId = event.target.parentNode.dataset.id;
   refs.spinner.classList.add('is-open');
@@ -120,8 +126,8 @@ function renderMovieDetailsPage(modalMovieCard) {
   // refs.filmsGalleryList.style.display = 'none';
   refs.pagination.style.display = 'none';
   refs.header.insertAdjacentHTML('beforeend', headerTemplates.modalHeader);
-    refs.main.insertAdjacentHTML('afterbegin', modalMovieCard);
-    refs.libraryBtn.addEventListener('click', libraryHandleClick);
+  refs.main.insertAdjacentHTML('afterbegin', modalMovieCard);
+  refs.libraryBtn.addEventListener('click', libraryHandleClick);
 }
 
 function closeMovieDetails() {
@@ -153,6 +159,11 @@ function closeMovieDetails() {
     refs.watchedBtn = document.querySelector('.header-button-watched');
     refs.queueBtn = document.querySelector('.header-button-queue');
 
+    if (document.querySelector('.modal') === null) {
+      refs.main.removeEventListener('click', closeOnClick);
+      window.removeEventListener('keydown', onPressESC);
+    }
+
     if (activeBtn === 'watched') {
       renderLibrary(userLocalStorageWatched);
     } else {
@@ -160,9 +171,6 @@ function closeMovieDetails() {
       refs.watchedBtn.classList.remove('is-active-btn');
       refs.queueBtn.classList.add('is-active-btn');
     }
-
-    refs.watchedBtn.classList.remove('is-active-btn');
-    refs.queueBtn.classList.add('is-active-btn');
 
     refs.watchedBtn = document.querySelector('.header-button-watched');
     refs.queueBtn = document.querySelector('.header-button-queue');
@@ -179,7 +187,7 @@ function closeMovieDetails() {
     );
   }
 
-  inputValue = "";
+  inputValue = '';
 }
 
 function onPressESC(event) {
