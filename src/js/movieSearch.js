@@ -16,36 +16,32 @@ const key = 'ffddee44025dd24685ea61d637d56d24';
 function listenSearchFormSubmit(event) {
   event.preventDefault();
 
-  refs.pagination.innerHTML = "",
-  
+  (refs.pagination.innerHTML = ''), apiServise.resetPage();
+  // console.log('apiServise.page: ', apiServise.page);
 
-    apiServise.resetPage();
-    // console.log('apiServise.page: ', apiServise.page);
+  refs.notice.classList.add('is-hidden');
 
-    refs.notice.classList.add('is-hidden');
+  const form = event.currentTarget;
+  const input = form.elements.query;
 
-    const form = event.currentTarget;
-    const input = form.elements.query;
+  apiServise.setQuery(input.value);
+  // console.log('apiServise.query: ', apiServise.query);
 
-    apiServise.setQuery(input.value);
-    // console.log('apiServise.query: ', apiServise.query);
+  if (input.value === '') {
+    refs.notice.classList.remove('is-hidden');
+    refs.notice.textContent =
+      'Unable to make a search query. Please enter any text!';
 
-    if (input.value === '') {
-      refs.notice.classList.remove('is-hidden');
-      refs.notice.textContent =
-        'Unable to make a search query. Please enter any text!';
+    // return;
+  }
 
-      // return;
-    }
-
-    showSpinner();
+  showSpinner();
   refs.paginationContainer = document.querySelector('#pagination');
-    setPagination(apiServise.query).catch(console.log).finally(hideSpinner);
+  setPagination(apiServise.query).catch(console.log).finally(hideSpinner);
 
   form.reset();
-  return
-};
-
+  return;
+}
 
 function setPagination() {
   return renderFilmsGallery().then(({ totalAmountOfFilms }) => {
@@ -55,12 +51,10 @@ function setPagination() {
   });
 }
 
-
-
 function paginateOnClick(totalAmountOfFilms) {
   refs.paginationContainer.addEventListener(
     'click',
-    handleOnPaginationContainerClick
+    handleOnPaginationContainerClick,
   );
 
   function handleOnPaginationContainerClick(event) {
@@ -184,7 +178,11 @@ function updateFilmsGalleryMarkup(films) {
       slicedMapedGenres.push('Other');
     }
     // console.log('slicedMapedGenres: ', slicedMapedGenres);
-
+    if (release_date) {
+      release_date;
+    } else {
+      release_date = 'unknown release date';
+    }
     const markup = `
 <li class="films-gallery-item" data-id="${id}">
   <img
@@ -202,8 +200,6 @@ function updateFilmsGalleryMarkup(films) {
     refs.filmsGallery.insertAdjacentHTML('beforeend', markup);
   });
 }
-
-
 
 // =====================================================================
 
